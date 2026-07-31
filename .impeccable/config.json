@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "helvetica",
+        "createdAt": "2026-07-29T07:54:39.685Z",
+        "reason": "Police du design v7 direct approuvé par l'utilisateur (fichier Design .dc.html), pas un défaut IA"
+      }
+    ]
+  }
+}
