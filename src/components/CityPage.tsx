@@ -47,7 +47,7 @@ export function CityPage({ city }: { city: City }) {
             <div
               className="mb-4 text-base font-semibold text-foreground md:text-lg"
             >
-              Développeur IA — {city.nom}
+              Développeur IA, {city.nom}
             </div>
             <h1
               id="city-hero-heading"

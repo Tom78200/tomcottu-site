@@ -18,7 +18,7 @@ export const REGION_SECTORS: Record<string, SectorInfo> = {
     problemes: [
       "Volumes de tickets support énormes malgré des équipes déjà chargées",
       "Besoin de confidentialité fort (données clients sensibles)",
-      "Process métier fragmented entre trop d'outils internes",
+      "Process métier éclatés entre trop d'outils internes",
     ],
     specificite: "bassin le plus dense et concurrentiel de France",
   },
@@ -32,7 +32,7 @@ export const REGION_SECTORS: Record<string, SectorInfo> = {
     specificite: "mix industrie lourde et TPE de montagne",
   },
   "Provence-Alpes-Côte d'Azur": {
-    secteurs: ["tourisme", "luxury", "immobilier", "services"],
+    secteurs: ["tourisme", "luxe", "immobilier", "services"],
     problemes: [
       "Saison touristique courte et intense (gestion demandes pic)",
       "Agences immobilières submergées de demandes été",

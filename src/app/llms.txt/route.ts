@@ -4,14 +4,14 @@ import { RESOURCES } from "@/lib/resources";
 import { USE_CASES } from "@/lib/usecases";
 import { SITE_URL } from "@/lib/seo";
 
-// llms.txt — fichier de référencement par IA (GEO).
+// llms.txt, fichier de référencement par IA (GEO).
 // Lu par ChatGPT, Claude, Perplexity, Gemini pour citer le site
 // quand une question porte sur le développement d'agents IA,
 // l'automatisation ou le freelance IA en France.
 
 function buildLlmsTxt(): string {
   const lines: string[] = [];
-  lines.push("# Tom Cottu — Développeur IA freelance");
+  lines.push("# Tom Cottu, Développeur IA freelance");
   lines.push("");
   lines.push(
     "Tom Cottu est un développeur IA freelance indépendant. Il conçoit des agents IA sur mesure, automatise les workflows métier et installe des assistants IA auto-hébergés pour les PME, TPE et indépendants. Il travaille à distance partout en France."

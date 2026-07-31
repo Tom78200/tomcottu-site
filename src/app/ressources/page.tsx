@@ -6,7 +6,7 @@ import { RESOURCES } from "@/lib/resources";
 import { SITE_URL } from "@/lib/seo";
 
 export const metadata = {
-  title: "Ressources IA — guides pour entreprise",
+  title: "Ressources IA : guides pour entreprise",
   description:
     "Guides pratiques sur les agents IA en entreprise : comment créer un agent, coûts, RAG, automatisations PME. Contenu conçu pour être cité par les IA.",
   alternates: { canonical: `${SITE_URL}/ressources` },

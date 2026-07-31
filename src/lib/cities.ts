@@ -244,9 +244,8 @@ export const CITIES: City[] = [
   { slug: "libourne", nom: "Libourne", departement: "Gironde", codeDept: "33", region: "Nouvelle-Aquitaine", taille: "ville", procheDe: "bordeaux" },
   { slug: "millau", nom: "Millau", departement: "Aveyron", codeDept: "12", region: "Occitanie", taille: "ville", procheDe: "montpellier" },
   { slug: "castres", nom: "Castres", departement: "Tarn", codeDept: "81", region: "Occitanie", taille: "ville", procheDe: "toulouse" },
-  { slug: "alès", nom: "Alès", departement: "Gard", codeDept: "30", region: "Occitanie", taille: "ville", procheDe: "nimes" },
+  { slug: "ales", nom: "Alès", departement: "Gard", codeDept: "30", region: "Occitanie", taille: "ville", procheDe: "nimes" },
   { slug: "beziers", nom: "Béziers", departement: "Hérault", codeDept: "34", region: "Occitanie", taille: "ville", procheDe: "montpellier" },
-  { slug: "sète", nom: "Sète", departement: "Hérault", codeDept: "34", region: "Occitanie", taille: "ville", procheDe: "montpellier" },
 ];
 
 export function getCity(slug: string): City | undefined {
@@ -334,11 +333,11 @@ const useCasesGeneriques = (
     },
     {
       titre: "Assistant IA auto-hébergé",
-      detail: `Une instance IA qui tourne chez vous, confidentielle, branchée sur vos documents métier — utile pour les structures de ${c.region} soucieuses de leurs données.`,
+      detail: `Une instance IA qui tourne chez vous, confidentielle, branchée sur vos documents métier, utile pour les structures de ${c.region} soucieuses de leurs données.`,
     },
     {
       titre: "Tri et qualification d'emails entrants",
-      detail: `L'agent classe vos messages, détecte les urgences et prépare les réponses types — ${metro ? "indispensable aux équipes support denses" : "un gain immédiat pour une TPE sous l'eau"}.`,
+      detail: `L'agent classe vos messages, détecte les urgences et prépare les réponses types. ${metro ? "Indispensable aux équipes support denses" : "Un gain immédiat pour une TPE sous l'eau"}.`,
     },
     {
       titre: "Génération de fiches produit / contenus",
@@ -346,7 +345,7 @@ const useCasesGeneriques = (
     },
     {
       titre: "Reporting et tableaux de bord automatiques",
-      detail: `L'agent agrège vos sources et envoie un résumé hebdomadaire — fini le copier-coller du lundi matin.`,
+      detail: `L'agent agrège vos sources et envoie un résumé hebdomadaire, fini le copier-coller du lundi matin.`,
     },
   ];
   // On prend 3 use cases, décalés selon le seed
@@ -379,7 +378,7 @@ const methods = [
 
 const closings = [
   (c: City) =>
-    `Vous êtes à ${c.nom} et vous hésitez ? Le plus simple : 20 minutes en visio. On regarde un de vos process ensemble et je vous dis si un agent IA le rend automatique — sans engagement.`,
+    `Vous êtes à ${c.nom} et vous hésitez ? Le plus simple : 20 minutes en visio. On regarde un de vos process ensemble et je vous dis si un agent IA le rend automatique, sans engagement.`,
   (c: City) =>
     `Que vous soyez à ${c.nom} ou ailleurs en ${c.region}, la première étape est la même : un diagnostic gratuit de 20 minutes pour voir ce qu'un agent IA peut prendre en charge chez vous.`,
 ];
@@ -412,7 +411,13 @@ export function generateCityContent(city: City): CityContent {
     useCases,
     secteurs: info.secteurs,
     problemes: info.problemes,
-    specificite: info.specificite,
+    // Le profil régional décrit un territoire, pas une grande ville : appliqué
+    // tel quel, Lyon héritait de « TPE de montagne ». Les métropoles reçoivent
+    // donc une formulation qui leur correspond.
+    specificite:
+      city.taille === "metropole"
+        ? `pôle économique majeur de la région, avec un tissu dense de PME et d'ETI en ${info.secteurs.slice(0, 3).join(", ")}`
+        : info.specificite,
     method: pick(methods, s >>> 4)(city),
     closing: pick(closings, s >>> 6)(city),
   };

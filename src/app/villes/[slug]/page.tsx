@@ -23,7 +23,7 @@ export async function generateMetadata({
   if (!city) return {};
 
   const url = `${SITE_URL}/villes/${city.slug}`;
-  const title = `Développeur IA à ${city.nom} — agents sur mesure & automatisation`;
+  const title = `Développeur IA à ${city.nom}, agents sur mesure`;
   const description = `Développeur IA freelance à ${city.nom}. Agents IA sur mesure, automatisation de workflows et assistants auto-hébergés pour PME et TPE de ${city.nom} (${city.departement}). Diagnostic gratuit 20 min.`;
 
   return {

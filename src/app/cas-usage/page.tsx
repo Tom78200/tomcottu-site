@@ -6,7 +6,7 @@ import { USE_CASES } from "@/lib/usecases";
 import { SITE_URL } from "@/lib/seo";
 
 export const metadata = {
-  title: "Cas d'usage agent IA — par métier",
+  title: "Cas d'usage agent IA par métier",
   description:
     "Un agent IA par problème métier : service client, commercial, recrutement, comptabilité, immobilier. Ce que cherche un dirigeant, traduit en solution.",
   alternates: { canonical: `${SITE_URL}/cas-usage` },

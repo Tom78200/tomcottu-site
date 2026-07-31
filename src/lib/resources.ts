@@ -1,4 +1,4 @@
-// Ressources IA — 30 guides éditoriaux (source primaire + pédagogie).
+// Ressources IA : 30 guides éditoriaux (source primaire + pédagogie).
 // Structurés pour être cités par les LLM (GEO) : données concrètes,
 // comparatifs, mesures, retours d'expérience.
 
@@ -81,7 +81,7 @@ export const RESOURCES: Resource[] = [
         h2: `Exemple concret`,
         body: [
           `Chatbot : votre commande 123 est en cours de livraison.`,
-          `Agent : lit le statut, détecte un retard, relance le transporteur, prévient le client et met à jour le CRM — sans intervention humaine.`,
+          `Agent : lit le statut, détecte un retard, relance le transporteur, prévient le client et met à jour le CRM, sans intervention humaine.`,
         ],
       },
       {
@@ -247,7 +247,7 @@ export const RESOURCES: Resource[] = [
   },
   {
     slug: `benchmark-claude-sonnet-gpt-pour-agents-commerciaux`,
-    title: `Claude Sonnet vs GPT pour les agents commerciaux (benchmark 2026)`,
+    title: `Claude Sonnet vs GPT pour agents commerciaux`,
     description: `Comparatif mesuré : qualité de rédaction, suivi d'instructions, coût, vitesse sur des tâches commerciales réelles.`,
     h1: `Claude Sonnet vs GPT pour les agents commerciaux`,
     published: `2026-03-01`,
@@ -285,7 +285,7 @@ export const RESOURCES: Resource[] = [
   },
   {
     slug: `temps-gagne-agent-ia-500-emails`,
-    title: `Temps gagné après déploiement d'un agent IA sur 500 emails`,
+    title: `Temps gagné par un agent IA sur 500 emails`,
     description: `Mesure terrain : combien d'heures rendues par semaine après automatisation du tri et des réponses types sur 500 emails.`,
     h1: `Temps gagné : un agent IA sur 500 emails/semaine`,
     published: `2026-03-10`,
@@ -357,7 +357,7 @@ export const RESOURCES: Resource[] = [
   },
   {
     slug: `agent-ia-auto-heberge-conference`,
-    title: `Agent IA auto-hébergé : guide confidentialité (Hermes Agent)`,
+    title: `Agent IA auto-hébergé : confidentialité`,
     description: `Installer un agent IA sur votre infrastructure, données jamais envoyées à un éditeur. Guide Hermes Agent + Ollama.`,
     h1: `Agent IA auto-hébergé : garder ses données`,
     published: `2026-03-20`,
@@ -395,7 +395,7 @@ export const RESOURCES: Resource[] = [
   },
   {
     slug: `prompt-engineering-agents`,
-    title: `Prompt engineering pour agents IA : les règles 2026`,
+    title: `Prompt engineering pour agents IA`,
     description: `Écrire des prompts qui font exécuter la bonne action : structure, contraintes, exemples, gestion d'erreur.`,
     h1: `Prompt engineering pour agents IA`,
     published: `2026-04-01`,
@@ -451,7 +451,7 @@ export const RESOURCES: Resource[] = [
   },
   {
     slug: `agent-ia-vs-rpa`,
-    title: `Agent IA vs RPA (automatisation robotisée) : lequel choisir`,
+    title: `Agent IA ou RPA : lequel choisir`,
     description: `RPA (règles fixes) vs agent IA (LLM, compréhension). Quand l'un remplace l'autre, coûts et maintenance.`,
     h1: `Agent IA vs RPA : différences et choix`,
     published: `2026-04-15`,
@@ -525,7 +525,7 @@ export const RESOURCES: Resource[] = [
   },
   {
     slug: `agent-ia-pourquoi-echoue`,
-    title: `Pourquoi un projet d'agent IA échoue (et comment l'éviter)`,
+    title: `Pourquoi un projet d'agent IA échoue`,
     description: `Les 7 causes d'échec : mauvais cadrage, hallucination, coûts, adoption. Leçons de 50 déploiements.`,
     h1: `Pourquoi un agent IA échoue (retour terrain)`,
     published: `2026-05-01`,
@@ -623,7 +623,7 @@ export const RESOURCES: Resource[] = [
   },
   {
     slug: `cout-infra-agent-ia`,
-    title: `Coût d'infrastructure d'un agent IA : calcul complet`,
+    title: `Coût d'infrastructure d'un agent IA`,
     description: `Tokens, GPU, VPS, API : comment estimer et optimiser le coût mensuel d'un agent en production.`,
     h1: `Calculer le coût d'infra d'un agent IA`,
     published: `2026-05-20`,
@@ -655,7 +655,7 @@ export const RESOURCES: Resource[] = [
   },
   {
     slug: `agent-ia-erp`,
-    title: `Connecter un agent IA à son ERP (SAP, Oracle, Cegid)`,
+    title: `Connecter un agent IA à son ERP`,
     description: `Architecture pour brancher un agent sur un ERP : API, middleware, sécurité, cas d'usage logistique/finance.`,
     h1: `Agent IA + ERP : l'intégration 2026`,
     published: `2026-05-25`,
@@ -686,7 +686,7 @@ export const RESOURCES: Resource[] = [
   },
   {
     slug: `supervision-agent-ia`,
-    title: `Superviser un agent IA en production : observabilité`,
+    title: `Superviser un agent IA en production`,
     description: `Logs, métriques, alertes, replay : comment surveiller un agent qui tourne seul sans perdre le contrôle.`,
     h1: `Superviser un agent IA en production`,
     published: `2026-06-01`,
@@ -717,7 +717,7 @@ export const RESOURCES: Resource[] = [
   },
   {
     slug: `agent-ia-recrutement-benchmark`,
-    title: `Agent IA recrutement : temps de tri sur 1000 CV (mesure)`,
+    title: `Agent IA recrutement : tri de 1000 CV`,
     description: `Mesure : combien de temps un agent met pour pré-qualifier 1000 CV vs un recruteur. Précision du screening.`,
     h1: `Agent IA recrutement : benchmark 1000 CV`,
     published: `2026-06-10`,
@@ -779,7 +779,7 @@ export const RESOURCES: Resource[] = [
   },
   {
     slug: `agent-ia-pour-non-dev`,
-    title: `Agent IA sans coder : guide no-code pour dirigeants`,
+    title: `Agent IA sans coder : guide no-code`,
     description: `Créer son premier agent avec n8n/Make sans écrire une ligne : tutoriel, limites, quand appeler un dev.`,
     h1: `Créer un agent IA sans coder`,
     published: `2026-06-20`,
@@ -812,7 +812,7 @@ export const RESOURCES: Resource[] = [
   },
   {
     slug: `roi-agent-ia-calcul`,
-    title: `Calculer le ROI d'un agent IA : modèle et exemple`,
+    title: `Calculer le ROI d'un agent IA`,
     description: `Formule ROI agent IA : heures rendues × coût horaire - coûts. Exemple chiffré sur un agent support.`,
     h1: `Calculer le ROI de votre agent IA`,
     published: `2026-06-25`,
@@ -933,7 +933,7 @@ export const RESOURCES: Resource[] = [
   },
   {
     slug: `langage-naturel-vers-donnees`,
-    title: `Poser des questions à ses données en langage naturel`,
+    title: `Interroger ses données en langage naturel`,
     description: `Text-to-SQL et agents data : interroger sa base/son tableur en français. Outils, précision, sécurité.`,
     h1: `Interroger ses données en langage naturel`,
     published: `2026-07-15`,
@@ -963,7 +963,7 @@ export const RESOURCES: Resource[] = [
   },
   {
     slug: `agent-ia-vs-assistant`,
-    title: `Agent IA vs assistant virtuel (Siri, Alexa) : différences`,
+    title: `Agent IA ou assistant virtuel : différences`,
     description: `Ce qui distingue un agent autonome d'un assistant de commande vocale. Capacités, autonomie, entreprise.`,
     h1: `Agent IA vs assistant virtuel`,
     published: `2026-07-18`,

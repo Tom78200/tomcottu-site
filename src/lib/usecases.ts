@@ -1,4 +1,4 @@
-// Cas d'usage — pages d'intention métier (45).
+// Cas d'usage : pages d'intention métier (45).
 // Plus fortes que les pages ville : un dirigeant cherche le résultat,
 // pas "agent IA". Chaque cas cible une vraie requête métier.
 
@@ -38,7 +38,7 @@ export const USE_CASES: UseCase[] = [
     slug: `agent-ia-commercial`,
     h1: `Agent IA commercial`,
     title: `Agent IA pour le commercial`,
-    description: `Un assistant qui qualifie les leads, relance les devis et prépare les propositions — pour ne jamais laisser une opportunité dormir.`,
+    description: `Un assistant qui qualifie les leads, relance les devis et prépare les propositions, pour ne jamais laisser une opportunité dormir.`,
     intent: `automatiser la relance de mes prospects`,
     problem: `Les devis partis sans relance ne reviennent jamais. Vos commerciaux passent plus de temps à saisir le CRM qu'à vendre.`,
     solution: `L'agent détecte les devis en attente, relance au bon moment, qualifie les réponses et met à jour le CRM tout seul.`,
@@ -58,7 +58,7 @@ export const USE_CASES: UseCase[] = [
     description: `Pré-qualifiez 1000 CV en quelques minutes : extraction, scoring contre la fiche de poste, court-circuit du tri manuel.`,
     intent: `trier automatiquement mes candidatures`,
     problem: `Chaque offre attire 200 CV. Les trier à la main prend des jours et fait passer les profils atypiques à côté.`,
-    solution: `L'agent extrait les CV, les score selon vos critères, et ne vous présente que le top correspondant — avec une fiche de synthèse.`,
+    solution: `L'agent extrait les CV, les score selon vos critères, et ne vous présente que le top correspondant, avec une fiche de synthèse.`,
     examples: [
       { titre: `Parsing CV`, detail: `Extraction structurée (expérience, compétences, formation).` },
       { titre: `Scoring`, detail: `Match contre la fiche de poste, tolérance aux profils atypiques.` },
@@ -126,7 +126,7 @@ export const USE_CASES: UseCase[] = [
     description: `Recherche de jurisprudences, résumé de contrats, classification de dossiers : l'agent juridique assiste, ne conseille pas.`,
     intent: `automatiser la recherche juridique`,
     problem: `Trouver la bonne jurisprudence ou relire un contrat de 40 pages prend des heures à un juriste qui facture cher.`,
-    solution: `Un agent RAG sur votre base documentaire qui résume, cite et classe — avec validation systématique de l'avocat.`,
+    solution: `Un agent RAG sur votre base documentaire qui résume, cite et classe, avec validation systématique de l'avocat.`,
     examples: [
       { titre: `Recherche`, detail: `Jurisprudences et doctrine pertinentes par requête.` },
       { titre: `Résumé contrat`, detail: `Points clés, risques, obligations.` },
@@ -279,7 +279,7 @@ export const USE_CASES: UseCase[] = [
     description: `Intake client, classement de dossiers, recherche : l'agent qui décharge le cabinet sans conseiller à la place.`,
     intent: `automatiser l'intake client`,
     problem: `Chaque appel entrant = qualification manuelle. Les dossiers s'empilent et la recherche de precedent̀s bouffe le temps facturable.`,
-    solution: `L'agent qualifie l'appel, classe le dossier et prépare la recherche — avec validation de l'avocat.`,
+    solution: `L'agent qualifie l'appel, classe le dossier et prépare la recherche, avec validation de l'avocat.`,
     examples: [
       { titre: `Intake`, detail: `Questions clés et orientation.` },
       { titre: `Classement`, detail: `Dossier vers le bon pôle.` },
@@ -347,7 +347,7 @@ export const USE_CASES: UseCase[] = [
     description: `Reporting, conformité, surveillance de marché : l'agent finance agrège et alerte sans remplacer l'analyste.`,
     intent: `automatiser mes reportings financiers`,
     problem: `Le close mensuel mobilise l'équipe finance 5 jours. Les analyses ad hoc prennent des heures de requêtage.`,
-    solution: `L'agent génère les reportings, surveille les indicateurs et alerte sur anomalie — validation humaine sur les publications.`,
+    solution: `L'agent génère les reportings, surveille les indicateurs et alerte sur anomalie, validation humaine sur les publications.`,
     examples: [
       { titre: `Close`, detail: `Reportings automatisés.` },
       { titre: `Surveillance`, detail: `Alerte dérive KPI.` },
@@ -432,7 +432,7 @@ export const USE_CASES: UseCase[] = [
     description: `Recherche doctrine, chronologie d'affaire, résumé : l'agent avocat qui réduit le temps non facturable.`,
     intent: `automatiser ma recherche juridique`,
     problem: `Préparer une affaire = des heures de lecture de jurisprudence et de mise en forme que le client ne paie pas.`,
-    solution: `L'agent recherche, chronologise et résume — l'avocat se concentre sur la stratégie.`,
+    solution: `L'agent recherche, chronologise et résume, l'avocat se concentre sur la stratégie.`,
     examples: [
       { titre: `Recherche`, detail: `Jurisprudence et doctrine.` },
       { titre: `Chronologie`, detail: `Timeline d'affaire auto.` },

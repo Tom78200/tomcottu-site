@@ -52,7 +52,7 @@ export function Navbar() {
         <div className="flex items-center gap-3">
           <Link
             href="/"
-            aria-label="Tom Cottu, développeur IA freelance — accueil"
+            aria-label="Tom Cottu, développeur IA freelance, accueil"
             className={`${styles.headingFont} text-[19px] tracking-tight text-black sm:text-[21px] lg:text-[24px]`}
           >
             Tom Cottu

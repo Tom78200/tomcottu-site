@@ -5,8 +5,10 @@ import { SITE_URL, jsonLd } from "@/lib/seo";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Développeur IA freelance — Agents IA sur mesure pour PME",
-    template: "%s | Tom Cottu, développeur IA",
+    default: "Développeur IA freelance, agents IA sur mesure pour PME",
+    // Suffixe court : Google n'affiche qu'une soixantaine de caractères, un
+    // suffixe de 29 signes mangeait la fin des titres de page.
+    template: "%s | Tom Cottu",
   },
   description:
     "Tom Cottu, développeur IA freelance. Je conçois des agents IA sur mesure et j'automatise vos workflows métier. Diagnostic gratuit de vos process en 20 minutes.",
@@ -36,7 +38,7 @@ export const metadata: Metadata = {
     locale: "fr_FR",
     url: SITE_URL,
     siteName: "Tom Cottu",
-    title: "Développeur IA freelance — Agents IA sur mesure pour PME",
+    title: "Développeur IA freelance, agents IA sur mesure pour PME",
     description:
       "Des agents IA qui font le travail, pas la démo. Conception sur mesure, automatisation de workflows et assistants auto-hébergés pour PME.",
     images: [
@@ -50,7 +52,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Développeur IA freelance — Agents IA sur mesure pour PME",
+    title: "Développeur IA freelance, agents IA sur mesure pour PME",
     description:
       "Des agents IA qui font le travail, pas la démo. Conception sur mesure et automatisation pour PME.",
     images: ["/hero-image/character.png"],

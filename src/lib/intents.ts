@@ -1,5 +1,5 @@
 // Pages d'intention « résultat », pas « outil ».
-// Les dirigeants ne tapent pas "installer un agent IA" — ils tapent le
+// Les dirigeants ne tapent pas "installer un agent IA", ils tapent le
 // résultat qu'ils veulent : "automatiser mon entreprise", "chatbot client",
 // "assistant IA sur mesure". Chaque entrée = une landing page statique.
 //
@@ -24,11 +24,11 @@ export const INTENTS: Intent[] = [
   {
     slug: "developpeur-ia-freelance",
     h1: "Développeur IA freelance",
-    title: "Développeur IA freelance — agents sur mesure & automatisation | Tom Cottu",
+    title: "Développeur IA freelance, agents sur mesure",
     description:
       "Développeur IA freelance : je conçois des agents IA sur mesure et j'automatise vos workflows métier. Diagnostic gratuit de 20 minutes, livraison documentée, vous gardez le code.",
     intro:
-      "Vous cherchez un développeur IA freelance qui livre un résultat concret — pas une démo. Je conçois des agents IA branchés sur vos outils existants, qui exécutent vos tâches à votre place : relances, saisie, reporting, support client.",
+      "Vous cherchez un développeur IA freelance qui livre un résultat concret, pas une démo. Je conçois des agents IA branchés sur vos outils existants, qui exécutent vos tâches à votre place : relances, saisie, reporting, support client.",
     keywords: [
       "développeur IA freelance",
       "freelance IA",
@@ -53,17 +53,17 @@ export const INTENTS: Intent[] = [
       },
     ],
     closing:
-      "Le plus simple : 20 minutes en visio. On regarde un de vos process et je vous dis si un agent IA le rend automatique — sans engagement.",
+      "Le plus simple : 20 minutes en visio. On regarde un de vos process et je vous dis si un agent IA le rend automatique, sans engagement.",
     ctaLabel: "Diagnostic gratuit (20 min)",
   },
   {
     slug: "developpeur-agent-ia",
     h1: "Développeur agent IA",
-    title: "Développeur agent IA — création d'agents sur mesure | Tom Cottu",
+    title: "Développeur d'agents IA sur mesure",
     description:
       "Développeur spécialisé en agents IA : conception, orchestration et déploiement d'agents autonomes sur vos outils. Sur mesure, auto-hébergeables, documentés.",
     intro:
-      "Un agent IA, c'est un logiciel qui agit : il lit, décide et écrit dans vos outils. En tant que développeur agent IA, je construis le vôtre sur mesure — pas un GPT générique, mais un exécutant branché sur votre métier.",
+      "Un agent IA, c'est un logiciel qui agit : il lit, décide et écrit dans vos outils. En tant que développeur agent IA, je construis le vôtre sur mesure, pas un GPT générique, mais un exécutant branché sur votre métier.",
     keywords: [
       "développeur agent IA",
       "création agent IA",
@@ -95,7 +95,7 @@ export const INTENTS: Intent[] = [
   {
     slug: "creation-agents-ia",
     h1: "Création d'agents IA",
-    title: "Création d'agents IA sur mesure pour entreprises | Tom Cottu",
+    title: "Création d'agents IA pour entreprises",
     description:
       "Création d'agents IA sur mesure : de l'audit à la mise en production. Automatisez relances, qualification, reporting et support avec des agents fiables.",
     intro:
@@ -120,7 +120,7 @@ export const INTENTS: Intent[] = [
       {
         titre: "Transfert de compétence",
         detail:
-          "Vous recevez le code, la documentation et les accès. Vos équipes peuvent reprendre la main à tout moment — l'objectif est l'autonomie, pas la dépendance.",
+          "Vous recevez le code, la documentation et les accès. Vos équipes peuvent reprendre la main à tout moment, l'objectif est l'autonomie, pas la dépendance.",
       },
     ],
     closing:
@@ -130,7 +130,7 @@ export const INTENTS: Intent[] = [
   {
     slug: "automatisation-ia",
     h1: "Automatisation IA",
-    title: "Automatisation IA — supprimez les tâches répétitives | Tom Cottu",
+    title: "Automatisation IA des tâches répétitives",
     description:
       "Automatisation IA de vos process métier : relances, saisie, reporting, qualification. Des workflows qui tournent sans vous, livrés et documentés.",
     intro:
@@ -165,7 +165,7 @@ export const INTENTS: Intent[] = [
   {
     slug: "expert-n8n",
     h1: "Expert n8n",
-    title: "Expert n8n — automatisations sur mesure & agents | Tom Cottu",
+    title: "Expert n8n, automatisations et agents IA",
     description:
       "Expert n8n : conception de workflows n8n avancés, agents IA et connexions API sur mesure. Auto-hébergé, open source, sans dépendance éditeur.",
     intro:
@@ -181,7 +181,7 @@ export const INTENTS: Intent[] = [
       {
         titre: "n8n auto-hébergé",
         detail:
-          "Vos workflows tournent sur votre serveur. Vos données ne quittent pas votre infra — un argument décisif pour les secteurs réglementés.",
+          "Vos workflows tournent sur votre serveur. Vos données ne quittent pas votre infra, un argument décisif pour les secteurs réglementés.",
       },
       {
         titre: "Workflows complexes",
@@ -201,7 +201,7 @@ export const INTENTS: Intent[] = [
   {
     slug: "consultant-ia",
     h1: "Consultant IA",
-    title: "Consultant IA — cadrage, stratégie & mise en œuvre | Tom Cottu",
+    title: "Consultant IA : cadrage et mise en œuvre",
     description:
       "Consultant IA indépendant : audit de vos process, feuille de route IA réaliste et développement sur mesure. Approche pragmatic, résultats mesurables.",
     intro:
@@ -216,7 +216,7 @@ export const INTENTS: Intent[] = [
       {
         titre: "Audit avant promesse",
         detail:
-          "On cartographie vos process et on identifie ceux où l'IA crée de la valeur — pas les autres. Pas de solution cherchée pour un problème inventé.",
+          "On cartographie vos process et on identifie ceux où l'IA crée de la valeur, pas les autres. Pas de solution cherchée pour un problème inventé.",
       },
       {
         titre: "Feuille de route réaliste",
@@ -230,13 +230,13 @@ export const INTENTS: Intent[] = [
       },
     ],
     closing:
-      "Si vous voulez un avis franc sur ce que l'IA peut faire pour vous — et ce qu'elle ne peut pas — on en parle 20 minutes.",
+      "Si vous voulez un avis franc sur ce que l'IA peut faire pour vous, et ce qu'elle ne peut pas, on en parle 20 minutes.",
     ctaLabel: "Diagnostic gratuit (20 min)",
   },
   {
     slug: "agence-ia",
     h1: "Agence IA",
-    title: "Agence IA — développeur IA indépendant sur mesure | Tom Cottu",
+    title: "Agence IA ou développeur indépendant",
     description:
       "Besoin d'une agence IA sans la facture agence ? Développeur IA indépendant : même expertise, contact direct avec le codeur, tarif freelance.",
     intro:
@@ -251,7 +251,7 @@ export const INTENTS: Intent[] = [
       {
         titre: "L'expertise agence, le tarif indépendant",
         detail:
-          "Mêmes livrables qu'une agence — agents, automatisations, audit — sans les frais de structure. Vous payez du code, pas du management.",
+          "Mêmes livrables qu'une agence, agents, automatisations, audit, sans les frais de structure. Vous payez du code, pas du management.",
       },
       {
         titre: "Un interlocuteur unique",
@@ -271,12 +271,12 @@ export const INTENTS: Intent[] = [
   {
     slug: "chatbot-ia-entreprise",
     h1: "Chatbot IA pour entreprise",
-    title: "Chatbot IA pour entreprise — support & qualification | Tom Cottu",
+    title: "Chatbot IA pour entreprise, support et vente",
     description:
       "Chatbot IA pour entreprise sur mesure : répond aux questions clients, qualifie les demandes et branche votre CRM. Auto-hébergeable, documenté.",
     intro:
-      "Un chatbot IA pour entreprise, c'est un premier niveau qui répond 24/7, qualifie et oriente — sans satur er votre équipe. Je le construis sur vos documents et vos outils, pas sur un LLM générique."
-    ,
+      "Un chatbot IA pour entreprise, c'est un premier niveau qui répond 24/7, qualifie et oriente, sans saturer votre équipe. Je le construis sur vos documents et vos outils, pas sur un LLM générique."
+   ,
     keywords: [
       "chatbot IA pour entreprise",
       "assistant IA personnalisé",
@@ -287,7 +287,7 @@ export const INTENTS: Intent[] = [
       {
         titre: "Branché sur vos données",
         detail:
-          "Le chatbot répond à partir de vos FAQ, contrats et historiques — pas d'hallucinations sur des sujets qu'il ne connaît pas.",
+          "Le chatbot répond à partir de vos FAQ, contrats et historiques, pas d'hallucinations sur des sujets qu'il ne connaît pas.",
       },
       {
         titre: "Qualification automatique",
@@ -307,11 +307,11 @@ export const INTENTS: Intent[] = [
   {
     slug: "assistant-ia-personnalise",
     h1: "Assistant IA personnalisé",
-    title: "Assistant IA personnalisé — sur mesure pour votre métier | Tom Cottu",
+    title: "Assistant IA personnalisé pour votre métier",
     description:
       "Assistant IA personnalisé : conçu pour vos outils et vos process. Rédaction, analyse, reporting et exécution, documenté et auto-hébergeable.",
     intro:
-      "Un assistant IA personnalisé n'est pas une IA générale. C'est un exécutant configuré pour vos outils, vos raccourcis et vos règles — qui fait le travail, pas la démo.",
+      "Un assistant IA personnalisé n'est pas une IA générale. C'est un exécutant configuré pour vos outils, vos raccourcis et vos règles, qui fait le travail, pas la démo.",
     keywords: [
       "assistant IA personnalisé",
       "créer un assistant IA",
@@ -342,7 +342,7 @@ export const INTENTS: Intent[] = [
   {
     slug: "ia-pour-pme",
     h1: "IA pour PME",
-    title: "IA pour PME — automatisez sans recruter | Tom Cottu",
+    title: "IA pour PME : automatiser sans recruter",
     description:
       "IA pour PME : des agents et automatisations accessibles, sans équipe data ni gros budget. Diagnostic gratuit, livraison documentée.",
     intro:
@@ -377,11 +377,11 @@ export const INTENTS: Intent[] = [
   {
     slug: "automatisation-crm-ia",
     h1: "Automatisation CRM avec IA",
-    title: "Automatisation CRM IA — relances & mise à jour auto | Tom Cottu",
+    title: "Automatisation CRM avec l'IA",
     description:
       "Automatisation CRM avec IA : relances de devis, qualification de leads et mise à jour automatique. Branche sur votre CRM, documenté.",
     intro:
-      "Votre CRM est une base morte si personne ne l'alimente. L'automatisation CRM avec IA le garde vivant : relances envoyées, leads qualifiés, fiches à jour — sans saisie manuelle.",
+      "Votre CRM est une base morte si personne ne l'alimente. L'automatisation CRM avec IA le garde vivant : relances envoyées, leads qualifiés, fiches à jour, sans saisie manuelle.",
     keywords: [
       "automatisation CRM IA",
       "IA CRM",
@@ -412,11 +412,11 @@ export const INTENTS: Intent[] = [
   {
     slug: "consultant-openai",
     h1: "Consultant OpenAI",
-    title: "Consultant OpenAI — intégration API & agents sur mesure | Tom Cottu",
+    title: "Consultant OpenAI, intégration API et agents",
     description:
       "Consultant OpenAI : intégration des API OpenAI dans vos outils, agents et assistants sur mesure. Sécurisé, documenté, mesurable.",
     intro:
-      "En tant que consultant OpenAI, j'intègre les modèles OpenAI dans vos outils existants — pas en替代品 mais en couche intelligente qui exécute vos workflows.",
+      "En tant que consultant OpenAI, j'intègre les modèles OpenAI dans vos outils existants, pas en remplacement mais en couche intelligente qui exécute vos workflows.",
     keywords: [
       "consultant OpenAI",
       "intégration OpenAI",
