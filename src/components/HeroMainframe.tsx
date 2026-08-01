@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { useTypewriter } from "@/hooks/useTypewriter";
@@ -86,13 +85,10 @@ export function HeroMainframe() {
 
   return (
     <div ref={mainframeRef} className={styles.mainframe}>
-      <Image
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
         src={IMAGE_URL}
         alt="Tom Cottu, développeur IA freelance"
-        fill
-        priority
-        quality={95}
-        sizes="100vw"
         className={styles.video}
       />
       <div className={styles.bottomFade} />
