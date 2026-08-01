@@ -3,11 +3,22 @@ import { Resend } from "resend";
 
 // Envoi de mail via Resend (https://resend.com) — standard Next.js pro.
 // Nécessite la variable d'env RESEND_API_KEY (voir .env.example).
-// Le domaine doit être vérifié dans Resend, ou utiliser onbording@resend.dev
-// en mode test (limité au propriétaire du compte).
+//
+// Stratégie d'envoi (automatique, aucun redéploiement nécessaire) :
+// 1. Tente l'envoi PRO depuis le domaine vérifié (contact@cottutom.fr)
+//    vers cottutom@outlook.fr.
+// 2. Tant que le domaine n'est pas vérifié chez Resend (scan DNS en cours,
+//    "plusieurs heures" selon Resend), Resend refuse le from domaine →
+//    la route retombe automatiquement sur onboarding@resend.dev vers
+//    FALLBACK_TO_EMAIL (l'email du compte Resend), seul destinataire
+//    autorisé en mode test.
+// Dès que le domaine passe "Verified", le chemin PRO prend le relais
+// tout seul, sans toucher au code ni redéployer.
 
 const TO_EMAIL = "cottutom@outlook.fr";
-const FROM_EMAIL = process.env.CONTACT_FROM_EMAIL ?? "onboarding@resend.dev";
+const PRO_FROM_EMAIL = process.env.CONTACT_FROM_EMAIL ?? "contact@cottutom.fr";
+const TEST_FROM_EMAIL = "onboarding@resend.dev";
+const FALLBACK_TO_EMAIL = process.env.CONTACT_FALLBACK_TO_EMAIL ?? "tomtravail78@gmail.com";
 
 function clean(v: unknown, max = 2000): string {
   return typeof v === "string" ? v.trim().slice(0, max) : "";
@@ -15,6 +26,26 @@ function clean(v: unknown, max = 2000): string {
 
 function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+}
+
+function isDomainNotVerified(err: unknown): boolean {
+  const msg = String((err as { message?: string })?.message ?? "");
+  return /not verified|verify a domain|testing emails/i.test(msg);
+}
+
+function buildBody(name: string, company: string, email: string, subject: string, message: string) {
+  const companyLine = company ? `\nEntreprise : ${company}` : "";
+  return {
+    subject: `[Contact site] ${subject} — ${name}`,
+    text: `Nouveau message depuis le site cottutom.fr
+
+Nom : ${name}${companyLine}
+Email : ${email}
+Sujet : ${subject}
+
+Message :
+${message}`,
+  };
 }
 
 export async function POST(request: Request) {
@@ -47,36 +78,51 @@ export async function POST(request: Request) {
     }
 
     const resend = new Resend(apiKey);
+    const mailBody = buildBody(name, company, email, subject, message);
 
-    const companyLine = company ? `\nEntreprise : ${company}` : "";
-    const { error } = await resend.emails.send({
-      from: FROM_EMAIL,
+    // 1. Chemin PRO : depuis le domaine vérifié vers outlook.fr
+    const pro = await resend.emails.send({
+      from: PRO_FROM_EMAIL,
       to: TO_EMAIL,
       replyTo: email,
-      subject: `[Contact site] ${subject} — ${name}`,
-      text: `Nouveau message depuis le site cottutom.fr
-
-Nom : ${name}${companyLine}
-Email : ${email}
-Sujet : ${subject}
-
-Message :
-${message}`,
+      ...mailBody,
     });
 
-    if (error) {
-      console.error("[contact] Resend error:", error);
-      return NextResponse.json(
-        { error: "Envoi impossible. Réessaie ou écris à cottutom@outlook.com." },
-        { status: 500 }
-      );
+    if (!pro.error) {
+      console.log("[contact] Envoi PRO OK (domaine vérifié)");
+      return NextResponse.json({ ok: true, mode: "pro" });
     }
 
-    return NextResponse.json({ ok: true });
+    // 2. Domaine pas encore vérifié ? Repli mode test vers l'email du compte
+    if (isDomainNotVerified(pro.error)) {
+      console.warn("[contact] Domaine non vérifié, repli mode test:", pro.error);
+      const fallback = await resend.emails.send({
+        from: TEST_FROM_EMAIL,
+        to: FALLBACK_TO_EMAIL,
+        replyTo: email,
+        ...mailBody,
+      });
+      if (fallback.error) {
+        console.error("[contact] Fallback échoué:", fallback.error);
+        return NextResponse.json(
+          { error: "Envoi impossible. Réessaie ou écris à cottutom@outlook.fr." },
+          { status: 500 }
+        );
+      }
+      console.log("[contact] Envoi repli test OK");
+      return NextResponse.json({ ok: true, mode: "fallback" });
+    }
+
+    // Autre erreur Resend (pas un souci de domaine)
+    console.error("[contact] Resend error:", pro.error);
+    return NextResponse.json(
+      { error: "Envoi impossible. Réessaie ou écris à cottutom@outlook.fr." },
+      { status: 500 }
+    );
   } catch (err) {
     console.error("[contact] Unexpected error:", err);
     return NextResponse.json(
-      { error: "Erreur serveur. Réessaie ou écris à cottutom@outlook.com." },
+      { error: "Erreur serveur. Réessaie ou écris à cottutom@outlook.fr." },
       { status: 500 }
     );
   }
