@@ -79,7 +79,7 @@ export function HeroMainframe() {
   }, []);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText("cottutom@outlook.com");
+    navigator.clipboard.writeText("cottutom@outlook.fr");
   };
 
   return (
@@ -123,7 +123,7 @@ export function HeroMainframe() {
             }}
           >
             <Link
-              href="#contact"
+              href="/contact"
               className="inline-flex items-center gap-2 rounded-full bg-black px-6 py-3 text-[15px] font-medium whitespace-nowrap text-white transition-colors duration-200 hover:bg-black/80"
             >
               {CTA_LABEL}
@@ -136,7 +136,7 @@ export function HeroMainframe() {
               className="inline-flex items-center gap-2 rounded-full border border-black/15 bg-white/80 px-5 py-3 text-[13px] whitespace-nowrap text-black transition-colors duration-200 hover:bg-black hover:text-white sm:text-[14px]"
             >
               <span>
-                <span className="underline underline-offset-2">cottutom@outlook.com</span>
+                <span className="underline underline-offset-2">cottutom@outlook.fr</span>
               </span>
               <CopyIcon />
             </button>

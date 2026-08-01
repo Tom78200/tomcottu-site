@@ -11,6 +11,7 @@ const navLinks = [
   { href: "#services", label: "Services" },
   { href: "#methode", label: "Comment ça marche" },
   { href: "#a-propos", label: "À propos" },
+  { href: "/contact", label: "Contact" },
 ];
 
 const CTA_LABEL = "Cadrer mon diagnostic";
@@ -81,7 +82,7 @@ export function Navbar() {
         </nav>
 
         <Link
-          href="#contact"
+          href="/contact"
           className="hidden items-center gap-2 rounded-full bg-black px-5 py-2.5 text-[14px] font-medium whitespace-nowrap text-white transition-colors duration-200 hover:bg-black/80 lg:inline-flex xl:px-6 xl:py-3 xl:text-[15px]"
         >
           {CTA_LABEL}
@@ -129,7 +130,7 @@ export function Navbar() {
           </Link>
         ))}
         <Link
-          href="#contact"
+          href="/contact"
           onClick={() => setMenuOpen(false)}
           className="inline-flex items-center gap-2 rounded-full bg-black px-6 py-3 text-[18px] font-medium text-white"
         >

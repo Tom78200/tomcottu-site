@@ -100,7 +100,7 @@ export function ResourcePage({ resource }: { resource: Resource }) {
                 On cadre votre premier agent en 20 minutes, gratuitement.
               </p>
               <div className="mt-5">
-                <CtaButton href="mailto:cottutom@outlook.com" size="lg" />
+                <CtaButton href="mailto:cottutom@outlook.fr" size="lg" />
               </div>
             </div>
 

@@ -4,7 +4,7 @@
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.cottutom.fr";
 
-export const EMAIL = "cottutom@outlook.com";
+export const EMAIL = "cottutom@outlook.fr";
 export const LINKEDIN = "https://www.linkedin.com/in/tom-cottu-881017359";
 
 export const faq = [

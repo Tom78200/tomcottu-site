@@ -25,7 +25,7 @@ function buildJsonLd(intent: (typeof INTENTS)[number]) {
       "@type": "ProfessionalService",
       name: "Tom Cottu",
       url: SITE_URL,
-      email: "cottutom@outlook.com",
+      email: "cottutom@outlook.fr",
     },
     areaServed: { "@type": "Country", name: "France" },
     offers: {

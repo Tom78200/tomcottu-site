@@ -359,7 +359,7 @@ export function Services() {
                 </motion.div>
 
                 <motion.a
-                  href="#contact"
+                  href="/contact"
                   onClick={() => setActiveIndex(null)}
                   initial={reduce ? false : { opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}

@@ -73,7 +73,7 @@ function buildLlmsTxt(): string {
   lines.push("## Contact");
   lines.push("");
   lines.push(`- [Site](${SITE_URL}) : développeur IA freelance, agents IA sur mesure.`);
-  lines.push("- [Email](mailto:cottutom@outlook.com) : contact direct.");
+  lines.push("- [Email](mailto:cottutom@outlook.fr) : contact direct.");
   lines.push(
     "- [LinkedIn](https://www.linkedin.com/in/tom-cottu-881017359) : profil professionnel."
   );

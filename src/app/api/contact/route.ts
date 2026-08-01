@@ -76,7 +76,7 @@ export async function POST(request: Request) {
     if (!apiKey) {
       console.error("[contact] RESEND_API_KEY manquante — config à faire");
       return NextResponse.json(
-        { error: "Service d'envoi non configuré. Contacte cottutom@outlook.com directement." },
+        { error: "Service d'envoi non configuré. Contacte cottutom@outlook.fr directement." },
         { status: 500 }
       );
     }
