@@ -18,7 +18,11 @@ import { Resend } from "resend";
 const TO_EMAIL = "cottutom@outlook.fr";
 const PRO_FROM_EMAIL = process.env.CONTACT_FROM_EMAIL ?? "contact@cottutom.fr";
 const TEST_FROM_EMAIL = "onboarding@resend.dev";
-const FALLBACK_TO_EMAIL = process.env.CONTACT_FALLBACK_TO_EMAIL ?? "tomtravail78@gmail.com";
+// Adresse autorisée par Resend en mode test = l'email du compte Resend.
+// Tant que le compte est sur gmail, seul gmail est autorisé. Dès que Tom
+// change l'email du compte vers outlook.fr, outlook.fr devient autorisé
+// et le repli bascule tout seul.
+const ACCOUNT_EMAIL = process.env.CONTACT_FALLBACK_TO_EMAIL ?? "tomtravail78@gmail.com";
 
 function clean(v: unknown, max = 2000): string {
   return typeof v === "string" ? v.trim().slice(0, max) : "";
@@ -93,12 +97,15 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: true, mode: "pro" });
     }
 
-    // 2. Domaine pas encore vérifié ? Repli mode test vers l'email du compte
+    // 2. Domaine pas encore vérifié ? Repli mode test.
+    //    Resend n'autorise que l'email du compte (ACCOUNT_EMAIL).
+    //    On essaie d'abord l'email du compte, qui peut être outlook.fr
+    //    dès que Tom change l'email du compte Resend.
     if (isDomainNotVerified(pro.error)) {
       console.warn("[contact] Domaine non vérifié, repli mode test:", pro.error);
       const fallback = await resend.emails.send({
         from: TEST_FROM_EMAIL,
-        to: FALLBACK_TO_EMAIL,
+        to: ACCOUNT_EMAIL,
         replyTo: email,
         ...mailBody,
       });
@@ -109,7 +116,7 @@ export async function POST(request: Request) {
           { status: 500 }
         );
       }
-      console.log("[contact] Envoi repli test OK");
+      console.log("[contact] Envoi repli test OK →", ACCOUNT_EMAIL);
       return NextResponse.json({ ok: true, mode: "fallback" });
     }
 
