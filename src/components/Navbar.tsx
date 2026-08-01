@@ -6,7 +6,7 @@ import { motion, useScroll, useTransform } from "motion/react";
 import styles from "./HeroMainframe.module.css";
 
 const navLinks = [
-  { href: "/cas-usage", label: "Cas d'usage" },
+  { href: "/#exemples", label: "Exemples" },
   { href: "/#services", label: "Services" },
   { href: "/#methode", label: "Comment ça marche" },
   { href: "/#a-propos", label: "À propos" },
