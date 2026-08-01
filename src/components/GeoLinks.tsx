@@ -131,14 +131,6 @@ export function GeoLinks({
                 </Link>
               </li>
             ))}
-            <li>
-              <Link
-                href="/villes"
-                className="text-[14px] text-muted-soft underline-offset-4 transition-colors hover:text-foreground hover:underline"
-              >
-                Voir toutes les villes →
-              </Link>
-            </li>
           </ul>
         </div>
 
@@ -160,14 +152,6 @@ export function GeoLinks({
                 </Link>
               </li>
             ))}
-            <li>
-              <Link
-                href="/intentions"
-                className="text-[14px] text-muted-soft underline-offset-4 transition-colors hover:text-foreground hover:underline"
-              >
-                Voir toutes les expertises →
-              </Link>
-            </li>
           </ul>
         </div>
 
