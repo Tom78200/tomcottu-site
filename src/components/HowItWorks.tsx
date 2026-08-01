@@ -10,8 +10,6 @@ import {
   useTransform,
   type MotionValue,
 } from "motion/react";
-import { CtaButton } from "./CtaButton";
-
 const steps = [
   {
     title: "Analyse de votre activité",
@@ -305,11 +303,6 @@ export function HowItWorks() {
             </motion.div>
           ))}
         </div>
-      </div>
-
-      <div id="contact" className="mt-20 flex flex-wrap items-center gap-6">
-        <CtaButton href="mailto:cottutom@outlook.com" size="lg" />
-        <span className="text-sm text-muted-soft">cottutom@outlook.com</span>
       </div>
     </section>
   );
