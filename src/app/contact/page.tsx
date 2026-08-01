@@ -9,7 +9,7 @@ import { SITE_URL } from "@/lib/seo";
 export const metadata: Metadata = {
   title: "Contact — Tom Cottu, Développeur IA freelance",
   description:
-    "Envoie-moi un message ou réserve un call pour discuter de ton projet d'automatisation IA. Réponse sous 24h ouvrées.",
+    "Envoyez-moi un message ou réservez un call pour discuter de votre projet d'automatisation IA. Réponse sous 24h ouvrées.",
   alternates: { canonical: `${SITE_URL}/contact` },
 };
 
@@ -30,14 +30,14 @@ export default function ContactPage() {
                 textWrap: "balance",
               }}
             >
-              Parlons de ton projet
+              Parlons de votre projet
             </h1>
             <p
               className="mt-6 max-w-2xl text-xl text-foreground"
               style={{ lineHeight: 1.55 }}
             >
-              Dis-moi ce que tu veux automatiser. Deux façons de démarrer : écris-moi,
-              ou réserve directement un call de 30 minutes.
+              Dites-moi ce que vous voulez automatiser. Deux façons de démarrer : écrivez-moi,
+              ou réservez directement un call de 30 minutes.
             </p>
           </div>
 
@@ -69,7 +69,7 @@ export default function ContactPage() {
                 </span>
               </div>
               <p className="mt-4 text-[15px] text-muted" style={{ lineHeight: 1.55 }}>
-                Idéal pour décrire ton projet en détail. Je réponds sous 24h ouvrées
+                Idéal pour décrire votre projet en détail. Je vous réponds sous 24h ouvrées
                 avec une première piste concrète, gratuite et sans engagement.
               </p>
               <div className="mt-8 flex-1">
@@ -104,8 +104,8 @@ export default function ContactPage() {
                 </span>
               </div>
               <p className="mt-4 text-[15px] text-muted" style={{ lineHeight: 1.55 }}>
-                Tu préfères parler directement ? Choisis un créneau de 30 minutes
-                dans mon agenda et on fait le point sur ton projet en direct.
+                Vous préférez parler directement ? Choisissez un créneau de 30 minutes
+                dans mon agenda et on fait le point sur votre projet en direct.
               </p>
               <div className="mt-8 flex-1">
                 <CallBooking />

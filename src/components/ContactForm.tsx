@@ -69,7 +69,7 @@ export function ContactForm() {
           Message envoyé
         </h3>
         <p className="mx-auto mt-2 max-w-sm text-[15px] text-muted" style={{ lineHeight: 1.55 }}>
-          Merci ! Je te réponds sous 24h ouvrées sur ton adresse email.
+          Merci ! Je vous réponds sous 24h ouvrées sur votre adresse email.
         </p>
       </div>
     );
@@ -145,7 +145,7 @@ export function ContactForm() {
           name="message"
           required
           rows={5}
-          placeholder="Décris ton projet, ton métier, ce que tu veux automatiser…"
+          placeholder="Décrivez votre projet, votre métier, ce que vous voulez automatiser…"
           className={`${inputClasses} resize-none`}
         />
       </div>
