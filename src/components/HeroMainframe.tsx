@@ -11,7 +11,6 @@ const IMAGE_URL = "/hero-image/character.webp";
 const CTA_LABEL = "Cadrer mon diagnostic";
 
 const secondaryLinks = [
-  { href: "#cas-usage", label: "Cas d'usage" },
   { href: "#services", label: "Services" },
   { href: "#methode", label: "Comment ça marche" },
   { href: "#a-propos", label: "À propos" },
