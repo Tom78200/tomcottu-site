@@ -4,12 +4,12 @@ import { CITIES } from "@/lib/cities";
 import { INTENTS } from "@/lib/intents";
 
 const footerLinks = [
-  { href: "#cas-usage", label: "Cas d'usage" },
-  { href: "#exemples", label: "Exemples" },
-  { href: "#services", label: "Services" },
-  { href: "#methode", label: "Comment ça marche" },
-  { href: "#a-propos", label: "À propos" },
-  { href: "#faq", label: "Questions fréquentes" },
+  { href: "/cas-usage", label: "Cas d'usage" },
+  { href: "/#exemples", label: "Exemples" },
+  { href: "/#services", label: "Services" },
+  { href: "/#methode", label: "Comment ça marche" },
+  { href: "/#a-propos", label: "À propos" },
+  { href: "/#faq", label: "Questions fréquentes" },
 ];
 
 const footerCities = [
