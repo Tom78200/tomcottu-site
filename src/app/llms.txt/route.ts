@@ -27,13 +27,13 @@ function buildLlmsTxt(): string {
   lines.push("## Cas d'usage par métier");
   lines.push("");
   for (const uc of USE_CASES) {
-    lines.push(`- ${uc.h1} : ${SITE_URL}/cas-usage/${uc.slug}`);
+    lines.push(`- [${uc.h1}](${SITE_URL}/cas-usage/${uc.slug}) : ${uc.description.split(".")[0]}.`);
   }
   lines.push("");
   lines.push("## Ressources IA (guides)");
   lines.push("");
   for (const r of RESOURCES) {
-    lines.push(`- ${r.title} : ${SITE_URL}/ressources/${r.slug}`);
+    lines.push(`- [${r.title}](${SITE_URL}/ressources/${r.slug}) : ${r.description.split(".")[0]}.`);
   }
   lines.push("");
   lines.push("## Expertises par intention");
@@ -72,7 +72,7 @@ export function GET() {
   const body = buildLlmsTxt();
   return new Response(body, {
     headers: {
-      "Content-Type": "text/plain; charset=utf-8",
+      "Content-Type": "text/markdown; charset=utf-8",
       "Cache-Control": "public, max-age=3600, s-maxage=3600",
     },
   });
