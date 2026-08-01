@@ -43,7 +43,7 @@ export const metadata: Metadata = {
       "Des agents IA qui font le travail, pas la démo. Conception sur mesure, automatisation de workflows et assistants auto-hébergés pour PME.",
     images: [
       {
-        url: "/hero-image/character.png",
+        url: "/hero-image/character.webp",
         width: 1672,
         height: 941,
         alt: "Tom Cottu, développeur IA freelance",
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     title: "Développeur IA freelance, agents IA sur mesure pour PME",
     description:
       "Des agents IA qui font le travail, pas la démo. Conception sur mesure et automatisation pour PME.",
-    images: ["/hero-image/character.png"],
+    images: ["/hero-image/character.webp"],
   },
   robots: {
     index: true,
@@ -84,14 +84,6 @@ export default function RootLayout({
           rel="preconnect"
           href="https://db.onlinewebfonts.com"
           crossOrigin=""
-        />
-        <link
-          rel="stylesheet"
-          href="https://db.onlinewebfonts.com/c/5ac3fe7c6abd2f62067f266d89671492?family=HelveticaNowDisplay-Medium"
-        />
-        <link
-          rel="stylesheet"
-          href="https://db.onlinewebfonts.com/c/1aa3377e489837a26d019bba501e779d?family=HelveticaNowDisplayW01-Rg"
         />
         <script
           type="application/ld+json"

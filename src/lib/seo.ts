@@ -69,7 +69,7 @@ export const jsonLd = {
         "Conception d'agents IA sur mesure, automatisation de workflows et assistants IA auto-hébergés pour PME, TPE et indépendants.",
       url: SITE_URL,
       email: EMAIL,
-      image: `${SITE_URL}/tom-cottu.png`,
+      image: `${SITE_URL}/tom-cottu.webp`,
       priceRange: "€€",
       areaServed: { "@type": "Country", name: "France" },
       availableLanguage: ["fr"],
@@ -99,7 +99,7 @@ export const jsonLd = {
         "Développeur IA indépendant. Construit des agents IA et des applications hébergés chez le client.",
       email: EMAIL,
       url: SITE_URL,
-      image: `${SITE_URL}/tom-cottu.png`,
+      image: `${SITE_URL}/tom-cottu.webp`,
       sameAs: [LINKEDIN],
       knowsAbout: [
         "Agents IA",

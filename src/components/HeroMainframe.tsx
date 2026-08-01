@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { useTypewriter } from "@/hooks/useTypewriter";
 import styles from "./HeroMainframe.module.css";
 
-const IMAGE_URL = "/hero-image/character.png";
+const IMAGE_URL = "/hero-image/character.webp";
 
 const CTA_LABEL = "Cadrer mon diagnostic";
 
@@ -85,10 +86,13 @@ export function HeroMainframe() {
 
   return (
     <div ref={mainframeRef} className={styles.mainframe}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <Image
         src={IMAGE_URL}
         alt="Tom Cottu, développeur IA freelance"
+        fill
+        priority
+        quality={95}
+        sizes="100vw"
         className={styles.video}
       />
       <div className={styles.bottomFade} />

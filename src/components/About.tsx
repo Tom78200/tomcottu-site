@@ -207,7 +207,7 @@ export function About() {
             redessinait un rectangle visible autour du sujet. */}
         <div className="relative w-full max-w-[380px] md:max-w-none">
           <Image
-            src="/tom-cottu.png"
+            src="/tom-cottu.webp"
             alt="Tom Cottu"
             width={1102}
             height={1427}

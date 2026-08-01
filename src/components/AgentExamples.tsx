@@ -8,7 +8,7 @@ const scenarios = [
   {
     sector: "Agence web",
     title: "Ne plus perdre un prospect parce que personne n'était libre mardi",
-    image: "/exemples/01.png",
+    image: "/exemples/01.webp",
     situation:
       "Une demande de refonte tombe en plein sprint. Personne ne l'ouvre avant le lendemain soir. Quand vous rappelez, le prospect a déjà trois autres devis sur la table.",
     agent:
@@ -19,7 +19,7 @@ const scenarios = [
   {
     sector: "Cabinet de recrutement",
     title: "Des comptes rendus d'entretien qui existent vraiment",
-    image: "/exemples/02.png",
+    image: "/exemples/02.webp",
     situation:
       "Après quatre entretiens dans la journée, les notes tiennent sur un coin de carnet et dans votre mémoire. Le vendredi, il faut reconstituer qui a dit quoi.",
     agent:
@@ -30,7 +30,7 @@ const scenarios = [
   {
     sector: "E-commerce",
     title: "Le SAV qui répond avant votre premier café",
-    image: "/exemples/03.png",
+    image: "/exemples/03.webp",
     situation:
       "Où est ma commande, comment je retourne un article, est-ce que ça taille grand. Trois questions font l'essentiel du volume, et elles arrivent la nuit et le week-end.",
     agent:
@@ -41,7 +41,7 @@ const scenarios = [
   {
     sector: "Cabinet comptable",
     title: "Arrêter de courir après les pièces justificatives",
-    image: "/exemples/04.png",
+    image: "/exemples/04.webp",
     situation:
       "Chaque mois, il manque des factures chez la moitié des clients. Un collaborateur passe ses journées à demander, noter qui a répondu, puis redemander.",
     agent:
@@ -54,7 +54,7 @@ const scenarios = [
 // Source en 1672x941 (16:9), avec du vide en haut et en bas. Le cadre 3:1
 // combiné à object-cover recadre pile sur la bande utile (y 192 à 749),
 // sans toucher au fichier d'origine.
-const BAND = { src: "/exemples/bande.png", ratio: "3 / 1" };
+const BAND = { src: "/exemples/bande.webp", ratio: "3 / 1" };
 
 function PlusIcon() {
   return (

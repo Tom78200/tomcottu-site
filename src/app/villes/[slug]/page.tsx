@@ -37,13 +37,13 @@ export async function generateMetadata({
       siteName: "Tom Cottu",
       title,
       description,
-      images: [{ url: "/hero-image/character.png", width: 1672, height: 941, alt: `Développeur IA à ${city.nom}` }],
+      images: [{ url: "/hero-image/character.webp", width: 1672, height: 941, alt: `Développeur IA à ${city.nom}` }],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: ["/hero-image/character.png"],
+      images: ["/hero-image/character.webp"],
     },
   };
 }
