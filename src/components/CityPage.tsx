@@ -69,7 +69,7 @@ export function CityPage({ city }: { city: City }) {
               {c.intro}
             </p>
             <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
-              <CtaButton href="mailto:cottutom@outlook.fr" size="lg" />
+              <CtaButton href="/contact" size="lg" />
               <a
                 href="mailto:cottutom@outlook.fr"
                 className="py-2.5 text-[15px] text-muted underline-offset-4 transition-colors hover:text-foreground hover:underline"
@@ -212,7 +212,7 @@ export function CityPage({ city }: { city: City }) {
               {c.closing}
             </p>
             <div className="mt-10">
-              <CtaButton href="mailto:cottutom@outlook.fr" size="lg" />
+              <CtaButton href="/contact" size="lg" />
             </div>
           </div>
         </section>

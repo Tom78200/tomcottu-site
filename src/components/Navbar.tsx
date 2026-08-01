@@ -7,11 +7,9 @@ import styles from "./HeroMainframe.module.css";
 
 const navLinks = [
   { href: "/cas-usage", label: "Cas d'usage" },
-  { href: "/ressources", label: "Ressources IA" },
-  { href: "#services", label: "Services" },
-  { href: "#methode", label: "Comment ça marche" },
-  { href: "#a-propos", label: "À propos" },
-  { href: "/contact", label: "Contact" },
+  { href: "/#services", label: "Services" },
+  { href: "/#methode", label: "Comment ça marche" },
+  { href: "/#a-propos", label: "À propos" },
 ];
 
 const CTA_LABEL = "Cadrer mon diagnostic";
