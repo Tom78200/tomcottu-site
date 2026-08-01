@@ -56,12 +56,6 @@ export function Navbar() {
           >
             Tom Cottu
           </Link>
-          <span
-            className="text-[22px] text-black select-none sm:text-[25px] lg:text-[28px]"
-            style={{ letterSpacing: "-0.02em" }}
-          >
-            ✳︎
-          </span>
         </div>
 
         <nav
