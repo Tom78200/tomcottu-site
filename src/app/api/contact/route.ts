@@ -6,7 +6,7 @@ import { Resend } from "resend";
 // Le domaine doit être vérifié dans Resend, ou utiliser onbording@resend.dev
 // en mode test (limité au propriétaire du compte).
 
-const TO_EMAIL = "cottutom@outlook.com";
+const TO_EMAIL = "cottutom@outlook.fr";
 const FROM_EMAIL = process.env.CONTACT_FROM_EMAIL ?? "onboarding@resend.dev";
 
 function clean(v: unknown, max = 2000): string {
