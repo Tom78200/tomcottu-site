@@ -96,7 +96,7 @@ export function HeroMainframe() {
         style={{ scaleY: reduce ? 0 : wipeScale }}
       />
 
-      <section className="relative z-[1] flex h-[78vh] flex-col justify-end overflow-hidden px-5 pb-12 sm:px-8 md:justify-center md:px-14 md:pb-0">
+      <section className="relative z-[1] flex h-[78vh] flex-col justify-center overflow-hidden px-5 pb-12 sm:px-8 md:justify-end md:px-14 md:pb-0">
         <div className="relative z-10 max-w-3xl rounded-3xl bg-white/55 p-6 text-center backdrop-blur-md sm:p-8 sm:text-left">
           {/* h1 et non p : c'est le seul titre de niveau 1 de la page, il
               porte la requête principale. Le rendu visuel est inchangé. */}

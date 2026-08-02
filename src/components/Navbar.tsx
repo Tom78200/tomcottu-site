@@ -42,13 +42,13 @@ export function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 right-0 left-0 z-50 grid grid-cols-3 items-start gap-4 px-5 py-2 sm:py-3 sm:px-8 sm:py-4 lg:px-10 lg:py-5">
+      <header className="fixed top-0 right-0 left-0 z-50 grid grid-cols-3 items-center gap-4 px-4 py-2.5 sm:px-8 sm:py-3 lg:px-10 lg:py-5">
         <motion.div
           className="absolute inset-0 -z-10 border-b border-black/[0.06] bg-white/70 backdrop-blur-md"
           style={{ opacity: backdropOpacity }}
         />
 
-        <div className="flex items-center justify-start gap-3 mt-1">
+        <div className="flex items-center gap-3">
           <Link
             href="/"
             aria-label="Tom Cottu, développeur IA freelance, accueil"
@@ -60,7 +60,7 @@ export function Navbar() {
 
         <nav
           aria-label="Navigation principale"
-          className="hidden items-center justify-center gap-6 text-[15px] whitespace-nowrap text-black lg:flex xl:gap-9 xl:text-[17px] mt-1"
+          className="hidden items-center justify-center gap-6 text-[15px] whitespace-nowrap text-black lg:flex xl:gap-9 xl:text-[17px]"
         >
           {navLinks.map((link) => (
             <Link
@@ -85,7 +85,7 @@ export function Navbar() {
             type="button"
             aria-label="Menu"
             onClick={() => setMenuOpen((open) => !open)}
-            className="flex h-11 w-11 flex-col items-center justify-center gap-[6px] lg:hidden"
+            className="flex h-11 w-11 flex-col items-center justify-center gap-[6px] lg:hidden -mr-1"
           >
             <motion.span
               animate={{ 
@@ -117,7 +117,7 @@ export function Navbar() {
 
       <nav
         aria-label="Navigation principale mobile"
-        className={`fixed inset-0 z-40 flex flex-col items-start justify-center gap-8 bg-white/95 px-8 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
+        className={`fixed inset-0 z-40 flex flex-col items-start justify-center gap-8 bg-white/95 px-6 pt-20 pb-8 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
           menuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
         }`}
       >
@@ -126,7 +126,7 @@ export function Navbar() {
             key={link.href}
             href={link.href}
             onClick={() => setMenuOpen(false)}
-            className="text-[32px] font-medium text-black"
+            className="text-[28px] font-medium text-black"
           >
             {link.label}
           </Link>
@@ -134,7 +134,7 @@ export function Navbar() {
         <Link
           href="/contact"
           onClick={() => setMenuOpen(false)}
-          className="inline-flex items-center gap-2 rounded-full bg-black px-6 py-3 text-[18px] font-medium text-white"
+          className="inline-flex items-center gap-2 rounded-full bg-black px-6 py-3 text-[16px] font-medium text-white"
         >
           {CTA_LABEL}
           <ArrowIcon />
