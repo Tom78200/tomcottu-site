@@ -173,9 +173,10 @@ export function ChatWidget({ cityContent }: ChatWidgetProps) {
                     <path d="M12 22C17.5228 22 22 17.5228 22 12" strokeLinecap="round" />
                   </svg>
                 ) : (
-                  <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="2" y1="10" x2="18" y2="10" />
-                    <path d="M6 10l6 6 6-6" />
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="2" y1="12" x2="22" y2="12" />
+                    <path d="M12 7l5 5-5 5" />
+                    <path d="M12 7v10" />
                   </svg>
                 )}
               </motion.button>
