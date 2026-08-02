@@ -81,38 +81,39 @@ export function Navbar() {
             {CTA_LABEL}
             <ArrowIcon />
           </Link>
-          <button
-            type="button"
-            aria-label="Menu"
-            onClick={() => setMenuOpen((open) => !open)}
-            className="flex h-14 w-14 flex-col items-center justify-center gap-[7px] lg:hidden -mr-1"
-          >
-            <motion.span
-              animate={{ 
-                rotate: menuOpen ? 45 : 0,
-                y: menuOpen ? 7 : 0
-              }}
-              transition={{ duration: 0.2, ease: "easeInOut" }}
-              className="h-[2.5px] w-7 bg-black"
-            />
-            <motion.span
-              animate={{ 
-                scaleX: menuOpen ? 0 : 1,
-                opacity: menuOpen ? 0 : 1
-              }}
-              transition={{ duration: 0.2, ease: "easeInOut" }}
-              className="h-[2.5px] w-7 bg-black"
-            />
-            <motion.span
-              animate={{ 
-                rotate: menuOpen ? -45 : 0,
-                y: menuOpen ? -7 : 0
-              }}
-              transition={{ duration: 0.2, ease: "easeInOut" }}
-              className="h-[2.5px] w-7 bg-black"
-            />
-          </button>
         </div>
+
+        <button
+          type="button"
+          aria-label="Menu"
+          onClick={() => setMenuOpen((open) => !open)}
+          className="fixed right-6 top-4 flex h-14 w-14 flex-col items-center justify-center gap-[7px] lg:hidden z-[60]"
+        >
+          <motion.span
+            animate={{ 
+              rotate: menuOpen ? 45 : 0,
+              y: menuOpen ? 7 : 0
+            }}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
+            className="h-[2.5px] w-7 bg-black"
+          />
+          <motion.span
+            animate={{ 
+              scaleX: menuOpen ? 0 : 1,
+              opacity: menuOpen ? 0 : 1
+            }}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
+            className="h-[2.5px] w-7 bg-black"
+          />
+          <motion.span
+            animate={{ 
+              rotate: menuOpen ? -45 : 0,
+              y: menuOpen ? -7 : 0
+            }}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
+            className="h-[2.5px] w-7 bg-black"
+          />
+        </button>
       </header>
 
       <nav
