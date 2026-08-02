@@ -28,7 +28,7 @@ export function ChatWidget({ cityContent }: ChatWidgetProps) {
     if (open && messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [messages, open]);
+  }, [messages, open, loading]);
 
   const sendMessage = async () => {
     if (!input.trim() || loading) return;
@@ -138,15 +138,35 @@ export function ChatWidget({ cityContent }: ChatWidgetProps) {
               {messages.map((msg, i) => (
                 <div
                   key={i}
-                  className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm ${
-                    msg.role === "user"
-                      ? "ml-auto bg-black text-white"
-                      : "bg-[#f5f5f5] text-foreground"
-                  }`}
+                  className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                 >
-                  {msg.content}
+                  <div
+                    className={`w-fit max-w-[85%] whitespace-pre-wrap px-3.5 py-2 text-sm leading-relaxed ${
+                      msg.content.length < 60 ? "rounded-[1.25rem]" : "rounded-2xl"
+                    } ${
+                      msg.role === "user"
+                        ? "bg-black text-white"
+                        : "bg-[#f5f5f5] text-foreground"
+                    }`}
+                  >
+                    {msg.content}
+                  </div>
                 </div>
               ))}
+              {loading && (
+                <div className="flex justify-start">
+                  <div className="flex w-fit items-center gap-1 rounded-[1.25rem] bg-[#f5f5f5] px-3.5 py-3">
+                    {[0, 1, 2].map((d) => (
+                      <motion.span
+                        key={d}
+                        className="h-1.5 w-1.5 rounded-full bg-neutral-400"
+                        animate={{ opacity: [0.3, 1, 0.3] }}
+                        transition={{ duration: 1.2, repeat: Infinity, delay: d * 0.2 }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
               <div ref={messagesEndRef} />
             </div>
 
