@@ -95,7 +95,7 @@ export function About() {
         className="grid items-start gap-12 md:grid-cols-[1fr_380px] md:gap-16 md:pr-10 lg:grid-cols-[1fr_340px] lg:pr-[6%] xl:grid-cols-[1fr_440px] xl:pr-[8%] min-[1400px]:grid-cols-[1fr_580px]"
         initial={reduce ? false : { opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.3 }}
+        viewport={{ once: true, amount: 0.05 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
         <div className="max-w-2xl">
