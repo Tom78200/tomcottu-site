@@ -42,7 +42,7 @@ export function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 right-0 left-0 z-50 grid grid-cols-3 items-center gap-4 px-6 py-4 sm:px-8 sm:py-3 lg:px-10 lg:py-5">
+      <header className="fixed top-0 right-0 left-0 z-50 grid grid-cols-3 items-center gap-4 px-5 py-3 sm:px-8 sm:py-3 lg:px-10 lg:py-5">
         <motion.div
           className="absolute inset-0 -z-10 border-b border-black/[0.06] bg-white/70 backdrop-blur-md"
           style={{ opacity: backdropOpacity }}
@@ -87,15 +87,15 @@ export function Navbar() {
           type="button"
           aria-label="Menu"
           onClick={() => setMenuOpen((open) => !open)}
-          className="fixed right-6 top-4 flex h-14 w-14 flex-col items-center justify-center gap-[7px] lg:hidden z-[60]"
+          className="fixed right-5 top-3 flex h-11 w-11 flex-col items-center justify-center gap-[5px] lg:hidden z-[60]"
         >
           <motion.span
             animate={{ 
               rotate: menuOpen ? 45 : 0,
-              y: menuOpen ? 7 : 0
+              y: menuOpen ? 5 : 0
             }}
             transition={{ duration: 0.2, ease: "easeInOut" }}
-            className="h-[2.5px] w-7 bg-black"
+            className="h-[2px] w-6 bg-black"
           />
           <motion.span
             animate={{ 
@@ -103,22 +103,22 @@ export function Navbar() {
               opacity: menuOpen ? 0 : 1
             }}
             transition={{ duration: 0.2, ease: "easeInOut" }}
-            className="h-[2.5px] w-7 bg-black"
+            className="h-[2px] w-6 bg-black"
           />
           <motion.span
             animate={{ 
               rotate: menuOpen ? -45 : 0,
-              y: menuOpen ? -7 : 0
+              y: menuOpen ? -5 : 0
             }}
             transition={{ duration: 0.2, ease: "easeInOut" }}
-            className="h-[2.5px] w-7 bg-black"
+            className="h-[2px] w-6 bg-black"
           />
         </button>
       </header>
 
       <nav
         aria-label="Navigation principale mobile"
-        className={`fixed inset-0 z-40 flex flex-col items-start justify-center gap-8 bg-white/95 px-6 pt-20 pb-8 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
+        className={`fixed inset-0 z-40 flex flex-col items-start justify-center gap-8 bg-white/95 px-6 pt-16 pb-6 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
           menuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
         }`}
       >
