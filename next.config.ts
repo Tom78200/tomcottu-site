@@ -40,6 +40,9 @@ const nextConfig: NextConfig = {
               "img-src 'self' data: blob: www.googletagmanager.com www.google-analytics.com va.vercel-analytics.com; " +
               "font-src 'self' fonts.gstatic.com; " +
               "connect-src 'self' api.vercel.com va.vercel-analytics.com vwo.in vo.vextel.io; " +
+              // Sans frame-src explicite, les iframes retombent sur default-src 'self'
+              // et le module de réservation Cal.com est bloqué.
+              "frame-src 'self' https://cal.com https://*.cal.com; " +
               "frame-ancestors 'none'; " +
               "base-uri 'self'; " +
               "form-action 'self'; " +
