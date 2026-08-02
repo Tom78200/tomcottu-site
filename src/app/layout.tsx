@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { SITE_URL, jsonLd } from "@/lib/seo";
 import { Analytics } from "@vercel/analytics/react";
+import { ChatWidget } from "@/components/ChatWidget";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -99,6 +100,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-background text-foreground overflow-x-hidden">
         {children}
         <Analytics />
+        <ChatWidget />
       </body>
     </html>
   );

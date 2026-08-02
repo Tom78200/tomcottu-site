@@ -1,0 +1,69 @@
+import Groq from "groq-sdk";
+
+const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY,
+});
+
+// Contexte statique : FAQ + présentation de Tom (SEO). Chargé une fois.
+const STATIC_CONTEXT = `Tu es un assistant IA qui répond aux questions sur Tom Cottu,
+un développeur IA freelance français. Voici les infos essentielles :
+
+- Tom construit des agents IA sur mesure, automate les workflows métier et installe des assistants IA auto-hébergés pour PME/TPE.
+- Il travaille à distance partout en France.
+- Diagnostic gratuit de 20 minutes pour cadrer un projet.
+- Contact : cottutom@outlook.fr
+
+FAQ :
+Q: C'est quoi un agent IA, concrètement ?
+R: Un programme qui exécute une tâche de bout en bout à votre place, pas un chatbot.
+Q: Faut-il changer mes outils ?
+R: Non, l'agent se branche sur vos outils existants.
+Q: Mes données partent-elles chez un éditeur ?
+R: L'agent est hébergé chez vous. Seul le modèle de langage transite par API si besoin.
+Q: Combien de temps avant que ça tourne ?
+R: Variable selon le périmètre. Le diagnostic donne un délai précis.
+Q: Travaillez-vous à distance ?
+R: Oui, partout en France, avec visio pour le diagnostic initial.`;
+
+export async function POST(req: Request) {
+  if (!process.env.GROQ_API_KEY) {
+    return new Response(
+      JSON.stringify({ error: "GROQ_API_KEY non configurée" }),
+      { status: 500 }
+    );
+  }
+
+  const { messages, cityContent } = await req.json();
+
+  const context = cityContent
+    ? `\nContexte page ville :\n${cityContent}\n\n${STATIC_CONTEXT}`
+    : STATIC_CONTEXT;
+
+  try {
+    // Stratégie model : 3B d'abord (léger, gratuit), fallback 70B pour
+    // les demandes qui nécessitent plus de profondeur.
+    let model = "llama-3.2-3b-preview";
+    // Si l'utilisateur a déjà plusieurs messages, c'est une conversation complexe.
+    if (messages.length > 4) model = "llama-3-70b-versatile";
+
+    const completion = await groq.chat.completions.create({
+      model,
+      messages: [
+        { role: "system", content: context },
+        ...messages,
+      ],
+      temperature: 0.7,
+      max_tokens: 1000,
+      top_p: 0.9,
+    });
+
+    const response = completion.choices[0]?.message?.content || "";
+    return Response.json({ response });
+  } catch (error: any) {
+    console.error("Groq error:", error.message);
+    return new Response(
+      JSON.stringify({ error: "Erreur du service de chat" }),
+      { status: 500 }
+    );
+  }
+}
