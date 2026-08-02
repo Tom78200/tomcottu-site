@@ -3,22 +3,37 @@
 import { useEffect, useState } from "react";
 
 export function useTypewriter(text: string, speed = 38, startDelay = 600) {
-  const [displayed, setDisplayed] = useState("");
+  const [displayed, setDisplayed] = useState(text);
   const [done, setDone] = useState(false);
 
   useEffect(() => {
     let index = 0;
-    let interval: ReturnType<typeof setInterval>;
+    let interval: ReturnType<typeof setInterval> | undefined;
 
+    // On commence par le texte complet (défini dans useState ci-dessus),
+    // donc tout le texte est présent dès le premier render — zéro CLS.
     const timeout = setTimeout(() => {
-      interval = setInterval(() => {
-        index += 1;
-        setDisplayed(text.slice(0, index));
-        if (index >= text.length) {
-          clearInterval(interval);
-          setDone(true);
+      // On vide progressivement pour effet machine à écrire rétroactif,
+      // ou on peut passer directement à l'effet typewriter si on préfère.
+      // Ici : on efface d'abord, puis réécrit caractère par caractère.
+      const eraseInterval = setInterval(() => {
+        index -= 1;
+        if (index <= 0) {
+          clearInterval(eraseInterval);
+          index = 0;
+          // Maintenant on réécrit
+          const writeInterval = setInterval(() => {
+            index += 1;
+            setDisplayed(text.slice(0, index));
+            if (index >= text.length) {
+              clearInterval(writeInterval);
+              setDone(true);
+            }
+          }, speed);
+        } else {
+          setDisplayed(text.slice(0, index));
         }
-      }, speed);
+      }, speed / 1.5);
     }, startDelay);
 
     return () => {
@@ -27,9 +42,8 @@ export function useTypewriter(text: string, speed = 38, startDelay = 600) {
     };
   }, [text, speed, startDelay]);
 
-  // On renvoie toujours le texte complet comme "affichage de repli" : le
-  // typewriter est un effet cosmétique, le contenu réel est toujours présent
-  // pour le SSR et les moteurs de recherche. Rien n'est vidé du DOM, donc
-  // aucun Cumulative Layout Shift pendant l'hydratation.
-  return { displayed: displayed || text, done };
+  // Le typewriter est un effet cosmétique : le texte complet est toujours
+  // présent dès le premier render (useState initialisé avec le texte).
+  // Aucun CLS, le moteur de recherche voit le texte complet.
+  return { displayed, done };
 }

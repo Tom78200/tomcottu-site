@@ -14,7 +14,12 @@ interface ChatWidgetProps {
 
 export function ChatWidget({ cityContent }: ChatWidgetProps) {
   const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      role: "assistant",
+      content: "Bonjour ! Je suis Tom, un chatbot IA. Posez-moi une question sur les agents IA ou ses interventions.",
+    },
+  ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -24,22 +29,6 @@ export function ChatWidget({ cityContent }: ChatWidgetProps) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages, open]);
-
-  // Message de bienvenue quand la conversation démarre
-  useEffect(() => {
-    if (open && messages.length === 0) {
-      const timer = setTimeout(() => {
-        setMessages([
-          {
-            role: "assistant",
-            content:
-              "Bonjour ! Je suis Tom, un chatbot IA. Je peux vous renseigner sur les agents IA, l'automatisation et ses interventions. Posez-moi une question !",
-          },
-        ]);
-      }, 600);
-      return () => clearTimeout(timer);
-    }
-  }, [open, messages.length]);
 
   const sendMessage = async () => {
     if (!input.trim() || loading) return;
@@ -99,9 +88,10 @@ export function ChatWidget({ cityContent }: ChatWidgetProps) {
             <line x1="15" y1="5" x2="5" y2="15" />
           </svg>
         ) : (
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8">
-            <path d="M6 9l6 3 6-3" />
-            <rect x="2" y="5" width="16" height="10" rx="2" />
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+            <circle cx="9" cy="9" r="1" fill="currentColor" />
+            <circle cx="15" cy="9" r="1" fill="currentColor" />
           </svg>
         )}
       </motion.button>
@@ -145,26 +135,18 @@ export function ChatWidget({ cityContent }: ChatWidgetProps) {
 
             {/* Messages */}
             <div className="flex-1 space-y-3 overflow-y-auto px-4 pb-2">
-              {messages.length === 0 ? (
-                <div className="flex h-full items-center justify-center text-center">
-                  <p className="max-w-[260px] text-sm text-muted">
-                    Bonjour ! Je suis Tom, un chatbot IA. Posez-moi une question sur les agents IA ou ses interventions.
-                  </p>
+              {messages.map((msg, i) => (
+                <div
+                  key={i}
+                  className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm ${
+                    msg.role === "user"
+                      ? "ml-auto bg-black text-white"
+                      : "bg-[#f5f5f5] text-foreground"
+                  }`}
+                >
+                  {msg.content}
                 </div>
-              ) : (
-                messages.map((msg, i) => (
-                  <div
-                    key={i}
-                    className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm ${
-                      msg.role === "user"
-                        ? "ml-auto bg-black text-white"
-                        : "bg-[#f5f5f5] text-foreground"
-                    }`}
-                  >
-                    {msg.content}
-                  </div>
-                ))
-              )}
+              ))}
               <div ref={messagesEndRef} />
             </div>
 
