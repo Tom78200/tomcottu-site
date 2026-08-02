@@ -7,7 +7,6 @@ import { useTypewriter } from "@/hooks/useTypewriter";
 import styles from "./HeroMainframe.module.css";
 
 const IMAGE_URL = "/hero-image/character.webp";
-
 const CTA_LABEL = "Cadrer mon diagnostic";
 
 const secondaryLinks = [
@@ -54,9 +53,9 @@ function ArrowIcon() {
 }
 
 export function HeroMainframe() {
-  const [pillsVisible, setPillsVisible] = useState(false);
   const mainframeRef = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
+  const [pillsVisible, setPillsVisible] = useState(true); // true dès le SSR — zéro CLS
 
   const { scrollYProgress } = useScroll({
     target: mainframeRef,
@@ -74,8 +73,7 @@ export function HeroMainframe() {
   );
 
   useEffect(() => {
-    const timeout = setTimeout(() => setPillsVisible(true), 400);
-    return () => clearTimeout(timeout);
+    setPillsVisible(true);
   }, []);
 
   const handleCopy = () => {

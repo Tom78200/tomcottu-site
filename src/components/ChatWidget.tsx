@@ -108,18 +108,18 @@ export function ChatWidget({ cityContent }: ChatWidgetProps) {
             {/* En-tête avec photo de Tom */}
             <div className="flex items-center justify-between border-b border-border-soft p-4">
               <div className="flex items-center gap-3">
-              <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-black bg-black">
-                <span className="sr-only">Tom AI</span>
-                <img
-                  src="/tom-avatar.webp"
-                  alt="Tom AI"
-                  className="h-full w-full object-cover"
-                />
-              </div>
-              <div>
-                <span className="text-sm font-medium text-foreground">Assistant de Tom</span>
-                <span className="text-xs text-muted">Bot de discussion IA</span>
-              </div>
+                <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-black bg-black">
+                  <span className="sr-only">Assistant de Tom</span>
+                  <img
+                    src="/tom-avatar.webp"
+                    alt="Assistant de Tom"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-sm font-medium text-foreground">Assistant de Tom</span>
+                  <span className="text-xs text-muted">· Bot de discussion IA</span>
+                </div>
               </div>
               <motion.button
                 onClick={() => setOpen(false)}
