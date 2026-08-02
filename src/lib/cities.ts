@@ -291,36 +291,36 @@ export type CityContent = {
 
 const accrochesMetropole = [
   (c: City) =>
-    `À ${c.nom}, les équipes qui grandissent sont souvent freinées par leurs propres outils : trop d'onglets, trop de copier-coller entre des logiciels qui ne se parlent pas. Je construis l'agent IA qui fait le pont.`,
+    `${c.nom} concentre un tissu dense de PME, d'indépendants et de prestataires de services. Pour beaucoup, le site internet est la première chose que voit un client avant d'appeler. Je le prends par ce bout-là : un site sur mesure, construit pour être trouvé par ceux qui vous cherchent, et qui continue de travailler une fois la visite terminée.`,
   (c: City) =>
-    `${c.nom} concentre une densité d'entreprises où chaque heure de saisie manuelle ou de relance oubliée coûte cher. L'agent IA sur mesure est l'outil qui rend ces heures à l'équipe.`,
+    `À ${c.nom}, vos clients comparent deux ou trois sites avant de décrocher leur téléphone. Je construis un site qui tient la comparaison : rapide, lisible sur mobile, et structuré pour le référencement local dès la conception plutôt qu'après coup.`,
   (c: City) =>
-    `Dans une métropole comme ${c.nom}, la différence se fait sur l'exécution. Un agent IA branché sur vos outils fait tourner vos process en continu, sans recruter.`,
+    `Dans une métropole comme ${c.nom}, un site qui se contente d'exister ne suffit plus. Je construis des sites sur mesure qui ramènent des demandes, et je les branche sur vos outils pour que ces demandes ne dorment pas trois jours dans une boîte mail.`,
 ];
 
 const accrochesVille = [
   (c: City) =>
-    `À ${c.nom}, les TPE, indépendants et artisans perdent encore trop de temps sur des tâches qui pourraient tourner toutes seules. C'est exactement ce que je viens automatiser.`,
+    `À ${c.nom}, beaucoup de TPE et d'artisans travaillent avec un site vieillissant, ou sans site du tout. C'est pourtant la première chose que regarde un client avant d'appeler. Je construis des sites sur mesure, pensés pour le référencement local dès la conception.`,
   (c: City) =>
-    `Dans le ${c.departement}, beaucoup de structures n'ont ni l'équipe ni le budget pour une solution éditeur. Un agent IA sur mesure, c'est l'alternative qui s'adapte à vous, pas l'inverse.`,
+    `Dans le ${c.departement}, un modèle tout fait revient vite plus cher qu'un site sur mesure : un abonnement à vie, des pages lourdes, et presque aucune prise sur le référencement. Je construis un site qui vous appartient vraiment, code source compris.`,
   (c: City) =>
-    `${c.nom} et son bassin : je suis le développeur IA qui installe des agents concrets, pas une démo. Vous décrivez le flux, je le rends automatique.`,
+    `${c.nom} et son bassin : je construis des sites qui se trouvent et qui ramènent des demandes, pas des vitrines qui dorment. Et je peux les brancher sur vos outils pour que ces demandes arrivent au bon endroit.`,
   (c: City) =>
     c.procheDe
-      ? `À ${c.nom}, à deux pas de ${getCity(c.procheDe)?.nom ?? "la métropole voisine"}, les structures veulent des résultats rapides, pas un projet informatique. Je livre un agent IA qui tourne, documenté, en quelques semaines.`
-      : `À ${c.nom}, la question n'est pas "quelle IA" mais "qu'est-ce qui doit partir tout seul". C'est le point de départ de chaque mission.`,
+      ? `À ${c.nom}, à deux pas de ${getCity(c.procheDe)?.nom ?? "la métropole voisine"}, les structures veulent un site qui tourne, pas un projet informatique. Maquette validée avant la première ligne de code, mise en ligne en quelques semaines.`
+      : `À ${c.nom}, la question n'est pas "quel outil" mais "qui doit trouver ce site, et pour y faire quoi". C'est le point de départ de chaque projet.`,
 ];
 
 const leadsMetropole = [
   (c: City) =>
     `Intervention à distance sur toute la France, avec des points visio réguliers et des déplacements possibles en ${c.region}. Le diagnostic de 20 minutes est gratuit et se fait en visio.`,
   (c: City) =>
-    `Basé en France et en travail à distance, je peux intervenir chez vous en ${c.region} comme ailleurs. On démarre par un cadrage court, puis je développe l'agent sur vos outils.`,
+    `Basé en France et en travail à distance, je peux intervenir chez vous en ${c.region} comme ailleurs. On démarre par un cadrage court, puis vous validez une maquette avant que le site soit construit.`,
 ];
 
 const leadsVille = [
   (c: City) =>
-    `Je travaille à distance depuis la ${c.region}, ce qui me permet d'intervenir rapidement à ${c.nom} sans les frais d'un prestataire parisien. Le diagnostic initial est gratuit et en visio.`,
+    `Je travaille à distance, ce qui me permet d'intervenir à ${c.nom} sans les frais de structure d'une agence. Le diagnostic initial est gratuit et se fait en visio.`,
   (c: City) =>
     `À distance et disponible pour ${c.nom} : vous parlez à la personne qui code, pas à un commercial. On commence par 20 minutes pour cadrer le périmètre et le budget.`,
 ];
@@ -381,90 +381,90 @@ const sectorDetails = (
 
 const methods = [
   (c: City) =>
-    `Le déroulé est le même pour chaque client, qu'il soit à ${c.nom} ou ailleurs : 20 minutes de diagnostic gratuit pour cadrer le périmètre, puis développement de l'agent sur vos outils existants, puis livraison documentée. Vous gardez le code et la main.`,
+    `Le déroulé est le même pour chaque client, qu'il soit à ${c.nom} ou ailleurs : 20 minutes de diagnostic gratuit pour cadrer le périmètre, une maquette validée avant la première ligne de code, puis le développement et la mise en ligne. Vous gardez le code source et la main sur vos contenus.`,
   (c: City) =>
-    `Pas de solution miracle pré-emballée. Pour ${c.nom} comme ailleurs, je commence par comprendre le flux qui vous coûte du temps, je le prototypage vite, et on itère jusqu'à ce que l'agent tourne seul. Tout est livré avec la doc.`,
+    `Pas de modèle recyclé d'un client à l'autre. Pour ${c.nom} comme ailleurs, je pars de votre activité et de ce que vos clients cherchent réellement, je maquette, et on ajuste à ce stade, où les allers-retours ne coûtent rien. Tout est livré documenté.`,
 ];
 
 const closings = [
   (c: City) =>
-    `Vous êtes à ${c.nom} et vous hésitez ? Le plus simple : 20 minutes en visio. On regarde un de vos process ensemble et je vous dis si un agent IA le rend automatique, sans engagement.`,
+    `Vous êtes à ${c.nom} et vous hésitez ? Le plus simple : 20 minutes en visio. Vous me montrez votre site actuel ou vous me décrivez votre projet, et je vous dis ce qui est faisable, à quel budget et dans quel délai.`,
   (c: City) =>
-    `Que vous soyez à ${c.nom} ou ailleurs en ${c.region}, la première étape est la même : un diagnostic gratuit de 20 minutes pour voir ce qu'un agent IA peut prendre en charge chez vous.`,
+    `Que vous soyez à ${c.nom} ou ailleurs en ${c.region}, la première étape est la même : un diagnostic gratuit de 20 minutes pour cadrer votre projet de site, sans engagement.`,
 ];
 
 const faqPool = (c: City): { q: string; a: string }[] => [
   {
-    q: `Combien coûte un agent IA sur mesure à ${c.nom} ?`,
-    a: `Le budget démarre à 3 500 € HT pour un agent simple (un flux automatisé, une intégration). La plupart des missions pour PME de ${c.departement} se situent entre 5 000 € et 15 000 € selon le nombre d'outils connectés et la complexité des règles métier. Le diagnostic gratuit de 20 minutes permet d'estimer précisément avant tout engagement.`,
+    q: `Combien coûte un site internet à ${c.nom} ?`,
+    a: `Le budget dépend de trois choses : le nombre de pages, les fonctionnalités attendues, et le fait que vous fournissiez ou non les textes et les photos. Un site vitrine de quelques pages se situe dans le bas de la fourchette. Un site e-commerce monte selon le nombre de références et les règles de livraison. Une refonte se chiffre après avoir regardé l'existant, parce que le travail varie énormément selon ce qui peut être conservé. Le diagnostic gratuit de 20 minutes sert précisément à donner un chiffre avant tout engagement, plutôt qu'une fourchette large qui ne vous avance à rien.`,
   },
   {
-    q: `Combien de temps faut-il pour livrer un agent IA ?`,
-    a: `Un premier agent fonctionnel est livré en 2 à 4 semaines. Les projets plus ambitieux (multi-outils, IA auto-hébergée) prennent 6 à 10 semaines. Tout est livré avec documentation technique, code source et mode opératoire pour que votre équipe de ${c.nom} reste autonome.`,
+    q: `Combien de temps faut-il pour créer un site ?`,
+    a: `Comptez deux à quatre semaines pour un site vitrine, davantage pour un e-commerce ou une refonte avec reprise de contenus existants. Le délai dépend surtout de la vitesse à laquelle les textes et les photos sont fournis. C'est le point qui décale le plus souvent les projets, à ${c.nom} comme ailleurs.`,
   },
   {
-    q: `L'agent fonctionne-t-il avec mes outils existants ?`,
-    a: `Oui. L'agent se connecte à vos outils via API : CRM (HubSpot, Pipedrive), messagerie (Gmail, Outlook), comptabilité, ERP, notaires, outils métier spécifiques. Aucune obligation de changer de stack. Le principe est précisément de brancher l'IA sur ce que vous utilisez déjà à ${c.nom}.`,
+    q: `Qui rédige les contenus ?`,
+    a: `Vous, si vous le souhaitez, et je vous donne la structure à remplir page par page. Ou moi, en supplément, après un entretien pour capter votre façon de parler de votre métier. Les textes écrits par le dirigeant sonnent souvent plus juste que ceux d'un rédacteur extérieur, à condition d'avoir un cadre.`,
   },
   {
-    q: `Mes données sont-elles en sécurité ?`,
-    a: `Deux options. Soit l'agent tourne sur une infrastructure cloud chiffrée (sous-traitants européens, RGPD). Soit — pour les structures de ${c.region} qui le exigent — je déploie l'IA en auto-hébergement sur votre propre serveur. Aucune donnée ne sort de votre infrastructure. C'est souvent le critère décisif pour le conseil, la finance et la santé.`,
+    q: `Le site m'appartient-il vraiment ?`,
+    a: `Oui. Vous recevez le code source, la documentation technique et les accès. Vous pouvez faire intervenir un autre développeur à ${c.nom} à tout moment, sans rien renégocier. C'est la différence avec une plateforme en abonnement, où l'arrêt du paiement met le site hors ligne.`,
   },
   {
-    q: `Intervenez-vous en présentiel à ${c.nom} ?`,
-    a: `Le travail se fait principalement à distance (visio, Slack, points hebdo). Des déplacements en ${c.region} sont possibles pour le cadrage initial ou la formation des équipes. Le diagnostic de 20 minutes se fait toujours en visio, gratuitement.`,
+    q: `Puis-je modifier mes contenus moi-même ?`,
+    a: `Oui. Vous recevez un mode opératoire et une formation d'une à deux heures. Les modifications courantes, textes, photos, horaires, tarifs, se font sans développeur et sans surcoût.`,
   },
   {
-    q: `Que se passe-t-il si l'agent tombe en panne ?`,
-    a: `Chaque livraison inclut un monitoring (alertes si l'agent s'arrête), une documentation de dépannage, et 30 jours de support inclus. Ensuite, une maintenance mensuelle (200-500 €/mois selon complexité) assure mises à jour et évolutions. Vous gardez le code et pouvez faire intervenir un autre développeur à ${c.nom} à tout moment.`,
+    q: `Travaillez-vous à distance ou sur place à ${c.nom} ?`,
+    a: `Principalement à distance, en visio et par messagerie, avec des points réguliers. Des déplacements en ${c.region} sont possibles pour le cadrage initial ou la formation. Le diagnostic de 20 minutes se fait toujours en visio, gratuitement.`,
   },
   {
-    q: `Comment savoir si mon process est automatisable ?`,
-    a: `Si une tâche est répétitive, suit des règles prévisibles, et manipule du texte ou des données structurées → elle est automatisable. Le meilleur moyen d'en avoir le cœur net : le diagnostic gratuit. On regarde ensemble un de vos process et je vous dis, sans engagement, si un agent IA peut le prendre en charge et à quelle hauteur.`,
+    q: `Que se passe-t-il après la mise en ligne ?`,
+    a: `Trente jours de support sont inclus. Ensuite, une maintenance mensuelle optionnelle couvre les mises à jour de sécurité, les sauvegardes et les évolutions selon vos retours terrain. Sans elle, le site continue de fonctionner, mais vous prenez en charge son entretien.`,
   },
   {
-    q: `Quelle différence entre agent IA et simple script d'automatisation ?`,
-    a: `Un script suit des règles figées (si X alors Y). Un agent IA comprend le contexte, gère les cas non prévus, rédige des réponses en langage naturel, et apprend de vos retours. Pour une TPE de ${c.nom}, un script Zapier suffit parfois. Pour qualifier un email client ou rédiger une proposition, il faut un agent. Le diagnostic permet de trancher.`,
+    q: `Mon site actuel est ancien, faut-il tout refaire ?`,
+    a: `Pas nécessairement. On regarde d'abord ce qui peut être conservé : les contenus qui se positionnent déjà, les adresses de pages qui reçoivent des visites. Une refonte mal préparée fait perdre des positions acquises, et c'est le principal risque du chantier.`,
   },
 ];
 
 const stackPool = (c: City): { nom: string; usage: string }[] => [
-  { nom: "n8n", usage: `Orchestration visuelle des workflows — branchement entre vos outils sans code, idéal pour visualiser le flux avant de l'industrialiser pour vos équipes à ${c.nom}.` },
-  { nom: "OpenAI GPT-4 / Anthropic Claude", usage: "Moteurs de langage pour la lecture, la rédaction et la qualification. Choix du modèle selon le cas (coût vs qualité)." },
-  { nom: "LangChain / LangGraph", usage: "Framework Python pour orchestrer plusieurs étapes IA (lire → raisonner → agir → vérifier) en toute fiabilité." },
-  { nom: "Pinecone / pgvector", usage: "Base de données vectorielle pour la recherche sémantique sur vos documents métier — l'agent retrouve l'info même sans mot-clé exact." },
-  { nom: "Supabase / PostgreSQL", usage: "Stockage structuré des données échangées, historique des actions de l'agent, audit RGPD." },
-  { nom: "Vercel / OVH", usage: `Hébergement de l'agent et des interfaces. OVH pour les clients de ${c.region} qui exigent un hébergement 100% français.` },
-  { nom: "Ollama / vLLM", usage: "Auto-hébergement de modèles open-source (Llama, Mistral) sur votre serveur — zéro fuite de données, pour les structures sensibles de ${c.departement}." },
-  { nom: "Redis", usage: "File d'attente et cache pour absorber les pics de charge (saison touristique, rentrée scolaire, clôture comptable)." },
+  { nom: "Next.js / React", usage: `Le socle du site. Des pages légères, qui s'affichent vite et que les moteurs lisent sans difficulté, sans la surcharge des constructeurs visuels génériques.` },
+  { nom: "Tailwind CSS", usage: "Mise en page sur mesure, adaptée à votre activité plutôt qu'à un modèle partagé par mille autres entreprises. Rendu tenu sur mobile, tablette et ordinateur." },
+  { nom: "Vercel / OVH", usage: `Hébergement du site. OVH pour les structures de ${c.region} qui exigent un hébergement 100% français.` },
+  { nom: "Supabase / PostgreSQL", usage: "Stockage structuré des demandes reçues via le site, historique des échanges et traçabilité pour le RGPD." },
+  { nom: "Stripe", usage: "Paiement en ligne pour les sites e-commerce : encaissement, remboursements et abonnements, sans stocker de données bancaires chez vous." },
+  { nom: "n8n", usage: `Orchestration visuelle des flux entre le site et vos logiciels métier. Vous voyez comment circule l'information avant de l'industrialiser pour vos équipes à ${c.nom}.` },
+  { nom: "OpenAI / Anthropic Claude", usage: "Traitements automatiques de texte quand le site en a besoin : tri des demandes entrantes, brouillons de réponse. Moteur choisi au cas par cas selon le rapport coût-qualité." },
+  { nom: "Ollama / vLLM", usage: `Auto-hébergement de modèles open source sur votre propre serveur, sans qu'aucune donnée ne sorte de chez vous. Pour les structures sensibles du ${c.departement}.` },
 ];
 
 const comparisonPool = (): { label: string; freelance: string; agence: string }[] => [
-  { label: "Interlocuteur unique", freelance: "Vous parlez à la personne qui code — pas de téléphone arabe, pas de commercial", agence: "Chef de projet qui relaie au développeur, délais de réponse plus longs" },
-  { label: "Coût", freelance: "3 500 – 15 000 € tout compris, pas de marge agence", agence: "8 000 – 30 000 € minimum, structure et marge intégrées" },
-  { label: "Délai de livraison", freelance: "2 à 4 semaines pour un premier agent", agence: "6 à 12 semaines, processus interne plus lourd" },
-  { label: "Adaptabilité", freelance: "Changement de cap en direct, itérations rapides", agence: "Avenant contractuel pour chaque évol" },
-  { label: "Appartenance du code", freelance: "Code source livré, vous êtes propriétaire", agence: "Souvent en SaaS — vous louez, vous ne possédez pas" },
-  { label: "Continuité", freelance: "Dépendance à une personne — mitigation via doc + transfert", agence: "Équipe, mais turnover et rotation sur votre compte" },
-  { label: "Expertise technique", freelance: "Spécialiste IA qui suit les avancées en continu", agence: "Généralistes répartis sur plusieurs sujets" },
+  { label: "Propriété du site", freelance: "Code source livré, vous êtes propriétaire", agence: "Vous louez une plateforme : l'abonnement s'arrête, le site disparaît" },
+  { label: "Coût récurrent", freelance: "L'hébergement seul, la maintenance reste optionnelle", agence: "Un abonnement mensuel à vie, indispensable au fonctionnement" },
+  { label: "Vitesse d'affichage", freelance: "Seul ce dont votre site a besoin est chargé", agence: "Des fonctionnalités jamais utilisées chargées à chaque visite" },
+  { label: "Référencement", freelance: "Titres, adresses de pages et données structurées pensés dès la conception", agence: "Réglages limités à ce que la plateforme accepte d'exposer" },
+  { label: "Mise en page", freelance: "Chaque page construite pour un besoin réel de votre activité", agence: "Contrainte par le modèle choisi et ses blocs disponibles" },
+  { label: "Changer de prestataire", freelance: "Possible à tout moment, le code est à vous", agence: "Migration lourde, contenus à ressortir page par page" },
+  { label: "Interlocuteur", freelance: "Vous parlez à la personne qui code", agence: "Support générique par formulaire, sans connaître votre projet" },
 ];
 
 const processPool = (c: City): { etape: string; titre: string; detail: string }[] => [
-  { etape: "01", titre: "Diagnostic gratuit (20 min)", detail: `Visio. Vous me montrez un de vos process qui vous coûte du temps. J'analyse sa faisabilité en IA, j'estime le gain et le budget. Zéro engagement. C'est le point d'entrée pour toutes les structures de ${c.nom}.` },
-  { etape: "02", titre: "Cadrage et périmètre", detail: `On définit précisément ce que l'agent doit faire (et ne pas faire). Je cartographie vos outils, identifie les API disponibles, et rédige un cahier des charges court. Objectif : pas de surprise sur le périmètre ni le budget pour ${c.nom}.` },
-  { etape: "03", titre: "Prototype en 1 semaine", detail: `Je construis une première version fonctionnelle sur un sous-ensemble réel de vos données. Vous voyez l'agent tourner sur vos vraies tâches, pas sur une démo générique. C'est souvent l'étape où les équipes de ${c.departement} décident d'accélérer.` },
-  { etape: "04", titre: "Développement et intégration", detail: `L'agent est branché sur l'ensemble de vos outils. Gestion des cas limites, monitoring, logs. Tests en conditions réelles sur 1 à 2 semaines avec votre équipe. Ajustements.` },
-  { etape: "05", titre: "Livraison et documentation", detail: `Code source, documentation technique, mode opératoire, procédure de dépannage. Formation de votre équipe (1 à 2 h). Vous êtes autonome sur l'agent et son maintien.` },
-  { etape: "06", titre: "Support et évolutions", detail: `30 jours de support inclus. Ensuite, maintenance mensuelle optionnelle : mises à jour, nouvelles intégrations, évolutions selon vos retours terrain à ${c.nom}.` },
+  { etape: "01", titre: "Diagnostic gratuit (20 min)", detail: `En visio. Vous me montrez votre site actuel ou vous me décrivez votre projet. J'analyse ce qui est faisable, j'estime le budget et le délai. Aucun engagement. C'est le point d'entrée pour toutes les structures de ${c.nom}.` },
+  { etape: "02", titre: "Cadrage et périmètre", detail: `On définit précisément ce que le site doit faire, et ce qu'il ne fera pas. Je cartographie vos outils existants, j'identifie ce qu'il faut connecter, et je rédige un cahier des charges court. Objectif : pas de surprise sur le périmètre ni sur le budget pour ${c.nom}.` },
+  { etape: "03", titre: "Maquette et validation", detail: `Vous voyez à quoi ressemblera le site avant qu'une ligne de code soit écrite. Les allers-retours se font à ce stade, où ils ne coûtent rien, plutôt qu'en fin de projet.` },
+  { etape: "04", titre: "Développement et intégration", detail: `Le site est construit, vos contenus sont intégrés, les connexions à vos outils sont mises en place. Tests sur mobile, sur tablette et sur ordinateur, et vérification des temps de chargement en conditions réelles.` },
+  { etape: "05", titre: "Mise en ligne et documentation", detail: `Code source, documentation technique, mode opératoire pour modifier vos contenus vous-même. Formation de votre équipe, une à deux heures. Vous êtes autonome sur votre site.` },
+  { etape: "06", titre: "Support et évolutions", detail: `Trente jours de support inclus après la mise en ligne. Ensuite, une maintenance mensuelle optionnelle couvre les mises à jour, les correctifs de sécurité et les évolutions selon vos retours terrain à ${c.nom}.` },
 ];
 
 const metricsPool = (c: City): { value: string; label: string }[] => [
-  { value: "2-4 sem.", label: `Délai de livraison d'un premier agent fonctionnel à ${c.nom}` },
-  { value: "70-90%", label: "Tâches répétitives absorbées par l'agent une fois en production" },
-  { value: "3 500 €", label: "Budget d'entrée pour un agent IA simple, code inclus" },
+  { value: "2-4 sem.", label: `Délai indicatif pour un site vitrine à ${c.nom}` },
+  { value: "3", label: "Supports vérifiés avant la mise en ligne : mobile, tablette, ordinateur" },
+  { value: "1-2 h", label: "Formation pour gérer vos contenus vous-même, sans développeur" },
   { value: "20 min", label: "Diagnostic gratuit, sans engagement, en visio" },
-  { value: "100%", label: "Code source livré — vous êtes propriétaire de l'agent" },
-  { value: "30 j", label: "Support inclus après livraison" },
+  { value: "100%", label: "Code source livré, vous êtes propriétaire du site" },
+  { value: "30 j", label: "Support inclus après la mise en ligne" },
 ];
 
 const useCasesEtendusPool = (
@@ -474,29 +474,29 @@ const useCasesEtendusPool = (
   const metro = c.taille === "metropole";
   return [
     {
-      titre: `Qualification automatique des demandes entrantes`,
-      avant: `Chaque email ou message qui arrive doit être lu, trié, catégorisé et assigné à la main. À ${c.nom}, ${metro ? "les équipes support sont sous l'eau" : "la personne en charge cumule déjà 3 rôles"}. Les urgences se noient dans le volume.`,
-      apres: `L'agent lit chaque message entrant, détecte l'intention, la priorité, le client concerné, et route vers la bonne file — avec un brouillon de réponse pré-rempli. Votre équipe ne traite plus que les cas qui demandent un humain.`,
+      titre: `Qualification automatique des demandes du site`,
+      avant: `Chaque message reçu via le formulaire doit être lu, trié et assigné à la main. À ${c.nom}, ${metro ? "les équipes support sont souvent sous l'eau en pleine saison" : "la personne en charge cumule déjà trois rôles"}. Les urgences se noient dans le volume.`,
+      apres: `Chaque message est lu, son intention et sa priorité sont détectées, il est dirigé vers la bonne personne avec un brouillon de réponse déjà préparé. Votre équipe ne traite plus que ce qui demande vraiment un humain.`,
     },
     {
-      titre: `Reporting hebdomadaire sans copier-coller`,
-      avant: `Chaque lundi, quelqu'un exporte de 3 à 5 outils, recopie dans un tableur, met en forme, envoie. À ${c.nom}, ce ritual coûte 2 à 4 heures par semaine à une personne qualifiée.`,
-      apres: `L'agent agrège les données de vos sources toutes les nuits, génère le rapport au format voulu, et l'envoie à 8h du matin. Vous arrivez lundi avec le chiffre prêt.`,
+      titre: `Relances qui ne s'oublient pas`,
+      avant: `Les devis envoyés à ${c.nom} attendent une relance que personne n'a le temps de faire systématiquement. Une part des opportunités meurt par inertie, sans qu'on sache laquelle.`,
+      apres: `La relance part au bon moment, sur le bon canal, avec un message adapté au stade de la discussion. Rien ne repose plus sur le fait d'y penser un mardi soir.`,
     },
     {
-      titre: `Relances commerciales qui ne s'oublient pas`,
-      avant: `Les devis envoyés à ${c.nom} attendent une relance que personne n'a le temps de faire systématiquement. 20 à 40% des opportunités meurent par inertie.`,
-      apres: `L'agent surveille les devis en attente, relance au bon moment selon le canal (email, SMS), adapte le message au stade, et met à jour le CRM. Taux de transformation en hausse mécanique.`,
+      titre: `Reporting sans copier-coller`,
+      avant: `Chaque lundi, quelqu'un exporte depuis trois ou quatre outils, recopie dans un tableur, met en forme, envoie. À ${c.nom}, ce rituel occupe une personne qualifiée plusieurs heures par semaine.`,
+      apres: `Les données de vos outils sont agrégées chaque nuit et le rapport arrive le matin, prêt. Vous démarrez la semaine avec le chiffre sous les yeux.`,
     },
     {
-      titre: `Assistant interne sur vos documents métier`,
-      avant: `Vos équipes de ${c.departement} perdent du temps à chercher la bonne info dans vos documents, procédures, contrats types. Chaque nouvel arrivant pose les mêmes questions.`,
-      apres: `L'agent indexe l'ensemble de vos documents et répond en langage naturel aux questions internes ("quel est le process pour X ?", "où trouve-je le modèle Y ?"). Onboarding accéléré, autonomie accrue.`,
+      titre: `Assistant sur vos documents internes`,
+      avant: `Vos équipes du ${c.departement} cherchent la bonne information dans les procédures, les contrats types et les modes opératoires. Chaque nouvel arrivant pose dix fois les mêmes questions.`,
+      apres: `Vos documents deviennent interrogeables en langage naturel : "quelle est la procédure pour X ?", "où se trouve le modèle Y ?". Les arrivées se passent sans monopoliser quelqu'un.`,
     },
     {
       titre: `Cas spécifique au secteur ${info.secteurs[0]}`,
       avant: `Dans le ${info.secteurs[0]} à ${c.nom}, ${info.problemes[0].toLowerCase()}.`,
-      apres: `Un agent dédié absorbe ce problème en continu, sans recruter ni déléguer. Le secteur ${info.secteurs[0]} de ${c.region} dispose enfin d'un outil taillé pour son rythme.`,
+      apres: `Le site est branché sur vos outils pour absorber ce point en continu, sans recruter ni déléguer. Le secteur ${info.secteurs[0]} de ${c.region} dispose d'un outil taillé pour son rythme.`,
     },
   ];
 };
@@ -523,7 +523,7 @@ export function generateCityContent(city: City): CityContent {
   ];
 
   return {
-    h1: `Développeur IA à ${city.nom}`,
+    h1: `Création de site internet à ${city.nom}`,
     intro: pick(accroches, s)(city),
     lead: pick(leads, s >>> 2)(city),
     useCases,
