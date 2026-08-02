@@ -97,7 +97,7 @@ export function HeroMainframe() {
       />
 
       <section className="relative z-[1] flex h-[78vh] flex-col justify-end overflow-hidden px-5 pb-12 sm:px-8 md:justify-center md:px-14 md:pb-0">
-        <div className="relative z-10 max-w-3xl rounded-3xl bg-white/55 p-6 backdrop-blur-md sm:p-8">
+        <div className="relative z-10 max-w-3xl rounded-3xl bg-white/55 p-6 text-center backdrop-blur-md sm:p-8 sm:text-left">
           {/* h1 et non p : c'est le seul titre de niveau 1 de la page, il
               porte la requête principale. Le rendu visuel est inchangé. */}
           <h1
@@ -115,7 +115,7 @@ export function HeroMainframe() {
           </h1>
 
           <div
-            className="flex flex-wrap items-center gap-3"
+            className="flex flex-wrap items-center justify-center gap-3 sm:justify-start"
             style={{
               opacity: pillsVisible ? 1 : 0,
               transform: pillsVisible ? "translateY(0)" : "translateY(8px)",
@@ -143,7 +143,7 @@ export function HeroMainframe() {
           </div>
 
           <div
-            className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[13px] text-black/60"
+            className="mt-2 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[13px] text-black/60 sm:justify-start"
             style={{
               opacity: pillsVisible ? 1 : 0,
               transition: "opacity 0.4s ease 0.1s",

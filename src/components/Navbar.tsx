@@ -42,13 +42,13 @@ export function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 right-0 left-0 z-50 grid grid-cols-3 items-center gap-4 px-5 py-3 sm:px-8 sm:py-4 lg:px-10 lg:py-5">
+      <header className="fixed top-0 right-0 left-0 z-50 grid grid-cols-3 items-start gap-4 px-5 py-2 sm:py-3 sm:px-8 sm:py-4 lg:px-10 lg:py-5">
         <motion.div
           className="absolute inset-0 -z-10 border-b border-black/[0.06] bg-white/70 backdrop-blur-md"
           style={{ opacity: backdropOpacity }}
         />
 
-        <div className="flex items-center justify-start gap-3">
+        <div className="flex items-center justify-start gap-3 mt-1">
           <Link
             href="/"
             aria-label="Tom Cottu, développeur IA freelance, accueil"
@@ -60,7 +60,7 @@ export function Navbar() {
 
         <nav
           aria-label="Navigation principale"
-          className="hidden items-center justify-center gap-6 text-[15px] whitespace-nowrap text-black lg:flex xl:gap-9 xl:text-[17px]"
+          className="hidden items-center justify-center gap-6 text-[15px] whitespace-nowrap text-black lg:flex xl:gap-9 xl:text-[17px] mt-1"
         >
           {navLinks.map((link) => (
             <Link
