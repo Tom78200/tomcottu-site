@@ -267,6 +267,103 @@ export function getCitiesByProcheDe(slug: string): City[] {
 
 import { getSectorInfo } from "./city-sectors";
 
+// --- Accord grammatical des noms de départements -----------------------------
+// Un département français prend "le", "la", "les" ou "l'" selon son genre et son
+// nombre. Sans ça, on écrit "du Bouches-du-Rhône" au lieu de "des".
+// Paris est à part : c'est une ville-département, elle ne prend pas d'article.
+
+const DEPT_PLURIEL = new Set([
+  "Alpes-Maritimes",
+  "Ardennes",
+  "Bouches-du-Rhône",
+  "Deux-Sèvres",
+  "Hauts-de-Seine",
+  "Landes",
+  "Pyrénées-Atlantiques",
+  "Pyrénées-Orientales",
+  "Yvelines",
+]);
+
+const DEPT_FEMININ = new Set([
+  "Ardèche",
+  "Aube",
+  "Charente",
+  "Charente-Maritime",
+  "Corrèze",
+  "Côte-d'Or",
+  "Dordogne",
+  "Drôme",
+  "Essonne",
+  "Gironde",
+  "Haute-Garonne",
+  "Haute-Savoie",
+  "Ille-et-Vilaine",
+  "Indre-et-Loire",
+  "Isère",
+  "Loire",
+  "Loire-Atlantique",
+  "Lozère",
+  "Marne",
+  "Meurthe-et-Moselle",
+  "Moselle",
+  "Nièvre",
+  "Sarthe",
+  "Savoie",
+  "Seine-Maritime",
+  "Seine-Saint-Denis",
+  "Seine-et-Marne",
+  "Somme",
+  "Vienne",
+]);
+
+type Article = "paris" | "les" | "elision" | "la" | "le";
+
+function articleDept(dept: string): Article {
+  if (dept === "Paris") return "paris";
+  if (DEPT_PLURIEL.has(dept)) return "les";
+  // Le pluriel l'emporte sur l'élision : on écrit "les Ardennes", pas "l'Ardennes".
+  if (/^[AEIOUYÉÈÊÂÎÔÛ]/.test(dept) || /^H/.test(dept)) return "elision";
+  if (DEPT_FEMININ.has(dept)) return "la";
+  return "le";
+}
+
+// "dans le Rhône", "dans les Bouches-du-Rhône", "dans l'Hérault", "à Paris"
+export function dansLeDept(dept: string): string {
+  switch (articleDept(dept)) {
+    case "paris":
+      return "à Paris";
+    case "les":
+      return `dans les ${dept}`;
+    case "elision":
+      return `dans l'${dept}`;
+    case "la":
+      return `dans la ${dept}`;
+    default:
+      return `dans le ${dept}`;
+  }
+}
+
+// "du Rhône", "des Bouches-du-Rhône", "de l'Hérault", "de Paris"
+export function duDept(dept: string): string {
+  switch (articleDept(dept)) {
+    case "paris":
+      return "de Paris";
+    case "les":
+      return `des ${dept}`;
+    case "elision":
+      return `de l'${dept}`;
+    case "la":
+      return `de la ${dept}`;
+    default:
+      return `du ${dept}`;
+  }
+}
+
+// Majuscule initiale, pour un helper placé en début de phrase.
+function cap(s: string): string {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
 // Génère un contenu de page unique et lisible pour chaque ville.
 // Les variants sont sélectionnés par un index dérivé du slug pour que chaque
 // page diffère de façon déterministe (même contenu au re-build).
@@ -302,7 +399,7 @@ const accrochesVille = [
   (c: City) =>
     `À ${c.nom}, les TPE, indépendants et artisans perdent encore trop de temps sur des tâches qui pourraient tourner toutes seules. C'est exactement ce que je viens automatiser.`,
   (c: City) =>
-    `Dans le ${c.departement}, beaucoup de structures n'ont ni l'équipe ni le budget pour une solution éditeur. Un agent IA sur mesure, c'est l'alternative qui s'adapte à vous, pas l'inverse.`,
+    `${cap(dansLeDept(c.departement))}, beaucoup de structures n'ont ni l'équipe ni le budget pour une solution éditeur. Un agent IA sur mesure, c'est l'alternative qui s'adapte à vous, pas l'inverse.`,
   (c: City) =>
     `${c.nom} et son bassin : je suis le développeur IA qui installe des agents concrets, pas une démo. Vous décrivez le flux, je le rends automatique.`,
   (c: City) =>
@@ -371,7 +468,7 @@ const sectorDetails = (
 ): { titre: string; detail: string }[] => [
   {
     titre: `Agent IA pour le secteur ${info.secteurs[0]} à ${c.nom}`,
-    detail: `Dans le ${c.departement}, le ${info.secteurs[0]} domine. J'adapte l'agent à vos process spécifiques plutôt qu'à une solution générique.`,
+    detail: `${cap(dansLeDept(c.departement))}, le ${info.secteurs[0]} domine. J'adapte l'agent à vos process spécifiques plutôt qu'à une solution générique.`,
   },
   {
     titre: `Réponse au problème : ${info.problemes[0]}`,
@@ -396,7 +493,7 @@ const closings = [
 const faqPool = (c: City): { q: string; a: string }[] => [
   {
     q: `Combien coûte un agent IA sur mesure à ${c.nom} ?`,
-    a: `Le budget démarre à 3 500 € HT pour un agent simple (un flux automatisé, une intégration). La plupart des missions pour PME de ${c.departement} se situent entre 5 000 € et 15 000 € selon le nombre d'outils connectés et la complexité des règles métier. Le diagnostic gratuit de 20 minutes permet d'estimer précisément avant tout engagement.`,
+    a: `Le budget démarre à 3 500 € HT pour un agent simple (un flux automatisé, une intégration). La plupart des missions pour les PME ${duDept(c.departement)} se situent entre 5 000 € et 15 000 € selon le nombre d'outils connectés et la complexité des règles métier. Le diagnostic gratuit de 20 minutes permet d'estimer précisément avant tout engagement.`,
   },
   {
     q: `Combien de temps faut-il pour livrer un agent IA ?`,
@@ -435,7 +532,7 @@ const stackPool = (c: City): { nom: string; usage: string }[] => [
   { nom: "Pinecone / pgvector", usage: "Base de données vectorielle pour la recherche sémantique sur vos documents métier — l'agent retrouve l'info même sans mot-clé exact." },
   { nom: "Supabase / PostgreSQL", usage: "Stockage structuré des données échangées, historique des actions de l'agent, audit RGPD." },
   { nom: "Vercel / OVH", usage: `Hébergement de l'agent et des interfaces. OVH pour les clients de ${c.region} qui exigent un hébergement 100% français.` },
-  { nom: "Ollama / vLLM", usage: `Auto-hébergement de modèles open-source (Llama, Mistral) sur votre serveur, zéro fuite de données, pour les structures sensibles du ${c.departement}.` },
+  { nom: "Ollama / vLLM", usage: `Auto-hébergement de modèles open-source (Llama, Mistral) sur votre serveur, zéro fuite de données, pour les structures sensibles ${duDept(c.departement)}.` },
   { nom: "Redis", usage: "File d'attente et cache pour absorber les pics de charge (saison touristique, rentrée scolaire, clôture comptable)." },
 ];
 
@@ -452,7 +549,7 @@ const comparisonPool = (): { label: string; freelance: string; agence: string }[
 const processPool = (c: City): { etape: string; titre: string; detail: string }[] => [
   { etape: "01", titre: "Diagnostic gratuit (20 min)", detail: `Visio. Vous me montrez un de vos process qui vous coûte du temps. J'analyse sa faisabilité en IA, j'estime le gain et le budget. Zéro engagement. C'est le point d'entrée pour toutes les structures de ${c.nom}.` },
   { etape: "02", titre: "Cadrage et périmètre", detail: `On définit précisément ce que l'agent doit faire (et ne pas faire). Je cartographie vos outils, identifie les API disponibles, et rédige un cahier des charges court. Objectif : pas de surprise sur le périmètre ni le budget pour ${c.nom}.` },
-  { etape: "03", titre: "Prototype en 1 semaine", detail: `Je construis une première version fonctionnelle sur un sous-ensemble réel de vos données. Vous voyez l'agent tourner sur vos vraies tâches, pas sur une démo générique. C'est souvent l'étape où les équipes de ${c.departement} décident d'accélérer.` },
+  { etape: "03", titre: "Prototype en 1 semaine", detail: `Je construis une première version fonctionnelle sur un sous-ensemble réel de vos données. Vous voyez l'agent tourner sur vos vraies tâches, pas sur une démo générique. C'est souvent l'étape où les équipes ${duDept(c.departement)} décident d'accélérer.` },
   { etape: "04", titre: "Développement et intégration", detail: `L'agent est branché sur l'ensemble de vos outils. Gestion des cas limites, monitoring, logs. Tests en conditions réelles sur 1 à 2 semaines avec votre équipe. Ajustements.` },
   { etape: "05", titre: "Livraison et documentation", detail: `Code source, documentation technique, mode opératoire, procédure de dépannage. Formation de votre équipe (1 à 2 h). Vous êtes autonome sur l'agent et son maintien.` },
   { etape: "06", titre: "Support et évolutions", detail: `30 jours de support inclus. Ensuite, maintenance mensuelle optionnelle : mises à jour, nouvelles intégrations, évolutions selon vos retours terrain à ${c.nom}.` },
@@ -490,7 +587,7 @@ const useCasesEtendusPool = (
     },
     {
       titre: `Assistant interne sur vos documents métier`,
-      avant: `Vos équipes de ${c.departement} perdent du temps à chercher la bonne info dans vos documents, procédures, contrats types. Chaque nouvel arrivant pose les mêmes questions.`,
+      avant: `Vos équipes ${duDept(c.departement)} perdent du temps à chercher la bonne info dans vos documents, procédures, contrats types. Chaque nouvel arrivant pose les mêmes questions.`,
       apres: `L'agent indexe l'ensemble de vos documents et répond en langage naturel aux questions internes ("quel est le process pour X ?", "où trouve-je le modèle Y ?"). Onboarding accéléré, autonomie accrue.`,
     },
     {
