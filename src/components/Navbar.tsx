@@ -42,13 +42,13 @@ export function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 right-0 left-0 z-50 flex items-center justify-between gap-4 px-5 py-3 sm:px-8 sm:py-4 lg:px-10 lg:py-5">
+      <header className="fixed top-0 right-0 left-0 z-50 grid grid-cols-3 items-center gap-4 px-5 py-3 sm:px-8 sm:py-4 lg:px-10 lg:py-5">
         <motion.div
           className="absolute inset-0 -z-10 border-b border-black/[0.06] bg-white/70 backdrop-blur-md"
           style={{ opacity: backdropOpacity }}
         />
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center justify-start gap-3">
           <Link
             href="/"
             aria-label="Tom Cottu, développeur IA freelance, accueil"
@@ -60,7 +60,7 @@ export function Navbar() {
 
         <nav
           aria-label="Navigation principale"
-          className="hidden items-center gap-6 text-[15px] whitespace-nowrap text-black lg:flex xl:gap-9 xl:text-[17px]"
+          className="hidden items-center justify-center gap-6 text-[15px] whitespace-nowrap text-black lg:flex xl:gap-9 xl:text-[17px]"
         >
           {navLinks.map((link) => (
             <Link
@@ -73,13 +73,15 @@ export function Navbar() {
           ))}
         </nav>
 
-        <Link
-          href="/contact"
-          className="hidden items-center gap-2 rounded-full bg-black px-5 py-2.5 text-[14px] font-medium whitespace-nowrap text-white transition-colors duration-200 hover:bg-black/80 lg:inline-flex xl:px-6 xl:py-3 xl:text-[15px]"
-        >
-          {CTA_LABEL}
-          <ArrowIcon />
-        </Link>
+        <div className="flex items-center justify-end gap-2">
+          <Link
+            href="/contact"
+            className="hidden items-center gap-2 rounded-full bg-black px-5 py-2.5 text-[14px] font-medium whitespace-nowrap text-white transition-colors duration-200 hover:bg-black/80 lg:inline-flex xl:px-6 xl:py-3 xl:text-[15px]"
+          >
+            {CTA_LABEL}
+            <ArrowIcon />
+          </Link>
+        </div>
 
         <button
           type="button"
