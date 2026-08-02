@@ -87,7 +87,7 @@ export function Navbar() {
           type="button"
           aria-label="Menu"
           onClick={() => setMenuOpen((open) => !open)}
-          className="fixed right-5 top-3 flex h-11 w-11 flex-col items-center justify-center gap-[5px] lg:hidden z-[60]"
+          className="fixed right-4 top-3 flex h-11 w-11 flex-col items-center justify-center gap-[5px] lg:hidden z-[60]"
         >
           <motion.span
             animate={{ 
@@ -118,7 +118,7 @@ export function Navbar() {
 
       <nav
         aria-label="Navigation principale mobile"
-        className={`fixed inset-0 z-40 flex flex-col items-start justify-center gap-8 bg-white/95 px-6 pt-16 pb-6 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
+        className={`fixed inset-0 z-40 flex flex-col items-start justify-center gap-8 bg-white/95 px-6 pt-24 pb-6 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
           menuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
         }`}
       >
