@@ -17,7 +17,7 @@ export function ChatWidget({ cityContent }: ChatWidgetProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "Bonjour ! Je suis Tom, un chatbot IA. Posez-moi une question sur les agents IA ou ses interventions.",
+      content: "Bonjour ! Je suis l'assistant de Tom. Dites-moi votre métier et ce qui vous prend le plus de temps.",
     },
   ]);
   const [input, setInput] = useState("");
