@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { SITE_URL, jsonLd } from "@/lib/seo";
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -87,6 +88,7 @@ export default function RootLayout({
     <html lang="fr" className={`${inter.variable} h-full antialiased`}>
       <head>
         <meta name="theme-color" content="#ffffff" />
+        <meta name="google-site-verification" content="4cuYhgE6yJGMNSE6u5NYiRH8ErLrjhqGWw0dTymdNmk" />
         <script
           type="application/ld+json"
           // Données structurées : elles permettent à Google d'afficher le
@@ -96,6 +98,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground overflow-x-hidden">
         {children}
+        <Analytics />
       </body>
     </html>
   );
