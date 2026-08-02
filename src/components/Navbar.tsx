@@ -42,22 +42,22 @@ export function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 right-0 left-0 z-50 grid grid-cols-3 items-center gap-4 px-5 py-3 sm:px-8 sm:py-3 lg:px-10 lg:py-5">
+      <header className="fixed top-0 right-0 left-0 z-[60] flex items-center justify-between px-5 py-4 lg:px-10 lg:py-5">
         <motion.div
           className="absolute inset-0 -z-10 border-b border-black/[0.06] bg-white/70 backdrop-blur-md"
           style={{ opacity: backdropOpacity }}
         />
 
-        <div className="flex items-center justify-start gap-3">
-          <Link
-            href="/"
-            aria-label="Tom Cottu, développeur IA freelance, accueil"
-            className={`${styles.headingFont} text-[19px] tracking-tight text-black sm:text-[21px] lg:text-[24px]`}
-          >
-            Tom Cottu
-          </Link>
-        </div>
+        {/* Logo — desktop + mobile */}
+        <Link
+          href="/"
+          aria-label="Tom Cottu, développeur IA freelance, accueil"
+          className={`${styles.headingFont} text-[19px] tracking-tight text-black sm:text-[21px] lg:text-[24px]`}
+        >
+          Tom Cottu
+        </Link>
 
+        {/* Nav desktop — cachée sur mobile */}
         <nav
           aria-label="Navigation principale"
           className="hidden items-center justify-center gap-6 text-[15px] whitespace-nowrap text-black lg:flex xl:gap-9 xl:text-[17px]"
@@ -73,7 +73,8 @@ export function Navbar() {
           ))}
         </nav>
 
-        <div className="flex items-center justify-end gap-2">
+        {/* CTA desktop + burger mobile dans le même conteneur aligné */}
+        <div className="flex items-center gap-2">
           <Link
             href="/contact"
             className="hidden items-center gap-2 rounded-full bg-black px-5 py-2.5 text-[14px] font-medium whitespace-nowrap text-white transition-colors duration-200 hover:bg-black/80 lg:inline-flex xl:px-6 xl:py-3 xl:text-[15px]"
@@ -81,44 +82,45 @@ export function Navbar() {
             {CTA_LABEL}
             <ArrowIcon />
           </Link>
-        </div>
 
-        <button
-          type="button"
-          aria-label="Menu"
-          onClick={() => setMenuOpen((open) => !open)}
-          className="fixed right-4 top-3 flex h-11 w-11 flex-col items-center justify-center gap-[5px] lg:hidden z-[60]"
-        >
-          <motion.span
-            animate={{ 
-              rotate: menuOpen ? 45 : 0,
-              y: menuOpen ? 5 : 0
-            }}
-            transition={{ duration: 0.2, ease: "easeInOut" }}
-            className="h-[2px] w-6 bg-black"
-          />
-          <motion.span
-            animate={{ 
-              scaleX: menuOpen ? 0 : 1,
-              opacity: menuOpen ? 0 : 1
-            }}
-            transition={{ duration: 0.2, ease: "easeInOut" }}
-            className="h-[2px] w-6 bg-black"
-          />
-          <motion.span
-            animate={{ 
-              rotate: menuOpen ? -45 : 0,
-              y: menuOpen ? -5 : 0
-            }}
-            transition={{ duration: 0.2, ease: "easeInOut" }}
-            className="h-[2px] w-6 bg-black"
-          />
-        </button>
+          {/* Burger mobile — dans le header, aligné avec le logo */}
+          <button
+            type="button"
+            aria-label="Menu"
+            onClick={() => setMenuOpen((open) => !open)}
+            className="relative flex h-8 w-8 items-center justify-center lg:hidden"
+          >
+            <motion.span
+              animate={{ 
+                rotate: menuOpen ? 45 : 0,
+                y: menuOpen ? 0 : -4
+              }}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
+              className="absolute h-[1.5px] w-5 bg-black"
+            />
+            <motion.span
+              animate={{ 
+                scaleX: menuOpen ? 0 : 1,
+                opacity: menuOpen ? 0 : 1
+              }}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
+              className="absolute h-[1.5px] w-5 bg-black"
+            />
+            <motion.span
+              animate={{ 
+                rotate: menuOpen ? -45 : 0,
+                y: menuOpen ? 0 : 4
+              }}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
+              className="absolute h-[1.5px] w-5 bg-black"
+            />
+          </button>
+        </div>
       </header>
 
       <nav
         aria-label="Navigation principale mobile"
-        className={`fixed inset-0 z-40 flex flex-col items-start justify-center gap-8 bg-white/95 px-6 pt-24 pb-6 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
+        className={`fixed inset-0 z-50 flex flex-col items-start justify-center gap-8 bg-white px-6 pt-16 pb-6 transition-opacity duration-300 lg:hidden ${
           menuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
         }`}
       >
