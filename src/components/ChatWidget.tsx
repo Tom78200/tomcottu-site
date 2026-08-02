@@ -103,7 +103,7 @@ export function ChatWidget({ cityContent }: ChatWidgetProps) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="fixed bottom-24 right-6 z-[60] flex h-[560px] w-96 flex-col gap-4 rounded-2xl border border-border-soft bg-white shadow-2xl shadow-black/10"
+            className="fixed bottom-24 right-2 left-2 z-[60] mx-auto flex h-[80vh] max-h-[640px] w-full max-w-sm flex-col gap-4 rounded-2xl border border-border-soft bg-white shadow-2xl shadow-black/10 sm:right-6 sm:left-auto sm:h-[560px] sm:w-96"
           >
             {/* En-tête avec photo de Tom */}
             <div className="flex items-center justify-between border-b border-border-soft p-4">
@@ -164,8 +164,8 @@ export function ChatWidget({ cityContent }: ChatWidgetProps) {
               <motion.button
                 onClick={sendMessage}
                 disabled={loading || !input.trim()}
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-black text-white disabled:opacity-50"
-                whileTap={{ scale: 0.95 }}
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-black to-neutral-800 text-white shadow-md shadow-black/20 transition-all duration-200 hover:shadow-lg hover:shadow-black/30 disabled:cursor-not-allowed disabled:opacity-40"
+                whileTap={{ scale: 0.9 }}
               >
                 {loading ? (
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -173,9 +173,9 @@ export function ChatWidget({ cityContent }: ChatWidgetProps) {
                     <path d="M12 22C17.5228 22 22 17.5228 22 12" strokeLinecap="round" />
                   </svg>
                 ) : (
-                  <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8">
-                    <line x1="2" y1="8" x2="14" y2="8" />
-                    <path d="M6 4l6 4-6 4z" />
+                  <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="2" y1="10" x2="18" y2="10" />
+                    <path d="M6 10l6 6 6-6" />
                   </svg>
                 )}
               </motion.button>
