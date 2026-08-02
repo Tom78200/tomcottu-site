@@ -26,9 +26,8 @@ export async function generateMetadata({
   if (!city) return {};
 
   const url = `${SITE_URL}/villes/${city.seoSlug}`;
-  // Le layout applique déjà le template "%s | Tom Cottu" : pas de suffixe ici.
-  const title = `Création de site internet à ${city.nom}`;
-  const description = `Création de site internet à ${city.nom} pour TPE et PME. Sites vitrines, e-commerce et refontes, avec l'automatisation en plus. Diagnostic gratuit de 20 minutes.`;
+  const title = `Développeur IA à ${city.nom}, agents sur mesure`;
+  const description = `Développeur IA freelance à ${city.nom}. Agents IA sur mesure, automatisation de workflows et assistants auto-hébergés pour PME et TPE de ${city.nom} (${city.departement}). Diagnostic gratuit 20 min.`;
 
   return {
     title,
@@ -41,7 +40,7 @@ export async function generateMetadata({
       siteName: "Tom Cottu",
       title,
       description,
-      images: [{ url: "/hero-image/character.webp", width: 1672, height: 941, alt: `Création de site internet à ${city.nom}` }],
+      images: [{ url: "/hero-image/character.webp", width: 1672, height: 941, alt: `Développeur IA à ${city.nom}` }],
     },
     twitter: {
       card: "summary_large_image",
@@ -73,9 +72,9 @@ export default async function CityRoute({
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Service",
-    serviceType: "Création de site internet",
-    name: `Création de site internet à ${city.nom}`,
-    description: `Sites vitrines, sites e-commerce et refontes sur mesure pour les structures de ${city.nom} (${city.departement}), avec l'automatisation des demandes en complément.`,
+    serviceType: "Développement d'agents IA et automatisation",
+    name: `Développeur IA à ${city.nom}`,
+    description: `Agents IA sur mesure, automatisation de workflows et assistants auto-hébergés pour les structures de ${city.nom} (${city.departement}).`,
     areaServed: [
       {
         "@type": "City",

@@ -10,24 +10,24 @@ import {
 
 const services = [
   {
-    nom: "Site vitrine sur mesure à {ville}",
+    nom: "Développeur IA à {ville}",
     detail:
-      "Un site qui présente votre activité, vos réalisations et vos coordonnées, construit pour vous et pas à partir d'un modèle partagé par mille autres entreprises. Structure pensée pour le référencement local dès la conception.",
+      "Conception d'un agent IA sur mesure, branché sur vos outils existants, qui exécute vos tâches à votre place.",
   },
   {
-    nom: "Site e-commerce à {ville}",
+    nom: "Automatisation de workflows à {ville}",
     detail:
-      "Catalogue, paiement, gestion des commandes, connexion à vos outils de stock ou de facturation existants. Vous gardez la main sur votre catalogue sans dépendre d'un prestataire pour chaque modification.",
+      "Connexion de vos logiciels métier entre eux pour faire disparaître la saisie manuelle et les allers-retours.",
   },
   {
-    nom: "Refonte de site existant à {ville}",
+    nom: "Assistant IA auto-hébergé à {ville}",
     detail:
-      "Votre site date, il est lent, il ne se voit pas sur mobile, ou il ne ramène rien. On repart de ce qui fonctionne, on corrige le reste, et on conserve vos positions acquises plutôt que de tout perdre en changeant d'adresse.",
+      "Installation d'une instance IA confidentielle sur votre propre infrastructure, sans dépendre d'un éditeur.",
   },
   {
-    nom: "Automatisation branchée sur le site à {ville}",
+    nom: "Conseil et cadrage IA à {ville}",
     detail:
-      "Connexion de votre site à vos logiciels métier pour que les demandes arrivent au bon endroit, sans ressaisie. C'est le point où mon travail diffère de celui d'une agence classique.",
+      "Audit de vos process, feuille de route priorisée et estimation de budget avant tout développement.",
   },
 ];
 
@@ -47,7 +47,7 @@ export function CityPage({ city }: { city: City }) {
             <div
               className="mb-4 text-base font-semibold text-foreground md:text-lg"
             >
-              Création de site internet, {city.nom}
+              Développeur IA, {city.nom}
             </div>
             <h1
               id="city-hero-heading"
@@ -97,7 +97,7 @@ export function CityPage({ city }: { city: City }) {
                 textWrap: "balance",
               }}
             >
-              Ce que je réalise pour les entreprises de {city.nom}
+              Ce que je construis pour les structures de {city.nom}
             </h2>
           </div>
           <motion.div
@@ -233,13 +233,13 @@ export function CityPage({ city }: { city: City }) {
                 textWrap: "balance",
               }}
             >
-              L'automatisation en plus du site, à {city.nom}
+              Cas d'usage concrets à {city.nom}
             </h2>
             <p
               className="mt-5 max-w-2xl text-[17px] text-muted"
               style={{ lineHeight: 1.6 }}
             >
-              Un site ramène des demandes. Le problème arrive juste après : quelqu'un doit les lire, les trier, répondre, relancer. Voilà ce que je branche sur le site pour les structures de {city.region}, une fois qu'il est en place.
+              Des exemples réels d'agents IA que je déploie pour les structures de {city.region}. Chaque cas décrit la situation avant et le résultat après automatisation.
             </p>
           </div>
           <div className="flex flex-col gap-6">
@@ -296,7 +296,7 @@ export function CityPage({ city }: { city: City }) {
                 textWrap: "balance",
               }}
             >
-              Comment se déroule un projet à {city.nom}
+              Comment se déroule une mission à {city.nom}
             </h2>
           </div>
           <ol className="flex max-w-2xl flex-col gap-8">
@@ -339,13 +339,13 @@ export function CityPage({ city }: { city: City }) {
                 textWrap: "balance",
               }}
             >
-              Les technologies que j'utilise à {city.nom}
+              La stack technique que j'utilise à {city.nom}
             </h2>
             <p
               className="mt-5 max-w-2xl text-[17px] text-muted"
               style={{ lineHeight: 1.6 }}
             >
-              Je travaille avec des outils open source et matures, déployables sur votre hébergement ou en ligne selon vos contraintes.
+              Je travaille avec des outils open-source et matures, déployables sur votre infrastructure ou en SaaS selon vos contraintes de confidentialité.
             </p>
           </div>
           <div className="grid gap-px overflow-hidden rounded-2xl border border-border-soft bg-border-soft sm:grid-cols-2 lg:grid-cols-3">
@@ -381,7 +381,7 @@ export function CityPage({ city }: { city: City }) {
                 textWrap: "balance",
               }}
             >
-              Site sur mesure ou modèle tout fait, à {city.nom}
+              Développeur IA freelance vs agence à {city.nom}
             </h2>
           </div>
           <div className="overflow-hidden rounded-2xl border border-border-soft">
@@ -392,10 +392,10 @@ export function CityPage({ city }: { city: City }) {
                     Critère
                   </th>
                   <th className="p-5 text-[14px] font-semibold text-foreground md:p-6">
-                    Sur mesure (Tom Cottu)
+                    Freelance (Tom Cottu)
                   </th>
                   <th className="p-5 text-[14px] font-semibold text-muted md:p-6">
-                    Modèle tout fait
+                    Agence classique
                   </th>
                 </tr>
               </thead>
@@ -472,7 +472,7 @@ export function CityPage({ city }: { city: City }) {
                 textWrap: "balance",
               }}
             >
-              Questions fréquentes sur la création de site à {city.nom}
+              Questions fréquentes sur l'IA à {city.nom}
             </h2>
           </div>
           <div className="max-w-3xl flex flex-col gap-4">
@@ -503,7 +503,7 @@ export function CityPage({ city }: { city: City }) {
               className="text-[17px] text-muted"
               style={{ lineHeight: 1.6 }}
             >
-              D'autres questions sur un projet de site à {city.nom} ? Le diagnostic de 20 minutes est là pour ça.
+              D'autres questions sur un projet IA à {city.nom} ? Le diagnostic de 20 minutes est là pour ça.
             </p>
             <div className="mt-8">
               <CtaButton href="/contact" size="lg" />
