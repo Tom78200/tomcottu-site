@@ -124,7 +124,7 @@ export function HeroMainframe() {
           >
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 rounded-full bg-black px-6 py-3 text-[15px] font-medium whitespace-nowrap text-white transition-colors duration-200 hover:bg-black/80"
+              className="inline-flex items-center gap-2 rounded-full bg-black px-6 py-3 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-black/80"
             >
               {CTA_LABEL}
               <ArrowIcon />
@@ -133,7 +133,7 @@ export function HeroMainframe() {
             <button
               type="button"
               onClick={handleCopy}
-              className="inline-flex items-center gap-2 rounded-full border border-black/15 bg-white/80 px-5 py-3 text-[13px] whitespace-nowrap text-black transition-colors duration-200 hover:bg-black hover:text-white sm:text-[14px]"
+              className="inline-flex items-center gap-2 rounded-full border border-black/15 bg-white/80 px-5 py-3 text-[13px] text-black transition-colors duration-200 hover:bg-black hover:text-white sm:text-[14px]"
             >
               <span>
                 <span className="underline underline-offset-2">cottutom@outlook.fr</span>
@@ -143,7 +143,7 @@ export function HeroMainframe() {
           </div>
 
           <div
-            className="mt-2 flex flex-wrap gap-x-5 text-[13px] text-black/60"
+            className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[13px] text-black/60"
             style={{
               opacity: pillsVisible ? 1 : 0,
               transition: "opacity 0.4s ease 0.1s",
@@ -153,7 +153,7 @@ export function HeroMainframe() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="py-2.5 underline-offset-2 transition-colors hover:text-black hover:underline"
+                className="py-2 underline-offset-2 transition-colors hover:text-black hover:underline"
               >
                 {link.label}
               </Link>

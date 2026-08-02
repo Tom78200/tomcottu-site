@@ -81,30 +81,38 @@ export function Navbar() {
             {CTA_LABEL}
             <ArrowIcon />
           </Link>
+          <button
+            type="button"
+            aria-label="Menu"
+            onClick={() => setMenuOpen((open) => !open)}
+            className="flex h-11 w-11 flex-col items-center justify-center gap-[6px] lg:hidden"
+          >
+            <motion.span
+              animate={{ 
+                rotate: menuOpen ? 45 : 0,
+                y: menuOpen ? 6 : 0
+              }}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
+              className="h-[2px] w-6 bg-black"
+            />
+            <motion.span
+              animate={{ 
+                scaleX: menuOpen ? 0 : 1,
+                opacity: menuOpen ? 0 : 1
+              }}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
+              className="h-[2px] w-6 bg-black"
+            />
+            <motion.span
+              animate={{ 
+                rotate: menuOpen ? -45 : 0,
+                y: menuOpen ? -6 : 0
+              }}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
+              className="h-[2px] w-6 bg-black"
+            />
+          </button>
         </div>
-
-        <button
-          type="button"
-          aria-label="Menu"
-          onClick={() => setMenuOpen((open) => !open)}
-          className="-mr-1.5 flex h-11 w-11 flex-col items-center justify-center gap-[5px] lg:hidden"
-        >
-          <span
-            className={`h-[2px] w-6 bg-black transition-transform duration-300 ${
-              menuOpen ? "translate-y-[7px] rotate-45" : ""
-            }`}
-          />
-          <span
-            className={`h-[2px] w-6 bg-black transition-opacity duration-300 ${
-              menuOpen ? "opacity-0" : ""
-            }`}
-          />
-          <span
-            className={`h-[2px] w-6 bg-black transition-transform duration-300 ${
-              menuOpen ? "-translate-y-[7px] -rotate-45" : ""
-            }`}
-          />
-        </button>
       </header>
 
       <nav
