@@ -28,10 +28,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   const cityPages = CITIES.map((c) => ({
-    url: `${SITE_URL}/villes/${c.slug}`,
+    url: `${SITE_URL}/villes/${c.seoSlug}`,
     lastModified: new Date(),
     changeFrequency: "yearly" as const,
-    priority: 0.4,
+    priority: 0.6,
   }));
 
   const intentPages = INTENTS.map((i) => ({

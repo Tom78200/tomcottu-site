@@ -77,7 +77,7 @@ export function Footer() {
               {footerCities.map((c) => (
                 <Link
                   key={c.slug}
-                  href={`/villes/${c.slug}`}
+                  href={`/villes/${c.seoSlug}`}
                   className="text-[13px] text-muted underline-offset-4 transition-colors hover:text-foreground hover:underline"
                 >
                   {c.nom}

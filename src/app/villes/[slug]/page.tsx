@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { Navbar } from "@/components/Navbar";
 import { CityPage } from "@/components/CityPage";
 import { GeoLinks } from "@/components/GeoLinks";
@@ -8,10 +8,13 @@ import { CITIES as cities, getCity as getCityBySlug } from "@/lib/cities";
 import { SITE_URL } from "@/lib/seo";
 
 export function generateStaticParams() {
-  return cities.map((c) => ({ slug: c.slug }));
+  // On génère les pages pour les nouveaux slugs SEO uniquement.
+  // Les anciens slugs (ex. "marseille") sont gérés par redirect() dans
+  // la route elle-même (301 permanent vers le nouveau slug).
+  return cities.map((c) => ({ slug: c.seoSlug }));
 }
 
-export const dynamicParams = false;
+export const dynamicParams = true;
 
 export async function generateMetadata({
   params,
@@ -19,10 +22,10 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const city = getCityBySlug(slug);
+  const city = cities.find((c) => c.seoSlug === slug || c.slug === slug);
   if (!city) return {};
 
-  const url = `${SITE_URL}/villes/${city.slug}`;
+  const url = `${SITE_URL}/villes/${city.seoSlug}`;
   const title = `Développeur IA à ${city.nom}, agents sur mesure`;
   const description = `Développeur IA freelance à ${city.nom}. Agents IA sur mesure, automatisation de workflows et assistants auto-hébergés pour PME et TPE de ${city.nom} (${city.departement}). Diagnostic gratuit 20 min.`;
 
@@ -54,7 +57,16 @@ export default async function CityRoute({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const city = getCityBySlug(slug);
+
+  // 301 redirect : anciens slugs (ex. /villes/marseille) → nouveaux slugs SEO
+  // (/villes/developpeur-ia-marseille). On teste si le slug correspond à un
+  // slug interne legacy.
+  const legacyCity = cities.find((c) => c.slug === slug && c.seoSlug !== slug);
+  if (legacyCity) {
+    redirect(`/villes/${legacyCity.seoSlug}`);
+  }
+
+  const city = cities.find((c) => c.seoSlug === slug);
   if (!city) notFound();
 
   const jsonLd = {
@@ -78,7 +90,7 @@ export default async function CityRoute({
       { "@type": "AdministrativeArea", name: city.departement },
     ],
     provider: { "@id": `${SITE_URL}/#business` },
-    url: `${SITE_URL}/villes/${city.slug}`,
+    url: `${SITE_URL}/villes/${city.seoSlug}`,
   };
 
   return (

@@ -66,7 +66,7 @@ function buildLlmsTxt(): string {
   lines.push("");
   for (const city of CITIES) {
     lines.push(
-      `- [Développeur IA à ${city.nom}](${SITE_URL}/villes/${city.slug}) : ${city.departement}, ${city.region}.`
+      `- [Développeur IA à ${city.nom}](${SITE_URL}/villes/${city.seoSlug}) : ${city.departement}, ${city.region}.`
     );
   }
   lines.push("");

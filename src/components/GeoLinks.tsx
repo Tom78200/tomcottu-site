@@ -78,7 +78,7 @@ export function GeoLinks({
           {near.map((c) => (
             <li key={c.slug}>
               <Link
-                href={`/villes/${c.slug}`}
+                href={`/villes/${c.seoSlug}`}
                 className="underline-offset-4 transition-colors hover:text-foreground hover:underline"
               >
                 Développeur IA à {c.nom}
@@ -124,7 +124,7 @@ export function GeoLinks({
             {metros.map((c) => (
               <li key={c.slug}>
                 <Link
-                  href={`/villes/${c.slug}`}
+                  href={`/villes/${c.seoSlug}`}
                   className="underline-offset-4 transition-colors hover:text-foreground hover:underline"
                 >
                   Développeur IA à {c.nom}
