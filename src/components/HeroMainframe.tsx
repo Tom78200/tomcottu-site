@@ -8,6 +8,7 @@ import styles from "./HeroMainframe.module.css";
 
 const IMAGE_URL = "/hero-image/character.webp";
 const CTA_LABEL = "Cadrer mon diagnostic";
+const HERO_TITLE = "Des agents IA qui font le travail, pas la démo.";
 
 const secondaryLinks = [
   { href: "#services", label: "Services" },
@@ -66,11 +67,7 @@ export function HeroMainframe() {
   // just scrolling away as a hard-edged block.
   const wipeScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
-  const { displayed, done } = useTypewriter(
-    "Des agents IA qui font le travail, pas la démo.",
-    38,
-    600
-  );
+  const { displayed, done } = useTypewriter(HERO_TITLE, 38, 600);
 
   useEffect(() => {
     setPillsVisible(true);
@@ -105,11 +102,26 @@ export function HeroMainframe() {
               lineHeight: 1.08,
               fontWeight: 600,
               letterSpacing: "-0.02em",
-              minHeight: "1.1em",
+              display: "grid",
             }}
           >
-            {displayed}
-            {(!done || displayed.length === 0) && <span className={styles.cursor} />}
+            {/* Le titre fait 2 à 3 lignes sur mobile, mais le typewriter le vide
+                puis le retape caractère par caractère. Sans hauteur reservée, le
+                h1 s'effondre à une ligne et pousse toute la page : c'était 64px
+                de saut et un CLS de 0,157. Ce calque invisible porte le texte
+                complet et fixe la hauteur du bloc, à toutes les largeurs. */}
+            <span
+              aria-hidden="true"
+              style={{ gridArea: "1 / 1", visibility: "hidden" }}
+            >
+              {HERO_TITLE}
+            </span>
+            <span style={{ gridArea: "1 / 1" }}>
+              {displayed}
+              {(!done || displayed.length === 0) && (
+                <span className={styles.cursor} />
+              )}
+            </span>
           </h1>
 
           <div
