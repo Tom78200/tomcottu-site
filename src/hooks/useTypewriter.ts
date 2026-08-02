@@ -1,23 +1,10 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useState } from "react";
-
-// useLayoutEffect n'existe pas au rendu serveur : on bascule sur useEffect
-// pour éviter l'avertissement React.
-const useIsomorphicLayoutEffect =
-  typeof window !== "undefined" ? useLayoutEffect : useEffect;
+import { useEffect, useState } from "react";
 
 export function useTypewriter(text: string, speed = 38, startDelay = 600) {
-  // L'état initial contient la phrase entière, donc le HTML renvoyé par le
-  // serveur porte le texte du h1 : sans ça les moteurs voient un titre vide.
-  // À l'hydratation on le vide avant le premier affichage, donc sans flash.
-  const [displayed, setDisplayed] = useState(text);
+  const [displayed, setDisplayed] = useState("");
   const [done, setDone] = useState(false);
-
-  useIsomorphicLayoutEffect(() => {
-    setDisplayed("");
-    setDone(false);
-  }, [text]);
 
   useEffect(() => {
     let index = 0;
@@ -40,5 +27,9 @@ export function useTypewriter(text: string, speed = 38, startDelay = 600) {
     };
   }, [text, speed, startDelay]);
 
-  return { displayed, done };
+  // On renvoie toujours le texte complet comme "affichage de repli" : le
+  // typewriter est un effet cosmétique, le contenu réel est toujours présent
+  // pour le SSR et les moteurs de recherche. Rien n'est vidé du DOM, donc
+  // aucun Cumulative Layout Shift pendant l'hydratation.
+  return { displayed: displayed || text, done };
 }

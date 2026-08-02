@@ -111,7 +111,7 @@ export function HeroMainframe() {
             }}
           >
             {displayed}
-            {!done && <span className={styles.cursor} />}
+            {(!done || displayed.length === 0) && <span className={styles.cursor} />}
           </h1>
 
           <div
