@@ -48,11 +48,9 @@ export async function POST(req: Request) {
     : STATIC_CONTEXT;
 
   try {
-    // Stratégie model : 3B d'abord (léger, gratuit), fallback 70B pour
-    // les demandes qui nécessitent plus de profondeur.
-    let model = "llama-3.2-3b-preview";
-    // Si l'utilisateur a déjà plusieurs messages, c'est une conversation complexe.
-    if (messages.length > 4) model = "llama-3-70b-versatile";
+    // Stratégie model : 8B léger d'abord, 70B pour conversations complexes.
+    let model = "llama-3.1-8b-instant";
+    if (messages.length > 4) model = "llama-3.3-70b-versatile";
 
     const completion = await getGroq().chat.completions.create({
       model,
