@@ -33,7 +33,7 @@ export function ChatWidget({ cityContent }: ChatWidgetProps) {
           {
             role: "assistant",
             content:
-              "Bonjour ! Je suis Tom AI, l'assistant de Tom Cottu, développeur IA freelance. Posez-moi une question sur les agents IA, l'automatisation ou mes interventions.",
+              "Bonjour ! Je suis Tom, un chatbot IA. Je peux vous renseigner sur les agents IA, l'automatisation et ses interventions. Posez-moi une question !",
           },
         ]);
       }, 600);
@@ -118,18 +118,18 @@ export function ChatWidget({ cityContent }: ChatWidgetProps) {
             {/* En-tête avec photo de Tom */}
             <div className="flex items-center justify-between border-b border-border-soft p-4">
               <div className="flex items-center gap-3">
-                <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-black bg-black">
-                  <span className="sr-only">Tom AI</span>
-                  <img
-                    src="/tom-avatar.webp"
-                    alt="Tom AI"
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-                <div>
-                  <span className="text-sm font-medium text-foreground">Tom AI</span>
-                  <span className="text-xs text-muted">Assistant IA développeur</span>
-                </div>
+              <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-black bg-black">
+                <span className="sr-only">Tom AI</span>
+                <img
+                  src="/tom-avatar.webp"
+                  alt="Tom AI"
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <div>
+                <span className="text-sm font-medium text-foreground">Assistant de Tom</span>
+                <span className="text-xs text-muted">Bot de discussion IA</span>
+              </div>
               </div>
               <motion.button
                 onClick={() => setOpen(false)}
@@ -148,7 +148,7 @@ export function ChatWidget({ cityContent }: ChatWidgetProps) {
               {messages.length === 0 ? (
                 <div className="flex h-full items-center justify-center text-center">
                   <p className="max-w-[260px] text-sm text-muted">
-                    Bonjour ! Je suis Tom AI, l'assistant de Tom. Comment puis-je vous aider ?
+                    Bonjour ! Je suis Tom, un chatbot IA. Posez-moi une question sur les agents IA ou ses interventions.
                   </p>
                 </div>
               ) : (

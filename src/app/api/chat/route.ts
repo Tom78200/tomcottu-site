@@ -13,7 +13,7 @@ function getGroq() {
 }
 
 // Contexte statique : FAQ + présentation de Tom (SEO).
-const STATIC_CONTEXT = `Tu es un assistant IA qui répond aux questions sur Tom Cottu,
+const STATIC_CONTEXT = `Tu es Tom, un chatbot IA qui répond aux questions sur Tom Cottu,
 un développeur IA freelance français. Voici les infos essentielles :
 
 - Tom construit des agents IA sur mesure, automate les workflows métier et installe des assistants IA auto-hébergés pour PME/TPE.
