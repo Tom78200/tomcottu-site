@@ -1,10 +1,18 @@
 import Groq from "groq-sdk";
 
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
-});
+// groq-sdk n'est pas compatible avec le Edge Runtime de Vercel.
+// On force le runtime Node pour cette route.
+export const runtime = "nodejs";
 
-// Contexte statique : FAQ + présentation de Tom (SEO). Chargé une fois.
+// Initialisation lazy au moment de l'appel : évite de casser le build quand
+// GROQ_API_KEY n'est pas présente (dev mode, prérender).
+let groqClient: Groq | null = null;
+function getGroq() {
+  if (!groqClient) groqClient = new Groq({ apiKey: process.env.GROQ_API_KEY });
+  return groqClient;
+}
+
+// Contexte statique : FAQ + présentation de Tom (SEO).
 const STATIC_CONTEXT = `Tu es un assistant IA qui répond aux questions sur Tom Cottu,
 un développeur IA freelance français. Voici les infos essentielles :
 
@@ -46,7 +54,7 @@ export async function POST(req: Request) {
     // Si l'utilisateur a déjà plusieurs messages, c'est une conversation complexe.
     if (messages.length > 4) model = "llama-3-70b-versatile";
 
-    const completion = await groq.chat.completions.create({
+    const completion = await getGroq().chat.completions.create({
       model,
       messages: [
         { role: "system", content: context },
