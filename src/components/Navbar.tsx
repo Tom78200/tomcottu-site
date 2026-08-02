@@ -42,13 +42,13 @@ export function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 right-0 left-0 z-50 grid grid-cols-3 items-center gap-4 px-4 py-2.5 sm:px-8 sm:py-3 lg:px-10 lg:py-5">
+      <header className="fixed top-0 right-0 left-0 z-50 grid grid-cols-3 items-center gap-4 px-6 py-4 sm:px-8 sm:py-3 lg:px-10 lg:py-5">
         <motion.div
           className="absolute inset-0 -z-10 border-b border-black/[0.06] bg-white/70 backdrop-blur-md"
           style={{ opacity: backdropOpacity }}
         />
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center justify-start gap-3">
           <Link
             href="/"
             aria-label="Tom Cottu, développeur IA freelance, accueil"
@@ -85,15 +85,15 @@ export function Navbar() {
             type="button"
             aria-label="Menu"
             onClick={() => setMenuOpen((open) => !open)}
-            className="flex h-11 w-11 flex-col items-center justify-center gap-[6px] lg:hidden -mr-1"
+            className="flex h-14 w-14 flex-col items-center justify-center gap-[7px] lg:hidden -mr-1"
           >
             <motion.span
               animate={{ 
                 rotate: menuOpen ? 45 : 0,
-                y: menuOpen ? 6 : 0
+                y: menuOpen ? 7 : 0
               }}
               transition={{ duration: 0.2, ease: "easeInOut" }}
-              className="h-[2px] w-6 bg-black"
+              className="h-[2.5px] w-7 bg-black"
             />
             <motion.span
               animate={{ 
@@ -101,15 +101,15 @@ export function Navbar() {
                 opacity: menuOpen ? 0 : 1
               }}
               transition={{ duration: 0.2, ease: "easeInOut" }}
-              className="h-[2px] w-6 bg-black"
+              className="h-[2.5px] w-7 bg-black"
             />
             <motion.span
               animate={{ 
                 rotate: menuOpen ? -45 : 0,
-                y: menuOpen ? -6 : 0
+                y: menuOpen ? -7 : 0
               }}
               transition={{ duration: 0.2, ease: "easeInOut" }}
-              className="h-[2px] w-6 bg-black"
+              className="h-[2.5px] w-7 bg-black"
             />
           </button>
         </div>
