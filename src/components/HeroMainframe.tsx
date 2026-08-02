@@ -83,16 +83,16 @@ export function HeroMainframe() {
   };
 
   return (
-    <div ref={mainframeRef} className={styles.mainframe}>
+    <div ref={mainframeRef} className={`${styles.mainframe} bg-white sm:bg-transparent`}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={IMAGE_URL}
         alt="Tom Cottu, développeur IA freelance"
-        className={styles.video}
+        className={`${styles.video} hidden sm:block`}
       />
-      <div className={styles.bottomFade} />
+      <div className={`${styles.bottomFade} hidden sm:block`} />
       <motion.div
-        className={styles.wipe}
+        className={`${styles.wipe} hidden sm:block`}
         style={{ scaleY: reduce ? 0 : wipeScale }}
       />
 
