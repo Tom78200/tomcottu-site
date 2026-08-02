@@ -118,10 +118,10 @@ export function ChatWidget({ cityContent }: ChatWidgetProps) {
             {/* En-tête avec photo de Tom */}
             <div className="flex items-center justify-between border-b border-border-soft p-4">
               <div className="flex items-center gap-3">
-                <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border-2 border-black bg-black">
+                <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-black bg-black">
                   <span className="sr-only">Tom AI</span>
                   <img
-                    src="/tom-avatar.png"
+                    src="/tom-avatar.webp"
                     alt="Tom AI"
                     className="h-full w-full object-cover"
                   />
