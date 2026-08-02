@@ -121,7 +121,7 @@ export function ChatWidget({ cityContent }: ChatWidgetProps) {
                 <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border-2 border-black bg-black">
                   <span className="sr-only">Tom AI</span>
                   <img
-                    src="/tom-cottu.webp"
+                    src="/tom-avatar.png"
                     alt="Tom AI"
                     className="h-full w-full object-cover"
                   />
