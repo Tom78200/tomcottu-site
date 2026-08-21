@@ -1,9 +1,9 @@
-// Chatbot branché sur l'API OpenAI-compatible de Nous Research
-// (https://inference-api.nousresearch.com/v1). Remplace l'ancien client Groq.
-// fetch natif suffit, on reste sur le runtime Node pour la robustesse.
+// Chatbot branché sur l'API Google Gemini (generativelanguage.googleapis.com).
+// Remplace l'ancien client Groq. Runtime Node pour la robustesse du fetch.
 export const runtime = "nodejs";
 
-const NOUS_CHAT_URL = "https://inference-api.nousresearch.com/v1/chat/completions";
+const GEMINI_URL =
+  "https://generativelanguage.googleapis.com/v1beta/models";
 
 type Message = { role: "user" | "assistant"; content: string };
 
@@ -80,10 +80,10 @@ function clean(text: string): string {
 }
 
 export async function POST(req: Request) {
-  const apiKey = process.env.NOUS_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     return new Response(
-      JSON.stringify({ error: "NOUS_API_KEY non configurée" }),
+      JSON.stringify({ error: "GEMINI_API_KEY non configurée" }),
       { status: 500 }
     );
   }
@@ -101,30 +101,34 @@ export async function POST(req: Request) {
     (m) => m.role === "assistant" && m.content.includes(CONTACT)
   );
 
+  // Gemini veut des rôles "user" | "model" (pas "assistant").
+  const geminiHistory = (messages ?? [])
+    .slice(-MAX_HISTORY)
+    .map((m: Message) => ({
+      role: m.role === "assistant" ? "model" : "user",
+      parts: [{ text: m.content }],
+    }));
+
+  const url = `${GEMINI_URL}/gemini-2.5-flash:generateContent?key=${apiKey}`;
+
   try {
-    const upstream = await fetch(NOUS_CHAT_URL, {
+    const upstream = await fetch(url, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        // 8B instruct : suffisant pour 2 phrases, coute ~10x moins qu'un 70B.
-        // Plafond max_tokens fait le reste du travail.
-        model: "meta-llama/llama-3.1-8b-instruct",
-        messages: [
-          { role: "system", content: context },
-          ...(messages ?? []).slice(-MAX_HISTORY),
-        ],
-        temperature: 0.3,
-        max_tokens: 65,
-        top_p: 0.9,
+        systemInstruction: { parts: [{ text: context }] },
+        contents: geminiHistory,
+        generationConfig: {
+          maxOutputTokens: 65,
+          temperature: 0.3,
+          topP: 0.9,
+        },
       }),
     });
 
     if (!upstream.ok) {
       const txt = await upstream.text();
-      console.error("Nous error:", upstream.status, txt);
+      console.error("Gemini error:", upstream.status, txt);
       return new Response(
         JSON.stringify({ error: "Erreur du service de chat" }),
         { status: 500 }
@@ -132,7 +136,10 @@ export async function POST(req: Request) {
     }
 
     const data = await upstream.json();
-    let response = clean(data?.choices?.[0]?.message?.content || "");
+    const candidate = data?.candidates?.[0];
+    const text: string =
+      candidate?.content?.parts?.map((p: any) => p.text || "").join("") || "";
+    let response = clean(text);
 
     // À partir du 2e message, la personne a décrit son besoin : on propose le
     // diagnostic. Une seule fois dans la conversation.
@@ -142,7 +149,7 @@ export async function POST(req: Request) {
 
     return Response.json({ response });
   } catch (error: any) {
-    console.error("Nous fetch error:", error?.message);
+    console.error("Gemini fetch error:", error?.message);
     return new Response(
       JSON.stringify({ error: "Erreur du service de chat" }),
       { status: 500 }
