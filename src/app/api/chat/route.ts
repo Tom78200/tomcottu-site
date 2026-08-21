@@ -109,7 +109,7 @@ export async function POST(req: Request) {
       parts: [{ text: m.content }],
     }));
 
-  const url = `${GEMINI_URL}/gemini-2.5-flash:generateContent?key=${apiKey}`;
+  const url = `${GEMINI_URL}/gemini-3.6-flash:generateContent?key=${apiKey}`;
 
   try {
     const upstream = await fetch(url, {
