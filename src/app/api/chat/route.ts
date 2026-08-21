@@ -1,16 +1,9 @@
-import Groq from "groq-sdk";
-
-// groq-sdk n'est pas compatible avec le Edge Runtime de Vercel.
-// On force le runtime Node pour cette route.
+// Chatbot branché sur l'API OpenAI-compatible de Nous Research
+// (https://inference-api.nousresearch.com/v1). Remplace l'ancien client Groq.
+// fetch natif suffit, on reste sur le runtime Node pour la robustesse.
 export const runtime = "nodejs";
 
-// Initialisation lazy au moment de l'appel : évite de casser le build quand
-// GROQ_API_KEY n'est pas présente (dev mode, prérender).
-let groqClient: Groq | null = null;
-function getGroq() {
-  if (!groqClient) groqClient = new Groq({ apiKey: process.env.GROQ_API_KEY });
-  return groqClient;
-}
+const NOUS_CHAT_URL = "https://inference-api.nousresearch.com/v1/chat/completions";
 
 type Message = { role: "user" | "assistant"; content: string };
 
@@ -71,7 +64,7 @@ R: Oui, partout en France, avec visio pour le diagnostic initial.`;
 function clean(text: string): string {
   let out = text
     .replace(/\*\*(.+?)\*\*/g, "$1")
-    .replace(/^\s*[*\-•]\s+/gm, "")
+    .replace(/^\s*[*\\-•]\s+/gm, "")
     .replace(/^#{1,6}\s+/gm, "")
     .replace(/\n{3,}/g, "\n\n")
     .trim();
@@ -87,9 +80,10 @@ function clean(text: string): string {
 }
 
 export async function POST(req: Request) {
-  if (!process.env.GROQ_API_KEY) {
+  const apiKey = process.env.NOUS_API_KEY;
+  if (!apiKey) {
     return new Response(
-      JSON.stringify({ error: "GROQ_API_KEY non configurée" }),
+      JSON.stringify({ error: "NOUS_API_KEY non configurée" }),
       { status: 500 }
     );
   }
@@ -100,8 +94,7 @@ export async function POST(req: Request) {
     ? `\nContexte page ville :\n${cityContent}\n\n${STATIC_CONTEXT}`
     : STATIC_CONTEXT;
 
-  // Le CTA est ajouté par le code, pas par le modèle : un 8B le place mal, le
-  // répète à chaque tour ou le tronque en fragment de phrase.
+  // Le CTA est ajouté par le code, pas par le modèle : un petit modèle le place mal.
   const history = (messages ?? []) as Message[];
   const nbEchanges = history.filter((m) => m.role === "user").length;
   const ctaDejaDonne = history.some(
@@ -109,21 +102,37 @@ export async function POST(req: Request) {
   );
 
   try {
-    const completion = await getGroq().chat.completions.create({
-      // Le 8B suffit largement pour des réponses de 2 phrases, et coûte ~10x moins
-      // que le 70B. Le plafond de sortie fait le reste du travail : un 8B ne sait
-      // pas compter ses mots, mais il ne peut pas dépasser max_tokens.
-      model: "llama-3.1-8b-instant",
-      messages: [
-        { role: "system", content: context },
-        ...messages.slice(-MAX_HISTORY),
-      ],
-      temperature: 0.3,
-      max_tokens: 65,
-      top_p: 0.9,
+    const upstream = await fetch(NOUS_CHAT_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        // 8B instruct : suffisant pour 2 phrases, coute ~10x moins qu'un 70B.
+        // Plafond max_tokens fait le reste du travail.
+        model: "meta-llama/llama-3.1-8b-instruct",
+        messages: [
+          { role: "system", content: context },
+          ...(messages ?? []).slice(-MAX_HISTORY),
+        ],
+        temperature: 0.3,
+        max_tokens: 65,
+        top_p: 0.9,
+      }),
     });
 
-    let response = clean(completion.choices[0]?.message?.content || "");
+    if (!upstream.ok) {
+      const txt = await upstream.text();
+      console.error("Nous error:", upstream.status, txt);
+      return new Response(
+        JSON.stringify({ error: "Erreur du service de chat" }),
+        { status: 500 }
+      );
+    }
+
+    const data = await upstream.json();
+    let response = clean(data?.choices?.[0]?.message?.content || "");
 
     // À partir du 2e message, la personne a décrit son besoin : on propose le
     // diagnostic. Une seule fois dans la conversation.
@@ -133,7 +142,7 @@ export async function POST(req: Request) {
 
     return Response.json({ response });
   } catch (error: any) {
-    console.error("Groq error:", error.message);
+    console.error("Nous fetch error:", error?.message);
     return new Response(
       JSON.stringify({ error: "Erreur du service de chat" }),
       { status: 500 }
