@@ -2,15 +2,13 @@
 
 import { useRef, useState } from "react";
 
-// Section vidéo sous le hero. Toujours sans cadre (pleine largeur fondue
-// dans le fond via masque dégradé), mais taille réduite et centrée.
-// Plus de barre de contrôle native : un simple bouton play/pause
-// esthétique (cercle semi-transparent) remplace les controls. La vidéo
-// démarre en lecture auto muette en boucle ; le bouton met en pause /
-// relance.
+// Section vidéo sous le hero. Sans cadre (pleine largeur fondue dans le
+// fond via masque dégradé des deux côtés). Taille moyenne, centrée.
+// Pas d'autoplay : la vidéo démarre en pause avec un bouton play
+// esthétique centré. Clic = lecture/pause.
 export function VideoSection() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [playing, setPlaying] = useState(true);
+  const [playing, setPlaying] = useState(false);
 
   const toggle = () => {
     const v = videoRef.current;
@@ -24,10 +22,10 @@ export function VideoSection() {
 
   return (
     <section
-      className="flex w-full justify-center overflow-hidden px-5 sm:px-8"
+      className="flex w-full justify-center overflow-hidden px-5 py-10 sm:px-8 sm:py-16"
       style={{ background: "var(--background)" }}
     >
-      <div className="relative w-full" style={{ maxWidth: "720px" }}>
+      <div className="relative w-full" style={{ maxWidth: "960px" }}>
         {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
         <video
           ref={videoRef}
@@ -35,12 +33,11 @@ export function VideoSection() {
           style={{
             aspectRatio: "16 / 9",
             WebkitMaskImage:
-              "linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)",
+              "linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)",
             maskImage:
-              "linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)",
+              "linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)",
           }}
           src="/agent-presentation.mp4"
-          autoPlay
           muted
           loop
           playsInline
