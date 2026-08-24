@@ -2,10 +2,10 @@
 
 import { useRef, useState } from "react";
 
-// Section vidéo sous le hero. Sans cadre (pleine largeur fondue dans le
-// fond via masque dégradé des deux côtés). Taille moyenne, centrée.
-// Pas d'autoplay : la vidéo démarre en pause avec un bouton play
-// esthétique centré. Clic = lecture/pause.
+// Section vidéo sous le hero. Pleine largeur (touche les bords de
+// l'écran -> aucun "carré"), fondue dans le fond via masque dégradé
+// symétrique haut/bas. Pas d'autoplay : la vidéo démarre en pause avec
+// un bouton play esthétique centré. Clic = lecture/pause.
 export function VideoSection() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
@@ -22,10 +22,10 @@ export function VideoSection() {
 
   return (
     <section
-      className="flex w-full justify-center overflow-hidden px-5 py-10 sm:px-8 sm:py-16"
+      className="flex w-full justify-center overflow-hidden px-0 py-10 sm:py-16"
       style={{ background: "var(--background)" }}
     >
-      <div className="relative w-full" style={{ maxWidth: "960px" }}>
+      <div className="relative w-full">
         {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
         <video
           ref={videoRef}
@@ -52,10 +52,10 @@ export function VideoSection() {
             aria-label="Lire la vidéo"
             className="absolute inset-0 flex items-center justify-center"
           >
-            <span className="flex h-16 w-16 items-center justify-center rounded-full bg-black/55 text-white backdrop-blur-sm transition-colors duration-200 hover:bg-black/70">
+            <span className="flex h-20 w-20 items-center justify-center rounded-full bg-black/55 text-white backdrop-blur-sm transition-colors duration-200 hover:bg-black/70">
               <svg
-                width="22"
-                height="22"
+                width="26"
+                height="26"
                 viewBox="0 0 22 22"
                 fill="currentColor"
                 aria-hidden="true"
