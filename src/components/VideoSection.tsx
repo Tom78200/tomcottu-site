@@ -2,10 +2,10 @@
 
 import { useRef, useState } from "react";
 
-// Section vidéo sous le hero. Pleine largeur (touche les bords de
-// l'écran -> aucun "carré"), fondue dans le fond via masque dégradé
-// symétrique haut/bas. Pas d'autoplay : la vidéo démarre en pause avec
-// un bouton play esthétique centré. Clic = lecture/pause.
+// Section vidéo sous le hero. Pleine largeur, fondue dans le fond via
+// masque dégradé symétrique haut/bas. AUCUN autoplay : la vidéo démarre
+// en pause avec un bouton play esthétique centré. Au clic, elle se lance
+// AVEC le son. Reclic = pause.
 export function VideoSection() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
@@ -14,6 +14,7 @@ export function VideoSection() {
     const v = videoRef.current;
     if (!v) return;
     if (v.paused) {
+      v.muted = false; // lecture avec son
       void v.play();
     } else {
       v.pause();
@@ -38,7 +39,6 @@ export function VideoSection() {
               "linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)",
           }}
           src="/agent-presentation.mp4"
-          muted
           loop
           playsInline
           onClick={toggle}
