@@ -5,6 +5,8 @@ import { AgentExamples } from "@/components/AgentExamples";
 import { Services } from "@/components/Services";
 import { HowItWorks } from "@/components/HowItWorks";
 import { About } from "@/components/About";
+import { ProofSection } from "@/components/ProofSection";
+import { OffersSection } from "@/components/OffersSection";
 import { Faq } from "@/components/Faq";
 import { Footer } from "@/components/Footer";
 
@@ -19,6 +21,8 @@ export default function Home() {
         <Services />
         <HowItWorks />
         <About />
+        <ProofSection />
+        <OffersSection />
         <Faq />
       </main>
       <Footer />
