@@ -164,6 +164,11 @@ export function OffersSection() {
               Je réserve ma démo gratuite
               <ArrowIcon />
             </Link>
+
+            <p className="mt-4 text-center text-[13px] leading-snug text-muted">
+              Sans engagement. Vous gardez votre agent même si vous ne
+              renouvelez pas l&apos;abonnement.
+            </p>
           </div>
         ))}
       </div>
