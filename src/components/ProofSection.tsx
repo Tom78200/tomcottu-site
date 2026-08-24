@@ -62,7 +62,7 @@ export function ProofSection() {
             commerciaux ne perdent plus un seul lead. »
           </blockquote>
           <figcaption className="mt-6 text-[14px] text-muted">
-            — Julien M., Directeur d&apos;agence immobilière, Lyon
+            — Directeur d&apos;agence immobilière
           </figcaption>
         </figure>
       </div>
