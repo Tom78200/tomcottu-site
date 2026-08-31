@@ -65,7 +65,7 @@ export function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className="relative py-1 transition-colors hover:text-accent after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-accent after:transition-all after:duration-200 hover:after:w-full"
+              className="nav-rocket"
             >
               {link.label}
             </Link>
