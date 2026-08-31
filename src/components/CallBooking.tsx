@@ -26,8 +26,8 @@ export function CallBooking() {
               onClick={() => setActiveId(ev.id)}
               className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-[14px] font-medium transition-colors duration-200 ${
                 isActive
-                  ? "border-black bg-black text-white"
-                  : "border-border bg-background text-foreground hover:border-black/40"
+                  ? "border-foreground bg-accent text-accent-foreground"
+                  : "border-border bg-background text-foreground hover:border-foreground/40"
               }`}
             >
               {ev.label}

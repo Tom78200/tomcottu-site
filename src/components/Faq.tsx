@@ -68,7 +68,7 @@ export function Faq() {
                   type="button"
                   onClick={() => setOuvert(actif ? null : i)}
                   aria-expanded={actif}
-                  className="flex w-full items-center justify-between gap-6 py-6 text-left text-[17px] font-medium text-foreground transition-colors hover:text-black/70 sm:text-[19px]"
+                  className="flex w-full items-center justify-between gap-6 py-6 text-left text-[17px] font-medium text-foreground transition-colors hover:text-foreground/70 sm:text-[19px]"
                 >
                   {item.question}
                   <Chevron ouvert={actif} />
