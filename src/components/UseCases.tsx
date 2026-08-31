@@ -111,7 +111,7 @@ export function UseCases() {
         {useCases.map((item, i) => (
           <motion.div
             key={item.friction}
-            className={`flex flex-col rounded-3xl bg-black/[0.02] p-9 sm:p-10 ${styles.glowCard}`}
+            className={`flex flex-col rounded-3xl bg-accent-soft p-9 sm:p-10 shadow-soft ${styles.glowCard}`}
             initial={reduce ? false : { opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.4 }}
@@ -121,8 +121,8 @@ export function UseCases() {
               ease: [0.16, 1, 0.3, 1],
             }}
           >
-            <div className="mb-8 flex h-16 w-16 items-center justify-center rounded-2xl border border-black/10">
-              <item.icon className="h-8 w-8 text-black/80" />
+            <div className="mb-8 flex h-16 w-16 items-center justify-center rounded-2xl border border-accent/15 bg-background text-accent">
+              <item.icon className="h-8 w-8" />
             </div>
             <h3
               className="font-medium text-foreground"

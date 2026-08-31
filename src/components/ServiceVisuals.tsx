@@ -63,14 +63,14 @@ export function WorkflowVisual() {
             <span
               className={`flex-1 rounded-lg border px-2 py-2 text-center text-[12px] ${
                 i === 1
-                  ? "border-black bg-black text-white"
-                  : "border-black/15 text-foreground"
+                  ? "border-accent bg-accent text-accent-foreground"
+                  : "border-accent/20 text-foreground"
               }`}
             >
               {node}
             </span>
             {i < nodes.length - 1 && (
-              <span className="shrink-0 text-black/30">→</span>
+              <span className="shrink-0 text-accent/40">→</span>
             )}
           </div>
         ))}
@@ -79,7 +79,7 @@ export function WorkflowVisual() {
         {tools.map((tool) => (
           <span
             key={tool}
-            className="rounded-full border border-black/10 px-2.5 py-1 text-[11px] text-black/60"
+            className="rounded-full border border-accent/15 px-2.5 py-1 text-[11px] text-muted"
           >
             {tool}
           </span>
@@ -181,7 +181,7 @@ export function KnowledgeBaseVisual() {
         {sources.map((source) => (
           <span
             key={source}
-            className="rounded-full border border-black/10 px-2.5 py-1 text-[11px] text-black/60"
+            className="rounded-full border border-accent/15 px-2.5 py-1 text-[11px] text-muted"
           >
             {source}
           </span>

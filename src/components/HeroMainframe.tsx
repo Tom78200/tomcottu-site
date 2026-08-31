@@ -78,7 +78,7 @@ export function HeroMainframe() {
   };
 
   return (
-    <div ref={mainframeRef} className={`${styles.mainframe} bg-white sm:bg-transparent`}>
+    <div ref={mainframeRef} className={`${styles.mainframe} bg-background sm:bg-transparent`}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={IMAGE_URL}
@@ -92,11 +92,11 @@ export function HeroMainframe() {
       />
 
       <section className="relative z-[1] flex h-[78vh] flex-col justify-center overflow-hidden px-5 pb-12 sm:px-8 md:justify-center md:px-14 md:pb-0">
-        <div className="relative z-10 max-w-3xl rounded-3xl bg-white/55 p-6 text-center sm:p-8 sm:text-left">
+        <div className="relative z-10 max-w-3xl rounded-3xl bg-background/60 p-6 text-center shadow-soft backdrop-blur-sm sm:p-8 sm:text-left">
           {/* h1 et non p : c'est le seul titre de niveau 1 de la page, il
               porte la requête principale. Le rendu visuel est inchangé. */}
           <h1
-            className="mb-6 text-black"
+            className="mb-6 text-foreground"
             style={{
               fontSize: "clamp(30px, 5.6vw, 52px)",
               lineHeight: 1.08,
@@ -134,7 +134,7 @@ export function HeroMainframe() {
           >
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 rounded-full bg-black px-6 py-3 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-black/80"
+              className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-[15px] font-medium text-accent-foreground shadow-accent transition-all duration-200 hover:bg-accent-hover"
             >
               {CTA_LABEL}
               <ArrowIcon />
@@ -143,7 +143,7 @@ export function HeroMainframe() {
             <button
               type="button"
               onClick={handleCopy}
-              className="inline-flex items-center gap-2 rounded-full border border-black/15 bg-white/80 px-5 py-3 text-[13px] text-black transition-colors duration-200 hover:bg-black hover:text-white sm:text-[14px]"
+              className="inline-flex items-center gap-2 rounded-full border border-accent/20 bg-background/80 px-5 py-3 text-[13px] text-foreground transition-colors duration-200 hover:border-accent/40 hover:bg-accent-soft sm:text-[14px]"
             >
               <span>
                 <span className="underline underline-offset-2">cottutom@outlook.fr</span>
@@ -153,7 +153,7 @@ export function HeroMainframe() {
           </div>
 
           <div
-            className="mt-2 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[13px] text-black/60 sm:justify-start"
+            className="mt-2 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[13px] text-muted sm:justify-start"
             style={{
               opacity: pillsVisible ? 1 : 0,
               transition: "opacity 0.4s ease 0.1s",
@@ -163,7 +163,7 @@ export function HeroMainframe() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="py-2 underline-offset-2 transition-colors hover:text-black hover:underline"
+                className="py-2 underline-offset-2 transition-colors hover:text-accent hover:underline"
               >
                 {link.label}
               </Link>

@@ -16,7 +16,7 @@ export function CtaButton({ href, children, size = "md", className = "" }: Props
   return (
     <Link
       href={href}
-      className={`inline-flex items-center justify-center rounded-full bg-foreground text-background font-medium transition-opacity hover:opacity-90 ${sizing} ${className}`}
+      className={`inline-flex items-center justify-center rounded-full bg-accent text-accent-foreground font-medium shadow-accent transition-all duration-200 hover:bg-accent-hover hover:shadow-lg ${sizing} ${className}`}
     >
       {children ?? "Diagnostic gratuit (20 min)"}
     </Link>

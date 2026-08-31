@@ -78,7 +78,7 @@ export function ChatWidget({ cityContent }: ChatWidgetProps) {
       <motion.button
         onClick={() => setOpen(!open)}
         aria-label={open ? "Fermer le chat" : "Ouvrir le chat"}
-        className="fixed bottom-6 right-6 z-[60] flex h-14 w-14 items-center justify-center rounded-full border-2 border-white bg-gradient-to-br from-black to-neutral-800 text-white shadow-2xl shadow-black/25 transition-all duration-200 hover:scale-105 hover:shadow-3xl"
+        className="fixed bottom-6 right-6 z-[60] flex h-14 w-14 items-center justify-center rounded-full border-2 border-white bg-gradient-to-br from-accent to-accent-hover text-accent-foreground shadow-card transition-all duration-200 hover:scale-105"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
@@ -103,12 +103,12 @@ export function ChatWidget({ cityContent }: ChatWidgetProps) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="fixed bottom-24 right-2 left-2 z-[60] mx-auto flex h-[80vh] max-h-[640px] w-full max-w-sm flex-col gap-4 rounded-2xl border border-border-soft bg-white shadow-2xl shadow-black/10 sm:right-6 sm:left-auto sm:h-[560px] sm:w-96"
+            className="fixed bottom-24 right-2 left-2 z-[60] mx-auto flex h-[80vh] max-h-[640px] w-full max-w-sm flex-col gap-4 rounded-2xl border border-border-soft bg-background shadow-card sm:right-6 sm:left-auto sm:h-[560px] sm:w-96"
           >
             {/* En-tête avec photo de Tom */}
             <div className="flex items-center justify-between border-b border-border-soft p-4">
               <div className="flex items-center gap-3">
-                <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-black bg-black">
+                <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-accent bg-accent">
                   <span className="sr-only">Assistant de Tom</span>
                   <img
                     src="/tom-avatar.webp"
@@ -145,7 +145,7 @@ export function ChatWidget({ cityContent }: ChatWidgetProps) {
                       msg.content.length < 60 ? "rounded-[1.25rem]" : "rounded-2xl"
                     } ${
                       msg.role === "user"
-                        ? "bg-black text-white"
+                        ? "bg-accent text-accent-foreground"
                         : "bg-[#f5f5f5] text-foreground"
                     }`}
                   >
@@ -177,14 +177,14 @@ export function ChatWidget({ cityContent }: ChatWidgetProps) {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Tapez votre question…"
-                className="flex-1 rounded-full border border-border-soft bg-[#fafafa] px-4 py-3 text-sm text-foreground outline-none ring-black focus-within:ring-2"
+                className="flex-1 rounded-full border border-border-soft bg-background px-4 py-3 text-sm text-foreground outline-none ring-accent focus-within:ring-2"
                 onKeyDown={(e) => e.key === "Enter" && sendMessage()}
                 disabled={loading}
               />
               <motion.button
                 onClick={sendMessage}
                 disabled={loading || !input.trim()}
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-black to-neutral-800 text-white shadow-md shadow-black/20 transition-all duration-200 hover:shadow-lg hover:shadow-black/30 disabled:cursor-not-allowed disabled:opacity-40"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-accent to-accent-hover text-accent-foreground shadow-accent transition-all duration-200 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-40"
                 whileTap={{ scale: 0.9 }}
               >
                 {loading ? (

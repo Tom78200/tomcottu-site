@@ -221,8 +221,8 @@ export function AgentExamples() {
         </div>
 
         <motion.div
-          className="relative mt-10 w-full"
-          style={{ aspectRatio: BAND.ratio }}
+          className="relative mt-10 w-full overflow-hidden rounded-3xl shadow-soft"
+          style={{ aspectRatio: BAND.ratio, background: "linear-gradient(120deg, var(--accent-soft), var(--background))" }}
           initial={reduce ? false : { opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
@@ -270,7 +270,7 @@ export function AgentExamples() {
             >
               {scenario.title}
             </h3>
-            <div className="relative mt-6 aspect-[3/4] w-full max-w-[260px] self-center">
+            <div className="relative mt-6 aspect-[3/4] w-full max-w-[260px] self-center overflow-hidden rounded-2xl shadow-soft" style={{ background: "linear-gradient(160deg, var(--accent-soft), var(--background))" }}>
               <Image
                 src={scenario.image}
                 alt={`Agent IA pour ${scenario.sector.toLowerCase()}`}

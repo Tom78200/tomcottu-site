@@ -151,7 +151,7 @@ export function About() {
             {parcours.map((bloc) => (
               <div key={bloc.groupe}>
                 <div
-                  className="mb-5 text-[11px] tracking-[0.09em] text-black/40 uppercase"
+                  className="mb-5 text-[11px] tracking-[0.09em] text-accent/70 uppercase"
                   style={{ fontFamily: "var(--font-heading)" }}
                 >
                   {bloc.groupe}
@@ -200,21 +200,21 @@ export function About() {
           </div>
         </div>
 
-        {/* Fond blanc et non black/[0.02] : le PNG a son propre fond blanc,
-            une carte grisée laisserait un rectangle visible autour du sujet. */}
-        {/* Aucune carte ni fond : le PNG est déjà sur rgb(247,247,249), soit le
-            fond du site à une unité près. Un conteneur blanc ou arrondi
-            redessinait un rectangle visible autour du sujet. */}
+        {/* Cadre "friendly" : halo accent + portrait arrondi + ombre.
+            Aucune carte dure : le webp garde son fond, on l'habille autour. */}
         <div className="relative hidden w-full max-w-[380px] sm:block md:max-w-none">
-          <Image
-            src="/tom-cottu.webp"
-            alt="Tom Cottu"
-            width={1102}
-            height={1427}
-            quality={95}
-            sizes="(min-width: 1400px) 580px, (min-width: 1280px) 440px, (min-width: 1024px) 340px, (min-width: 768px) 380px, 380px"
-            className="h-auto w-full"
-          />
+          <div className="absolute -inset-4 -z-10 rounded-[36px] bg-accent-soft" aria-hidden="true" />
+          <div className="overflow-hidden rounded-[28px] shadow-soft">
+            <Image
+              src="/tom-cottu.webp"
+              alt="Tom Cottu"
+              width={1102}
+              height={1427}
+              quality={95}
+              sizes="(min-width: 1400px) 580px, (min-width: 1280px) 440px, (min-width: 1024px) 340px, (min-width: 768px) 380px, 380px"
+              className="h-auto w-full"
+            />
+          </div>
         </div>
       </motion.div>
     </section>

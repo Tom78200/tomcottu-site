@@ -93,8 +93,8 @@ export function OffersSection() {
         {offers.map((offer) => (
           <div
             key={offer.name}
-            className={`flex flex-col rounded-3xl bg-black/[0.02] p-8 sm:p-10 ${
-              offer.featured ? "ring-1 ring-black/15" : ""
+            className={`flex flex-col rounded-3xl bg-accent-soft p-8 sm:p-10 shadow-soft ${
+              offer.featured ? "ring-1 ring-accent/40 shadow-card" : ""
             }`}
           >
             <h3

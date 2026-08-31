@@ -78,7 +78,7 @@ export function Footer() {
                 <Link
                   key={c.slug}
                   href={`/villes/${c.seoSlug}`}
-                  className="text-[13px] text-muted underline-offset-4 transition-colors hover:text-foreground hover:underline"
+                  className="text-[13px] text-muted underline-offset-4 transition-colors hover:text-accent hover:underline"
                 >
                   {c.nom}
                 </Link>
@@ -95,7 +95,7 @@ export function Footer() {
                 <Link
                   key={i.slug}
                   href={`/intentions/${i.slug}`}
-                  className="text-[13px] text-muted underline-offset-4 transition-colors hover:text-foreground hover:underline"
+                  className="text-[13px] text-muted underline-offset-4 transition-colors hover:text-accent hover:underline"
                 >
                   {i.h1}
                 </Link>
@@ -106,7 +106,7 @@ export function Footer() {
           <div className="flex flex-col">
             <a
               href={`mailto:${EMAIL}`}
-              className="py-2.5 text-[14px] text-muted underline-offset-4 transition-colors hover:text-foreground hover:underline"
+              className="py-2.5 text-[14px] text-muted underline-offset-4 transition-colors hover:text-accent hover:underline"
             >
               {EMAIL}
             </a>
@@ -114,7 +114,7 @@ export function Footer() {
               href={LINKEDIN}
               target="_blank"
               rel="noopener noreferrer"
-              className="py-2.5 text-[14px] text-muted underline-offset-4 transition-colors hover:text-foreground hover:underline"
+              className="py-2.5 text-[14px] text-muted underline-offset-4 transition-colors hover:text-accent hover:underline"
             >
               LinkedIn
             </a>
