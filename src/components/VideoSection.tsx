@@ -52,7 +52,7 @@ export function VideoSection() {
             aria-label="Lire la vidéo"
             className="absolute inset-0 flex items-center justify-center"
           >
-            <span className="flex h-20 w-20 items-center justify-center rounded-full bg-black/55 text-accent-foreground backdrop-blur-sm transition-colors duration-200 hover:bg-black/70">
+            <span className="flex h-20 w-20 items-center justify-center rounded-full bg-black/55 text-white backdrop-blur-sm transition-colors duration-200 hover:bg-black/70">
               <svg
                 width="26"
                 height="26"

@@ -54,7 +54,7 @@ export default function ContactPage() {
                   </h2>
                 </div>
                 <span
-                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-accent"
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-black"
                   aria-hidden="true"
                 >
                   <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -89,7 +89,7 @@ export default function ContactPage() {
                   </h2>
                 </div>
                 <span
-                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-accent"
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-black"
                   aria-hidden="true"
                 >
                   <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -117,7 +117,7 @@ export default function ContactPage() {
             <span>Une question rapide ? Écris-moi directement :</span>
             <Link
               href="mailto:cottutom@outlook.fr"
-              className="font-medium text-foreground underline underline-offset-4 transition-colors hover:text-foreground"
+              className="font-medium text-foreground underline underline-offset-4 transition-colors hover:text-black"
             >
               cottutom@outlook.fr
             </Link>

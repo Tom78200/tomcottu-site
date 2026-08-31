@@ -44,7 +44,7 @@ export function Navbar() {
     <>
       <header className="fixed top-0 right-0 left-0 z-[60] flex items-center justify-between px-5 py-4 lg:px-10 lg:py-5">
         <motion.div
-          className="absolute inset-0 -z-10 border-b border-foreground/[0.06] bg-white/70 backdrop-blur-md"
+          className="absolute inset-0 -z-10 border-b border-black/[0.06] bg-white/70 backdrop-blur-md"
           style={{ opacity: backdropOpacity }}
         />
 
@@ -52,7 +52,7 @@ export function Navbar() {
         <Link
           href="/"
           aria-label="Tom Cottu, développeur IA freelance, accueil"
-          className={`${styles.headingFont} text-[19px] tracking-tight text-foreground sm:text-[21px] lg:text-[24px]`}
+          className={`${styles.headingFont} text-[19px] tracking-tight text-black sm:text-[21px] lg:text-[24px]`}
         >
           Tom Cottu
         </Link>
@@ -60,13 +60,13 @@ export function Navbar() {
         {/* Nav desktop — cachée sur mobile */}
         <nav
           aria-label="Navigation principale"
-          className="hidden items-center justify-center gap-6 text-[15px] whitespace-nowrap text-foreground lg:flex xl:gap-9 xl:text-[17px]"
+          className="hidden items-center justify-center gap-6 text-[15px] whitespace-nowrap text-black lg:flex xl:gap-9 xl:text-[17px]"
         >
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="relative py-1 transition-colors hover:text-foreground after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-foreground after:transition-all after:duration-200 hover:after:w-full"
+              className="relative py-1 transition-colors hover:text-black after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-black after:transition-all after:duration-200 hover:after:w-full"
             >
               {link.label}
             </Link>
@@ -77,7 +77,7 @@ export function Navbar() {
         <div className="flex items-center gap-2">
           <Link
             href="/contact"
-            className="hidden items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-[14px] font-medium whitespace-nowrap text-accent-foreground transition-colors duration-200 hover:bg-accent/85 lg:inline-flex xl:px-6 xl:py-3 xl:text-[15px]"
+            className="hidden items-center gap-2 rounded-full bg-black px-5 py-2.5 text-[14px] font-medium whitespace-nowrap text-white transition-colors duration-200 hover:bg-black/80 lg:inline-flex xl:px-6 xl:py-3 xl:text-[15px]"
           >
             {CTA_LABEL}
             <ArrowIcon />
@@ -96,7 +96,7 @@ export function Navbar() {
                 y: menuOpen ? 0 : -4
               }}
               transition={{ duration: 0.2, ease: "easeInOut" }}
-              className="absolute h-[1.5px] w-5 bg-accent"
+              className="absolute h-[1.5px] w-5 bg-black"
             />
             <motion.span
               animate={{ 
@@ -104,7 +104,7 @@ export function Navbar() {
                 opacity: menuOpen ? 0 : 1
               }}
               transition={{ duration: 0.2, ease: "easeInOut" }}
-              className="absolute h-[1.5px] w-5 bg-accent"
+              className="absolute h-[1.5px] w-5 bg-black"
             />
             <motion.span
               animate={{ 
@@ -112,7 +112,7 @@ export function Navbar() {
                 y: menuOpen ? 0 : 4
               }}
               transition={{ duration: 0.2, ease: "easeInOut" }}
-              className="absolute h-[1.5px] w-5 bg-accent"
+              className="absolute h-[1.5px] w-5 bg-black"
             />
           </button>
         </div>
@@ -129,7 +129,7 @@ export function Navbar() {
             key={link.href}
             href={link.href}
             onClick={() => setMenuOpen(false)}
-            className="text-[28px] font-medium text-foreground"
+            className="text-[28px] font-medium text-black"
           >
             {link.label}
           </Link>
@@ -137,7 +137,7 @@ export function Navbar() {
         <Link
           href="/contact"
           onClick={() => setMenuOpen(false)}
-          className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-[16px] font-medium text-accent-foreground"
+          className="inline-flex items-center gap-2 rounded-full bg-black px-6 py-3 text-[16px] font-medium text-white"
         >
           {CTA_LABEL}
           <ArrowIcon />

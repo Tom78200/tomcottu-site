@@ -68,7 +68,7 @@ function ModalList({
   return (
     <div>
       <div
-        className="mb-4 text-[11px] tracking-[0.09em] text-foreground/40 uppercase"
+        className="mb-4 text-[11px] tracking-[0.09em] text-black/40 uppercase"
         style={{ fontFamily: "var(--font-heading)" }}
       >
         {label}
@@ -77,7 +77,7 @@ function ModalList({
         {items.map((item) => (
           <li key={item} className="flex gap-3 text-[15px] text-muted" style={{ lineHeight: 1.5 }}>
             {marker === "check" ? (
-              <span className="mt-[3px] flex h-4 w-4 shrink-0 items-center justify-center rounded-full border border-foreground/25 text-foreground">
+              <span className="mt-[3px] flex h-4 w-4 shrink-0 items-center justify-center rounded-full border border-black/25 text-foreground">
                 <svg width="9" height="9" viewBox="0 0 10 10" fill="none" aria-hidden="true">
                   <path
                     d="M1.5 5.2 4 7.5 8.5 2.5"
@@ -89,7 +89,7 @@ function ModalList({
                 </svg>
               </span>
             ) : (
-              <span className="mt-[8px] h-[5px] w-[5px] shrink-0 rounded-full bg-foreground/35" />
+              <span className="mt-[8px] h-[5px] w-[5px] shrink-0 rounded-full bg-black/35" />
             )}
             <span>{item}</span>
           </li>
@@ -231,7 +231,7 @@ export function Services() {
             layoutId={`service-card-${i}`}
             onClick={() => setActiveIndex(i)}
             aria-expanded={activeIndex === i}
-            className={`group relative flex flex-col rounded-3xl bg-foreground/[0.02] p-8 text-left transition-colors duration-300 hover:bg-foreground/[0.035] sm:p-10 md:p-12 ${styles.glowCard}`}
+            className={`group relative flex flex-col rounded-3xl bg-black/[0.02] p-8 text-left transition-colors duration-300 hover:bg-black/[0.035] sm:p-10 md:p-12 ${styles.glowCard}`}
             initial={reduce ? false : { opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
@@ -248,7 +248,7 @@ export function Services() {
             </div>
 
             <div
-              className="mb-3 text-sm text-foreground/35"
+              className="mb-3 text-sm text-black/35"
               style={{ fontFamily: "var(--font-heading)" }}
             >
               0{i + 1}
@@ -275,7 +275,7 @@ export function Services() {
               </p>
             </div>
 
-            <span className="mt-8 flex h-11 w-11 items-center justify-center rounded-full border border-foreground/10 text-foreground/50 transition-colors duration-300 group-hover:border-foreground/20 group-hover:text-foreground/70">
+            <span className="mt-8 flex h-11 w-11 items-center justify-center rounded-full border border-black/10 text-black/50 transition-colors duration-300 group-hover:border-black/20 group-hover:text-black/70">
               <PlusIcon />
             </span>
           </motion.button>
@@ -307,13 +307,13 @@ export function Services() {
                   type="button"
                   onClick={() => setActiveIndex(null)}
                   aria-label="Fermer"
-                  className="absolute top-6 right-6 flex h-9 w-9 items-center justify-center rounded-full border border-foreground/10 text-foreground/60 transition-colors hover:bg-foreground/5 sm:top-8 sm:right-8"
+                  className="absolute top-6 right-6 flex h-9 w-9 items-center justify-center rounded-full border border-black/10 text-black/60 transition-colors hover:bg-black/5 sm:top-8 sm:right-8"
                 >
                   <CloseIcon />
                 </button>
 
                 <div
-                  className="mb-4 text-sm font-semibold text-foreground/40"
+                  className="mb-4 text-sm font-semibold text-black/40"
                   style={{ fontFamily: "var(--font-heading)" }}
                 >
                   0{activeIndex + 1}
@@ -364,7 +364,7 @@ export function Services() {
                   initial={reduce ? false : { opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: reduce ? 0 : 0.22 }}
-                  className="mt-8 inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-[15px] font-medium text-accent-foreground transition-colors duration-200 hover:bg-accent/85"
+                  className="mt-8 inline-flex items-center gap-2 rounded-full bg-black px-6 py-3 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-black/80"
                 >
                   En discuter
                   <ArrowIcon />

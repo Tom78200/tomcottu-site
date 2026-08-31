@@ -47,7 +47,7 @@ export default function UseCasesIndex() {
               <Link
                 key={u.slug}
                 href={`/cas-usage/${u.slug}`}
-                className="group bg-background p-7 transition-colors hover:bg-foreground/[0.02]"
+                className="group bg-background p-7 transition-colors hover:bg-black/[0.02]"
               >
                 <div className="text-[17px] font-medium text-foreground">
                   {u.h1}

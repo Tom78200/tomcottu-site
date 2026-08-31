@@ -96,7 +96,7 @@ export function HeroMainframe() {
           {/* h1 et non p : c'est le seul titre de niveau 1 de la page, il
               porte la requête principale. Le rendu visuel est inchangé. */}
           <h1
-            className="mb-6 text-foreground"
+            className="mb-6 text-black"
             style={{
               fontSize: "clamp(30px, 5.6vw, 52px)",
               lineHeight: 1.08,
@@ -134,7 +134,7 @@ export function HeroMainframe() {
           >
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-[15px] font-medium text-accent-foreground transition-colors duration-200 hover:bg-accent/85"
+              className="inline-flex items-center gap-2 rounded-full bg-black px-6 py-3 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-black/80"
             >
               {CTA_LABEL}
               <ArrowIcon />
@@ -143,7 +143,7 @@ export function HeroMainframe() {
             <button
               type="button"
               onClick={handleCopy}
-              className="inline-flex items-center gap-2 rounded-full border border-foreground/15 bg-white/80 px-5 py-3 text-[13px] text-foreground transition-colors duration-200 hover:bg-accent hover:text-accent-foreground sm:text-[14px]"
+              className="inline-flex items-center gap-2 rounded-full border border-black/15 bg-white/80 px-5 py-3 text-[13px] text-black transition-colors duration-200 hover:bg-black hover:text-white sm:text-[14px]"
             >
               <span>
                 <span className="underline underline-offset-2">cottutom@outlook.fr</span>
@@ -153,7 +153,7 @@ export function HeroMainframe() {
           </div>
 
           <div
-            className="mt-2 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[13px] text-foreground/60 sm:justify-start"
+            className="mt-2 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[13px] text-black/60 sm:justify-start"
             style={{
               opacity: pillsVisible ? 1 : 0,
               transition: "opacity 0.4s ease 0.1s",
@@ -163,7 +163,7 @@ export function HeroMainframe() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="py-2 underline-offset-2 transition-colors hover:text-foreground hover:underline"
+                className="py-2 underline-offset-2 transition-colors hover:text-black hover:underline"
               >
                 {link.label}
               </Link>

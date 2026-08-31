@@ -151,7 +151,7 @@ export function About() {
             {parcours.map((bloc) => (
               <div key={bloc.groupe}>
                 <div
-                  className="mb-5 text-[11px] tracking-[0.09em] text-foreground/40 uppercase"
+                  className="mb-5 text-[11px] tracking-[0.09em] text-black/40 uppercase"
                   style={{ fontFamily: "var(--font-heading)" }}
                 >
                   {bloc.groupe}

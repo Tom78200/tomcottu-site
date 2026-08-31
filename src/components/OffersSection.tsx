@@ -93,7 +93,7 @@ export function OffersSection() {
         {offers.map((offer) => (
           <div
             key={offer.name}
-            className={`flex flex-col rounded-3xl bg-foreground/[0.02] p-8 sm:p-10 ${
+            className={`flex flex-col rounded-3xl bg-black/[0.02] p-8 sm:p-10 ${
               offer.featured ? "ring-1 ring-black/15" : ""
             }`}
           >
@@ -131,7 +131,7 @@ export function OffersSection() {
                   className="flex gap-3 text-[15px] text-muted"
                   style={{ lineHeight: 1.5 }}
                 >
-                  <span className="mt-[3px] flex h-4 w-4 shrink-0 items-center justify-center rounded-full border border-foreground/25 text-foreground">
+                  <span className="mt-[3px] flex h-4 w-4 shrink-0 items-center justify-center rounded-full border border-black/25 text-foreground">
                     <svg
                       width="9"
                       height="9"
@@ -159,7 +159,7 @@ export function OffersSection() {
 
             <Link
               href="/contact"
-              className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-[15px] font-medium text-accent-foreground transition-colors duration-200 hover:bg-accent/85"
+              className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-black px-6 py-3 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-black/80"
             >
               Je réserve ma démo gratuite
               <ArrowIcon />
