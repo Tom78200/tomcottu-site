@@ -23,7 +23,7 @@
   object-fit: cover;
   object-position: 70% center;
   /* Teinte chaude + accent : on sort du rendu "froid/croc mort" */
-  filter: saturate(0.85) contrast(1.02) hue-rotate(-6deg);
+  filter: saturate(0.95) contrast(1.01);
 }
 
 /* Halo dégradé doux derrière le portrait (effet "friendly") */
