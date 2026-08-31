@@ -23,7 +23,7 @@ export default function NotFound() {
   return (
     <section className="mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center px-5 py-32 sm:px-10">
       <div
-        className="mb-4 text-base font-semibold text-accent"
+        className="mb-4 text-base font-semibold text-foreground"
         style={{ fontFamily: "var(--font-heading)" }}
       >
         Erreur 404

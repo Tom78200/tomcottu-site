@@ -162,7 +162,7 @@ export function HowItWorks() {
     >
       <div className="mb-14 border-t border-border-soft pt-16 md:mb-20 md:pt-24">
         <div
-          className="mb-4 text-base font-semibold text-accent md:text-lg"
+          className="mb-4 text-base font-semibold text-foreground md:text-lg"
           style={{ fontFamily: "var(--font-heading)" }}
         >
           Comment ça marche

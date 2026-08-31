@@ -72,7 +72,7 @@ export function About() {
     >
       <div className="mb-14 border-t border-border-soft pt-16 md:mb-20 md:pt-24">
         <div
-          className="mb-4 text-base font-semibold text-accent md:text-lg"
+          className="mb-4 text-base font-semibold text-foreground md:text-lg"
           style={{ fontFamily: "var(--font-heading)" }}
         >
           À propos
@@ -151,7 +151,7 @@ export function About() {
             {parcours.map((bloc) => (
               <div key={bloc.groupe}>
                 <div
-                  className="mb-5 text-[11px] tracking-[0.09em] text-accent/70 uppercase"
+                  className="mb-5 text-[11px] tracking-[0.09em] text-muted-soft uppercase"
                   style={{ fontFamily: "var(--font-heading)" }}
                 >
                   {bloc.groupe}

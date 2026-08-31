@@ -2,7 +2,7 @@
 
 :root {
   /* Crème chaud + near-black chaud : fini le gris neutre "croc mort" */
-  --background: oklch(0.985 0.014 95);
+  --background: oklch(0.99 0.006 95);
   --foreground: oklch(0.25 0.03 250);
   --muted: oklch(0.45 0.03 250);
   --muted-soft: oklch(0.55 0.025 250);
