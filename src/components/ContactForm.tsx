@@ -5,7 +5,7 @@ import { useState } from "react";
 type Status = "idle" | "sending" | "success" | "error";
 
 const inputClasses =
-  "w-full rounded-xl border border-border bg-background px-4 py-3 text-[15px] text-foreground placeholder:text-muted-soft transition-colors duration-200 focus:border-black focus:outline-none";
+  "w-full rounded-xl border border-border bg-background px-4 py-3 text-[15px] text-foreground placeholder:text-muted-soft transition-colors duration-200 focus:border-accent focus:outline-none";
 
 const labelClasses = "mb-2 block text-[13px] font-medium text-foreground";
 
@@ -54,7 +54,7 @@ export function ContactForm() {
   if (status === "success") {
     return (
       <div className="rounded-xl border border-border bg-background px-5 py-10 text-center">
-        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-black">
+        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-accent">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <path
               d="M4 10.5 8 14.5 16 5.5"
@@ -159,7 +159,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={status === "sending"}
-        className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-black px-6 py-3.5 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-black/80 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+        className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 text-[15px] font-medium text-accent-foreground transition-colors duration-200 hover:bg-accent/80 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
       >
         {status === "sending" ? (
           <>

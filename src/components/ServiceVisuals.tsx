@@ -4,7 +4,7 @@ const headingFont = { fontFamily: "var(--font-heading)" };
 
 function Frame({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-full w-full flex-col rounded-2xl border border-black/10 bg-white/70 p-6 sm:p-7">
+    <div className="flex h-full w-full flex-col rounded-2xl border border-accent/10 bg-white/70 p-6 sm:p-7">
       {children}
     </div>
   );
@@ -13,7 +13,7 @@ function Frame({ children }: { children: React.ReactNode }) {
 function Caption({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className="text-[11px] tracking-[0.09em] text-black/40 uppercase"
+      className="text-[11px] tracking-[0.09em] text-accent/40 uppercase"
       style={headingFont}
     >
       {children}
@@ -33,15 +33,15 @@ export function ActivityLogVisual() {
     <Frame>
       <div className="mb-4 flex items-center justify-between">
         <Caption>Agent qualification</Caption>
-        <span className="flex items-center gap-1.5 text-[11px] text-black/50">
-          <span className="h-1.5 w-1.5 rounded-full bg-black" />
+        <span className="flex items-center gap-1.5 text-[11px] text-accent/50">
+          <span className="h-1.5 w-1.5 rounded-full bg-accent" />
           en service
         </span>
       </div>
       <ul className="flex flex-col gap-2.5">
         {lines.map((line) => (
           <li key={line.label} className="flex items-baseline gap-3 text-[13px]">
-            <span className="shrink-0 text-black/35 tabular-nums">{line.time}</span>
+            <span className="shrink-0 text-accent/35 tabular-nums">{line.time}</span>
             <span className="text-foreground">{line.label}</span>
           </li>
         ))}
@@ -102,7 +102,7 @@ export function SelfHostedVisual() {
 
   return (
     <Frame>
-      <div className="mb-4 flex items-center justify-between gap-3 border-b border-black/10 pb-3">
+      <div className="mb-4 flex items-center justify-between gap-3 border-b border-accent/10 pb-3">
         <span className="flex items-center gap-2.5">
           <Image
             src="/hermes-agent.webp"
@@ -127,7 +127,7 @@ export function SelfHostedVisual() {
       <dl className="flex flex-col gap-2.5">
         {specs.map((spec) => (
           <div key={spec.label} className="flex items-baseline gap-3">
-            <dt className="w-[86px] shrink-0 text-[11px] tracking-[0.06em] text-black/40 uppercase">
+            <dt className="w-[86px] shrink-0 text-[11px] tracking-[0.06em] text-accent/40 uppercase">
               {spec.label}
             </dt>
             <dd className="text-[13px] text-foreground">{spec.value}</dd>
@@ -152,7 +152,7 @@ export function AdviceVisual() {
       <ul className="mt-4 flex flex-col gap-3">
         {items.map((item) => (
           <li key={item} className="flex items-center gap-3 text-[13px] text-foreground">
-            <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full border border-black/25">
+            <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full border border-accent/25">
               <svg width="9" height="9" viewBox="0 0 10 10" fill="none" aria-hidden="true">
                 <path
                   d="M1.5 5.2 4 7.5 8.5 2.5"
@@ -187,7 +187,7 @@ export function KnowledgeBaseVisual() {
           </span>
         ))}
       </div>
-      <div className="flex items-center gap-2 rounded-lg border border-black bg-black px-3 py-2.5 text-[12px] text-white">
+      <div className="flex items-center gap-2 rounded-lg border border-accent bg-accent px-3 py-2.5 text-[12px] text-accent-foreground">
         <span aria-hidden="true">→</span>
         <span className="truncate">Réponse précise en langage naturel</span>
       </div>
@@ -195,7 +195,7 @@ export function KnowledgeBaseVisual() {
         {["Recherche intelligente (RAG)", "Droits d'accès par équipe", "Confidentialité garantie"].map(
           (line) => (
             <li key={line} className="flex items-baseline gap-3">
-              <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-black/35" />
+              <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-accent/35" />
               <span className="text-foreground">{line}</span>
             </li>
           )

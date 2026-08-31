@@ -70,7 +70,7 @@ export function OffersSection() {
     >
       <div className="mb-14 border-t border-border-soft pt-16 md:mb-20 md:pt-24">
         <div
-          className="mb-4 text-base font-semibold text-foreground md:text-lg"
+          className="mb-4 text-base font-semibold text-accent md:text-lg"
           style={{ fontFamily: "var(--font-heading)" }}
         >
           Nos offres
@@ -131,7 +131,7 @@ export function OffersSection() {
                   className="flex gap-3 text-[15px] text-muted"
                   style={{ lineHeight: 1.5 }}
                 >
-                  <span className="mt-[3px] flex h-4 w-4 shrink-0 items-center justify-center rounded-full border border-black/25 text-foreground">
+                  <span className="mt-[3px] flex h-4 w-4 shrink-0 items-center justify-center rounded-full border border-accent/25 text-foreground">
                     <svg
                       width="9"
                       height="9"
@@ -159,7 +159,7 @@ export function OffersSection() {
 
             <Link
               href="/contact"
-              className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-black px-6 py-3 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-black/80"
+              className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-[15px] font-medium text-accent-foreground transition-colors duration-200 hover:bg-accent/80"
             >
               Je réserve ma démo gratuite
               <ArrowIcon />

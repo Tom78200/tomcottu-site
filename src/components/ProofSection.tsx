@@ -24,7 +24,7 @@ export function ProofSection() {
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2 md:gap-8">
-        <div className="flex flex-col justify-center rounded-3xl bg-black/[0.02] p-8 sm:p-10 md:p-12">
+        <div className="flex flex-col justify-center rounded-3xl bg-accent/[0.02] p-8 sm:p-10 md:p-12">
           <div
             className="font-semibold text-foreground"
             style={{ fontSize: "clamp(34px, 4vw, 48px)", letterSpacing: "-0.03em" }}
@@ -36,7 +36,7 @@ export function ProofSection() {
           </p>
         </div>
 
-        <div className="flex flex-col justify-center rounded-3xl bg-black/[0.02] p-8 sm:p-10 md:p-12">
+        <div className="flex flex-col justify-center rounded-3xl bg-accent/[0.02] p-8 sm:p-10 md:p-12">
           <div
             className="font-semibold text-foreground"
             style={{ fontSize: "clamp(34px, 4vw, 48px)", letterSpacing: "-0.03em" }}

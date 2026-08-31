@@ -88,7 +88,7 @@ export function UseCases() {
           de fin du hero assure déjà la séparation. */}
       <div className="mb-14 pt-8 md:mb-20 md:pt-10">
         <div
-          className="mb-4 text-base font-semibold text-foreground md:text-lg"
+          className="mb-4 text-base font-semibold text-accent md:text-lg"
           style={{ fontFamily: "var(--font-heading)" }}
         >
           Cas d&apos;usage

@@ -85,7 +85,7 @@ function PathNode({
       {!reduce && (
         <motion.span
           aria-hidden="true"
-          className="absolute inset-0 rounded-full border border-black"
+          className="absolute inset-0 rounded-full border border-accent"
           style={{ scale: ringScale, opacity: ringOpacity }}
         />
       )}
@@ -162,7 +162,7 @@ export function HowItWorks() {
     >
       <div className="mb-14 border-t border-border-soft pt-16 md:mb-20 md:pt-24">
         <div
-          className="mb-4 text-base font-semibold text-foreground md:text-lg"
+          className="mb-4 text-base font-semibold text-accent md:text-lg"
           style={{ fontFamily: "var(--font-heading)" }}
         >
           Comment ça marche
@@ -284,7 +284,7 @@ export function HowItWorks() {
               }}
             >
               <span
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-black text-sm font-medium text-white"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-medium text-accent-foreground"
                 style={{ fontFamily: "var(--font-heading)" }}
               >
                 0{i + 1}

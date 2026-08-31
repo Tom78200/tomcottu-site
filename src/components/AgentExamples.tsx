@@ -84,13 +84,13 @@ function Heading({ index, sector }: { index: number; sector: string }) {
   return (
     <div className="mb-3 flex items-baseline gap-3">
       <span
-        className="text-[26px] leading-none text-black/20 transition-colors duration-300 group-hover:text-black/35"
+        className="text-[26px] leading-none text-accent/20 transition-colors duration-300 group-hover:text-accent/35"
         style={{ fontFamily: "var(--font-heading)" }}
       >
         0{index + 1}
       </span>
       <span
-        className="text-[11px] tracking-[0.09em] text-black/50 uppercase"
+        className="text-[11px] tracking-[0.09em] text-accent/50 uppercase"
         style={{ fontFamily: "var(--font-heading)" }}
       >
         {sector}
@@ -111,7 +111,7 @@ function DetailBlock({
   return (
     <div>
       <div
-        className="mb-2 text-[11px] tracking-[0.09em] text-black/40 uppercase"
+        className="mb-2 text-[11px] tracking-[0.09em] text-accent/40 uppercase"
         style={{ fontFamily: "var(--font-heading)" }}
       >
         {label}
@@ -155,7 +155,7 @@ export function AgentExamples() {
     >
       <div className="mb-14 border-t border-border-soft pt-16 md:mb-20 md:pt-24">
         <div
-          className="mb-4 text-base font-semibold text-foreground md:text-lg"
+          className="mb-4 text-base font-semibold text-accent md:text-lg"
           style={{ fontFamily: "var(--font-heading)" }}
         >
           Exemples
@@ -213,7 +213,7 @@ export function AgentExamples() {
               >
                 {scenario.title}
               </h3>
-              <span className="mt-4 flex h-9 w-9 items-center justify-center rounded-full border border-black/10 text-black/45 transition-colors duration-300 group-hover:border-black/25 group-hover:text-black/70">
+              <span className="mt-4 flex h-9 w-9 items-center justify-center rounded-full border border-accent/10 text-accent/45 transition-colors duration-300 group-hover:border-accent/25 group-hover:text-accent/70">
                 <PlusIcon />
               </span>
             </motion.button>
@@ -280,7 +280,7 @@ export function AgentExamples() {
                 className="object-contain object-bottom"
               />
             </div>
-            <span className="mt-4 flex h-9 w-9 items-center justify-center rounded-full border border-black/10 text-black/45">
+            <span className="mt-4 flex h-9 w-9 items-center justify-center rounded-full border border-accent/10 text-accent/45">
               <PlusIcon />
             </span>
           </motion.button>
@@ -292,7 +292,7 @@ export function AgentExamples() {
           <>
             <motion.div
               key="voile"
-              className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm"
+              className="fixed inset-0 z-[60] bg-accent/50 backdrop-blur-sm"
               onClick={() => setActiveIndex(null)}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -314,20 +314,20 @@ export function AgentExamples() {
                   type="button"
                   onClick={() => setActiveIndex(null)}
                   aria-label="Fermer"
-                  className="absolute top-6 right-6 flex h-9 w-9 items-center justify-center rounded-full border border-black/10 text-black/60 transition-colors hover:bg-black/5 sm:top-8 sm:right-8"
+                  className="absolute top-6 right-6 flex h-9 w-9 items-center justify-center rounded-full border border-accent/10 text-accent/60 transition-colors hover:bg-accent/5 sm:top-8 sm:right-8"
                 >
                   <CloseIcon />
                 </button>
 
                 <div className="mb-4 flex items-baseline gap-3">
                   <span
-                    className="text-[22px] leading-none text-black/25"
+                    className="text-[22px] leading-none text-accent/25"
                     style={{ fontFamily: "var(--font-heading)" }}
                   >
                     0{activeIndex + 1}
                   </span>
                   <span
-                    className="text-[11px] tracking-[0.09em] text-black/50 uppercase"
+                    className="text-[11px] tracking-[0.09em] text-accent/50 uppercase"
                     style={{ fontFamily: "var(--font-heading)" }}
                   >
                     {active.sector}
@@ -354,11 +354,11 @@ export function AgentExamples() {
                   </DetailBlock>
 
                   <div className="flex flex-wrap items-center gap-2 border-t border-border-soft pt-6">
-                    <span className="mr-1 text-xs text-black/40">Connecté à</span>
+                    <span className="mr-1 text-xs text-accent/40">Connecté à</span>
                     {active.tools.map((tool) => (
                       <span
                         key={tool}
-                        className="rounded-full border border-black/10 px-3 py-1.5 text-[13px] text-foreground"
+                        className="rounded-full border border-accent/10 px-3 py-1.5 text-[13px] text-foreground"
                       >
                         {tool}
                       </span>

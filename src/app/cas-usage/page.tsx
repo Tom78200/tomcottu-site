@@ -19,7 +19,7 @@ export default function UseCasesIndex() {
       <main id="top" className="flex flex-1 flex-col">
         <section className="w-full px-5 pb-24 pt-28 sm:px-10 md:pb-32 md:pt-36 lg:px-16">
           <div className="mb-14 border-t border-border-soft pt-16 md:mb-20 md:pt-24">
-            <div className="mb-4 text-base font-semibold text-foreground md:text-lg">
+            <div className="mb-4 text-base font-semibold text-accent md:text-lg">
               Cas d'usage
             </div>
             <h1
