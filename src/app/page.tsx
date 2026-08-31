@@ -4,7 +4,6 @@ import { VideoSection } from "@/components/VideoSection";
 import { AgentExamples } from "@/components/AgentExamples";
 import { Services } from "@/components/Services";
 import { HowItWorks } from "@/components/HowItWorks";
-import { About } from "@/components/About";
 import { ProofSection } from "@/components/ProofSection";
 import { OffersSection } from "@/components/OffersSection";
 import { Faq } from "@/components/Faq";
@@ -20,7 +19,6 @@ export default function Home() {
         <AgentExamples />
         <Services />
         <HowItWorks />
-        <About />
         <ProofSection />
         <OffersSection />
         <Faq />

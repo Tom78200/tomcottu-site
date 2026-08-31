@@ -9,7 +9,6 @@ const navLinks = [
   { href: "/#exemples", label: "Exemples" },
   { href: "/#services", label: "Services" },
   { href: "/#methode", label: "Comment ça marche" },
-  { href: "/#a-propos", label: "À propos" },
 ];
 
 const CTA_LABEL = "Cadrer mon diagnostic";
