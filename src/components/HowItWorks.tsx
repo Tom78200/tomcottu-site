@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import {
   animate,
@@ -10,37 +11,36 @@ import {
   useTransform,
   type MotionValue,
 } from "motion/react";
+
 const steps = [
   {
     title: "Analyse de votre activité",
     body: "Basée sur votre site, vos outils et vos process réels, pas un questionnaire générique.",
+    image: "/exemples/01.webp",
   },
   {
     title: "Construction de l'agent",
     body: "Sur mesure, connecté aux outils déjà en place, pas un chatbot prêt à l'emploi.",
+    image: "/exemples/02.webp",
   },
   {
     title: "Affinage en conditions réelles",
     body: "Ajustements après mise en service, tant que l'agent ne colle pas à l'usage réel.",
+    image: "/exemples/03.webp",
   },
 ];
 
 const VIEW_W = 1200;
-const VIEW_H = 550;
+const VIEW_H = 620;
 
-// Le dernier point s'allume à 0.85 et non à 1 : sa transition dure 0.12,
-// donc calé sur 1 il n'atteignait le noir qu'à l'ultime image et paraissait
-// rester gris.
-// Les nœuds extrêmes sont rentrés à 210/990 et non 150/1050 : les libellés
-// sont centrés dessus et débordaient de l'écran en dessous de 1100px.
 const NODES = [
-  { x: 210, y: 212, at: 0.06, placement: "above" as const },
-  { x: 600, y: 388, at: 0.5, placement: "below" as const },
-  { x: 990, y: 212, at: 0.85, placement: "above" as const },
+  { x: 210, y: 260, at: 0.06, placement: "above" as const },
+  { x: 600, y: 390, at: 0.5, placement: "below" as const },
+  { x: 990, y: 260, at: 0.85, placement: "above" as const },
 ];
 
 // Courbe unique continue 1 -> 2 -> 3
-const FULL_PATH = "M210,212 C 380,212 430,388 600,388 C 770,388 820,212 990,212";
+const FULL_PATH = "M210,260 C 380,260 430,390 600,390 C 770,390 820,260 990,260";
 
 function PathNode({
   index,
@@ -69,7 +69,7 @@ function PathNode({
   );
   const ringOpacity = useTransform(
     progress,
-    [node.at - 0.02, node.at, node.at + 0.16],
+    [node.at - 0.02, node.at + 0.16],
     [0, 0.28, 0]
   );
 
@@ -114,17 +114,112 @@ function PathNode({
   );
 }
 
+function StepNodeContent({
+  index,
+  node,
+  step,
+  progress,
+  reduce,
+}: {
+  index: number;
+  node: (typeof NODES)[number];
+  step: (typeof steps)[number];
+  progress: MotionValue<number>;
+  reduce: boolean | null;
+}) {
+  // L'image et le bloc apparaissent au moment où le bleu passe sur le nœud
+  const revealOpacity = useTransform(
+    progress,
+    [node.at - 0.06, node.at + 0.06],
+    [0, 1]
+  );
+  const revealScale = useTransform(
+    progress,
+    [node.at - 0.06, node.at + 0.06],
+    [0.85, 1]
+  );
+  const revealY = useTransform(
+    progress,
+    [node.at - 0.06, node.at + 0.06],
+    [node.placement === "above" ? 12 : -12, 0]
+  );
+
+  const isAbove = node.placement === "above";
+
+  return (
+    <div
+      className="absolute w-[18em] text-center"
+      style={{
+        left: `${(node.x / VIEW_W) * 100}%`,
+        top: `${(node.y / VIEW_H) * 100}%`,
+        transform: isAbove
+          ? "translate(-50%, calc(-100% - 50px))"
+          : "translate(-50%, 50px)",
+      }}
+    >
+      <motion.div
+        style={
+          reduce
+            ? {}
+            : {
+                opacity: revealOpacity,
+                scale: revealScale,
+                y: revealY,
+              }
+        }
+        className="flex flex-col items-center gap-3"
+      >
+        {/* Si le texte est au-dessus du point : Image au sommet, puis texte */}
+        {isAbove && (
+          <div className="relative h-24 w-36 overflow-hidden rounded-2xl border border-border-soft bg-white shadow-soft">
+            <Image
+              src={step.image}
+              alt={step.title}
+              fill
+              sizes="150px"
+              className="object-cover object-center"
+            />
+          </div>
+        )}
+
+        <div>
+          <h3 className="text-[20px] font-semibold tracking-[-0.02em] text-foreground">
+            {step.title}
+          </h3>
+          <p
+            className="mt-1.5 text-[14px] text-muted leading-relaxed"
+            style={{ textWrap: "pretty" }}
+          >
+            {step.body}
+          </p>
+        </div>
+
+        {/* Si le texte est en-dessous du point : Texte d'abord, puis Image en-dessous */}
+        {!isAbove && (
+          <div className="relative mt-1 h-24 w-36 overflow-hidden rounded-2xl border border-border-soft bg-white shadow-soft">
+            <Image
+              src={step.image}
+              alt={step.title}
+              fill
+              sizes="150px"
+              className="object-cover object-center"
+            />
+          </div>
+        )}
+      </motion.div>
+    </div>
+  );
+}
+
 export function HowItWorks() {
   const reduce = useReducedMotion();
   const sectionRef = useRef<HTMLDivElement>(null);
   const pathRef = useRef<SVGPathElement>(null);
-  const inView = useInView(sectionRef, { once: true, amount: 0.4 });
+  const inView = useInView(sectionRef, { once: true, amount: 0.35 });
 
   // progression 0 -> 1 (unique source de vérité)
   const progressMV = useMotionValue(0);
   const dashOffset = useTransform(progressMV, [0, 1], [1, 0]);
-  // Déclaré ici et non dans le JSX : appelé sous condition, ce hook cassait
-  // l'ordre des hooks dès que la préférence de mouvement réduit changeait.
   const tipOpacity = useTransform(progressMV, [0, 0.02, 0.97, 1], [0, 1, 1, 0]);
 
   const [tip, setTip] = useState({ x: NODES[0].x, y: NODES[0].y });
@@ -140,8 +235,10 @@ export function HowItWorks() {
       }
       return;
     }
+
+    // Animation ralentie pour bien voir chaque étape et ses illustrations apparaître
     const controls = animate(progressMV, 1, {
-      duration: 3,
+      duration: 5.5,
       ease: "easeInOut",
       onUpdate: (v) => {
         const p = pathRef.current;
@@ -182,7 +279,7 @@ export function HowItWorks() {
       </div>
 
       <div ref={sectionRef}>
-        <div className="relative hidden h-[520px] lg:block lg:h-[580px]">
+        <div className="relative hidden h-[620px] lg:block">
           <svg
             viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
             className="absolute inset-0 h-full w-full overflow-visible"
@@ -233,73 +330,60 @@ export function HowItWorks() {
           ))}
 
           {NODES.map((node, i) => (
-            <div
-              key={`label-${steps[i].title}`}
-              className="absolute w-[16em] text-center"
-              style={{
-                left: `${(node.x / VIEW_W) * 100}%`,
-                top: `${(node.y / VIEW_H) * 100}%`,
-                transform:
-                  node.placement === "above"
-                    ? "translate(-50%, calc(-100% - 58px))"
-                    : "translate(-50%, 58px)",
-              }}
-            >
-              <motion.div
-                initial={reduce ? false : { opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.6 }}
-                transition={{
-                  duration: 0.55,
-                  delay: reduce ? 0 : i * 0.12,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-              >
-                <h3 className="text-[21px] font-medium tracking-[-0.02em] text-foreground">
-                  {steps[i].title}
-                </h3>
-                <p
-                  className="mt-2 text-[15px] text-muted"
-                  style={{ lineHeight: 1.55, textWrap: "pretty" }}
-                >
-                  {steps[i].body}
-                </p>
-              </motion.div>
-            </div>
+            <StepNodeContent
+              key={`content-${steps[i].title}`}
+              index={i}
+              node={node}
+              step={steps[i]}
+              progress={progressMV}
+              reduce={reduce}
+            />
           ))}
         </div>
 
-        <div className="grid gap-8 lg:hidden">
+        {/* Version Mobile */}
+        <div className="grid gap-10 lg:hidden">
           {steps.map((step, i) => (
             <motion.div
               key={step.title}
-              className="flex items-start gap-4"
+              className="flex flex-col gap-4 rounded-2xl border border-border-soft bg-white p-6 shadow-soft"
               initial={reduce ? false : { opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.5 }}
+              viewport={{ once: true, amount: 0.4 }}
               transition={{
                 duration: 0.5,
-                delay: reduce ? 0 : i * 0.08,
+                delay: reduce ? 0 : i * 0.1,
                 ease: [0.16, 1, 0.3, 1],
               }}
             >
-              <span
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-medium text-accent-foreground"
-                style={{ fontFamily: "var(--font-heading)" }}
-              >
-                0{i + 1}
-              </span>
-              <div>
-                <h3 className="text-[20px] font-medium tracking-[-0.02em] text-foreground">
+              <div className="flex items-center gap-3">
+                <span
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-medium text-accent-foreground"
+                  style={{ fontFamily: "var(--font-heading)" }}
+                >
+                  0{i + 1}
+                </span>
+                <h3 className="text-[19px] font-semibold tracking-[-0.02em] text-foreground">
                   {step.title}
                 </h3>
-                <p
-                  className="mt-1.5 text-base text-muted"
-                  style={{ lineHeight: 1.55, textWrap: "pretty" }}
-                >
-                  {step.body}
-                </p>
               </div>
+
+              <div className="relative h-32 w-full overflow-hidden rounded-xl border border-border-soft bg-black/5">
+                <Image
+                  src={step.image}
+                  alt={step.title}
+                  fill
+                  sizes="300px"
+                  className="object-cover object-center"
+                />
+              </div>
+
+              <p
+                className="text-sm text-muted leading-relaxed"
+                style={{ textWrap: "pretty" }}
+              >
+                {step.body}
+              </p>
             </motion.div>
           ))}
         </div>
