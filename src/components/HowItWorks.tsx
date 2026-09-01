@@ -16,7 +16,7 @@ const steps = [
   {
     title: "Analyse de votre activité",
     body: "Basée sur votre site, vos outils et vos process réels.",
-    image: "/exemples/01.webp",
+    image: "/howitworks/etape1.png",
   },
   {
     title: "Construction de l'agent",
@@ -173,12 +173,12 @@ function StepNodeContent({
       >
         {/* Nœud 1 & 3 : Image entière sans boîte fermée au-dessus */}
         {isAbove && (
-          <div className="relative h-56 w-44 drop-shadow-xl transition-transform duration-500 hover:scale-105">
+          <div className="relative h-48 sm:h-52 w-64 sm:w-72 drop-shadow-xl transition-transform duration-500 hover:scale-105">
             <Image
               src={step.image}
               alt={step.title}
               fill
-              sizes="200px"
+              sizes="300px"
               className="object-contain object-bottom"
             />
           </div>
@@ -189,19 +189,19 @@ function StepNodeContent({
           <h3 className="text-[17px] font-semibold tracking-[-0.02em] text-foreground">
             {step.title}
           </h3>
-          <p className="mt-1 text-[13px] text-muted leading-relaxed">
+          <p className="mt-1 text-[13px] text-muted leading-relaxed max-w-[270px]">
             {step.body}
           </p>
         </div>
 
         {/* Nœud 2 : Image entière sans boîte fermée en-dessous */}
         {!isAbove && (
-          <div className="relative h-56 w-44 drop-shadow-xl transition-transform duration-500 hover:scale-105">
+          <div className="relative h-48 sm:h-52 w-64 sm:w-72 drop-shadow-xl transition-transform duration-500 hover:scale-105">
             <Image
               src={step.image}
               alt={step.title}
               fill
-              sizes="200px"
+              sizes="300px"
               className="object-contain object-top"
             />
           </div>
