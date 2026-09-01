@@ -10,6 +10,7 @@ import {
   useTransform,
   type MotionValue,
 } from "motion/react";
+
 const steps = [
   {
     title: "Analyse de votre activité",
@@ -28,20 +29,15 @@ const steps = [
 const VIEW_W = 1200;
 const VIEW_H = 550;
 
-// Le dernier point s'allume à 0.85 et non à 1 : sa transition dure 0.12,
-// donc calé sur 1 il n'atteignait le noir qu'à l'ultime image et paraissait
-// rester gris.
-// Les nœuds extrêmes sont rentrés à 210/990 et non 150/1050 : les libellés
-// sont centrés dessus et débordaient de l'écran en dessous de 1100px.
 const NODES = [
   { x: 210, y: 212, at: 0.06, placement: "above" as const },
   { x: 600, y: 388, at: 0.5, placement: "below" as const },
   { x: 990, y: 212, at: 0.85, placement: "above" as const },
 ];
 
-// Courbe unique continue 1 -> 2 -> 3
 const FULL_PATH = "M210,212 C 380,212 430,388 600,388 C 770,388 820,212 990,212";
 
+/* ── Node avec spring goofy ─────────────────────────────────────── */
 function PathNode({
   index,
   node,
@@ -53,24 +49,31 @@ function PathNode({
   progress: MotionValue<number>;
   reduce: boolean | null;
 }) {
-  const range: [number, number] = [node.at - 0.12, node.at];
+  // Suivi de l'état "allumé" pour déclencher les animations spring
+  const [lit, setLit] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = progress.on("change", (v) => {
+      if (v >= node.at && !lit) setLit(true);
+    });
+    return unsubscribe;
+  }, [progress, node.at, lit]);
+
+  // Couleur animée via useTransform (interpolation douce)
+  const range: [number, number] = [node.at - 0.1, node.at];
   const background = useTransform(progress, range, ["#162330", "#0077cd"]);
-  const color = useTransform(progress, range, ["#ffffff", "#ffffff"]);
   const borderColor = useTransform(progress, range, ["#162330", "#0077cd"]);
-  const scale = useTransform(
-    progress,
-    [node.at - 0.04, node.at, node.at + 0.06],
-    [1, 1.25, 1]
-  );
+
+  // Halo/ring qui pulse fort au moment du pop
   const ringScale = useTransform(
     progress,
-    [node.at - 0.02, node.at + 0.16],
-    [0.7, 2.1]
+    [node.at - 0.01, node.at + 0.04, node.at + 0.22],
+    [0.6, 1.8, 2.8]
   );
   const ringOpacity = useTransform(
     progress,
-    [node.at - 0.02, node.at + 0.16],
-    [0, 0.35, 0]
+    [node.at - 0.01, node.at + 0.05, node.at + 0.22],
+    [0, 0.55, 0]
   );
 
   return (
@@ -82,6 +85,7 @@ function PathNode({
         transform: "translate(-50%, -50%)",
       }}
     >
+      {/* Halo qui explose au pop */}
       {!reduce && (
         <motion.span
           aria-hidden="true"
@@ -89,8 +93,10 @@ function PathNode({
           style={{ scale: ringScale, opacity: ringOpacity }}
         />
       )}
+
+      {/* Badge avec spring goofy : overshoot + wobble */}
       <motion.div
-        className="flex h-16 w-16 items-center justify-center rounded-full border-2 text-[15px] font-medium shadow-sm"
+        className="flex h-16 w-16 items-center justify-center rounded-full border-2 text-[15px] font-medium"
         style={
           reduce
             ? {
@@ -101,10 +107,27 @@ function PathNode({
               }
             : {
                 background,
-                color,
+                color: "#ffffff",
                 borderColor,
-                scale,
                 fontFamily: "var(--font-heading)",
+              }
+        }
+        animate={
+          reduce
+            ? {}
+            : lit
+            ? {
+                scale: [1, 1.55, 0.85, 1.18, 0.95, 1.04, 1],
+                rotate: [0, -8, 10, -5, 3, -1, 0],
+              }
+            : { scale: 1, rotate: 0 }
+        }
+        transition={
+          reduce
+            ? {}
+            : {
+                duration: 0.7,
+                ease: "easeOut",
               }
         }
       >
@@ -114,18 +137,30 @@ function PathNode({
   );
 }
 
+/* ── Label avec pop goofy ────────────────────────────────────────── */
 function StepLabel({
   step,
   node,
   progress,
+  index,
   reduce,
 }: {
   step: (typeof steps)[number];
   node: (typeof NODES)[number];
   progress: MotionValue<number>;
+  index: number;
   reduce: boolean | null;
 }) {
-  const range: [number, number] = [node.at - 0.08, node.at + 0.02];
+  const [lit, setLit] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = progress.on("change", (v) => {
+      if (v >= node.at && !lit) setLit(true);
+    });
+    return unsubscribe;
+  }, [progress, node.at, lit]);
+
+  const range: [number, number] = [node.at - 0.06, node.at + 0.02];
   const titleColor = useTransform(progress, range, ["#162330", "#0077cd"]);
 
   return (
@@ -140,19 +175,39 @@ function StepLabel({
             : "translate(-50%, 58px)",
       }}
     >
+      {/* Apparition initiale du bloc texte */}
       <motion.div
-        initial={reduce ? false : { opacity: 0, y: 12 }}
+        initial={reduce ? false : { opacity: 0, y: 18 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.6 }}
+        viewport={{ once: true, amount: 0.5 }}
         transition={{
-          duration: 0.55,
-          delay: reduce ? 0 : 0.1,
+          duration: 0.6,
+          delay: reduce ? 0 : index * 0.1,
           ease: [0.16, 1, 0.3, 1],
         }}
       >
+        {/* Titre qui bounce au pop avec spring goofy */}
         <motion.h3
           className="text-[21px] font-medium tracking-[-0.02em]"
           style={{ color: reduce ? "#0077cd" : titleColor }}
+          animate={
+            reduce
+              ? {}
+              : lit
+              ? {
+                  y: [0, -10, 4, -4, 1, 0],
+                  scale: [1, 1.08, 0.97, 1.03, 0.99, 1],
+                }
+              : { y: 0, scale: 1 }
+          }
+          transition={
+            reduce
+              ? {}
+              : {
+                  duration: 0.65,
+                  ease: "easeOut",
+                }
+          }
         >
           {step.title}
         </motion.h3>
@@ -167,18 +222,22 @@ function StepLabel({
   );
 }
 
+/* ── Section principale ──────────────────────────────────────────── */
 export function HowItWorks() {
   const reduce = useReducedMotion();
   const sectionRef = useRef<HTMLDivElement>(null);
   const pathRef = useRef<SVGPathElement>(null);
   const inView = useInView(sectionRef, { once: true, amount: 0.4 });
 
-  // progression 0 -> 1 (unique source de vérité)
   const progressMV = useMotionValue(0);
   const dashOffset = useTransform(progressMV, [0, 1], [1, 0]);
-  // Déclaré ici et non dans le JSX : appelé sous condition, ce hook cassait
-  // l'ordre des hooks dès que la préférence de mouvement réduit changeait.
-  const tipOpacity = useTransform(progressMV, [0, 0.02, 0.97, 1], [0, 1, 1, 0]);
+  const tipOpacity = useTransform(progressMV, [0, 0.03, 0.97, 1], [0, 1, 1, 0]);
+  // La bille pulse légèrement (scale) en continu pour un effet "vivant"
+  const tipScale = useTransform(
+    progressMV,
+    [0, 0.03, 0.5, 1],
+    [0, 1, 1, 0]
+  );
 
   const [tip, setTip] = useState({ x: NODES[0].x, y: NODES[0].y });
 
@@ -194,8 +253,9 @@ export function HowItWorks() {
       return;
     }
     const controls = animate(progressMV, 1, {
-      duration: 3,
-      ease: "easeInOut",
+      // Légèrement plus lent pour profiter de l'animation goofy
+      duration: 3.4,
+      ease: [0.4, 0, 0.2, 1],
       onUpdate: (v) => {
         const p = pathRef.current;
         if (p) {
@@ -235,6 +295,7 @@ export function HowItWorks() {
       </div>
 
       <div ref={sectionRef}>
+        {/* ── Desktop ── */}
         <div className="relative hidden h-[520px] lg:block lg:h-[580px]">
           <svg
             viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
@@ -251,7 +312,7 @@ export function HowItWorks() {
               vectorEffect="non-scaling-stroke"
             />
 
-            {/* Remplissage bleu continu 1 -> 3 */}
+            {/* Trait bleu animé */}
             <motion.path
               ref={pathRef}
               d={FULL_PATH}
@@ -263,17 +324,29 @@ export function HowItWorks() {
               style={{ strokeDashoffset: dashOffset }}
             />
 
-            {/* Pointeur qui suit la pointe et s'arrête au bord du nœud 3 */}
+            {/* Bille qui trace : plus grosse + halo blanc pour un effet pop */}
             {!reduce && (
-              <motion.circle
-                cx={tip.x}
-                cy={tip.y}
-                r="7"
-                fill="#ffffff"
-                stroke="#0077cd"
-                strokeWidth="3"
-                style={{ opacity: tipOpacity }}
-              />
+              <>
+                {/* Halo flou derrière la bille */}
+                <motion.circle
+                  cx={tip.x}
+                  cy={tip.y}
+                  r="16"
+                  fill="#0077cd"
+                  style={{ opacity: tipOpacity, scale: tipScale }}
+                  className="blur-[6px]"
+                />
+                {/* Bille principale */}
+                <motion.circle
+                  cx={tip.x}
+                  cy={tip.y}
+                  r="8"
+                  fill="#ffffff"
+                  stroke="#0077cd"
+                  strokeWidth="3"
+                  style={{ opacity: tipOpacity }}
+                />
+              </>
             )}
           </svg>
 
@@ -292,32 +365,43 @@ export function HowItWorks() {
               key={`label-${steps[i].title}`}
               step={steps[i]}
               node={node}
+              index={i}
               progress={progressMV}
               reduce={reduce}
             />
           ))}
         </div>
 
+        {/* ── Mobile ── */}
         <div className="grid gap-8 lg:hidden">
           {steps.map((step, i) => (
             <motion.div
               key={step.title}
               className="flex items-start gap-4"
-              initial={reduce ? false : { opacity: 0, y: 16 }}
+              initial={reduce ? false : { opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.5 }}
               transition={{
-                duration: 0.5,
-                delay: reduce ? 0 : i * 0.08,
-                ease: [0.16, 1, 0.3, 1],
+                duration: 0.55,
+                delay: reduce ? 0 : i * 0.1,
+                ease: [0.34, 1.56, 0.64, 1],
               }}
             >
-              <span
+              <motion.span
                 className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-medium text-accent-foreground shadow-accent"
                 style={{ fontFamily: "var(--font-heading)" }}
+                initial={reduce ? false : { scale: 0, rotate: -15 }}
+                whileInView={{ scale: 1, rotate: 0 }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{
+                  delay: reduce ? 0 : i * 0.1 + 0.15,
+                  type: "spring",
+                  stiffness: 380,
+                  damping: 14,
+                }}
               >
                 0{i + 1}
-              </span>
+              </motion.span>
               <div>
                 <h3 className="text-[20px] font-medium tracking-[-0.02em] text-accent">
                   {step.title}
