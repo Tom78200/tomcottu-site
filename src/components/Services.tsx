@@ -231,7 +231,7 @@ export function Services() {
             layoutId={`service-card-${i}`}
             onClick={() => setActiveIndex(i)}
             aria-expanded={activeIndex === i}
-            className={`group relative flex flex-col rounded-3xl bg-accent/[0.02] p-8 text-left transition-colors duration-300 hover:bg-accent/[0.035] sm:p-10 md:p-12 ${styles.glowCard}`}
+            className={`group relative flex flex-col rounded-3xl bg-accent-soft p-8 text-left border border-accent/15 shadow-soft transition-all duration-300 hover:border-accent/35 hover:shadow-card sm:p-10 md:p-12 ${styles.glowCard}`}
             initial={reduce ? false : { opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
@@ -248,7 +248,7 @@ export function Services() {
             </div>
 
             <div
-              className="mb-3 text-sm text-accent/35"
+              className="mb-3 text-sm font-semibold text-accent"
               style={{ fontFamily: "var(--font-heading)" }}
             >
               0{i + 1}
@@ -275,7 +275,7 @@ export function Services() {
               </p>
             </div>
 
-            <span className="mt-8 flex h-11 w-11 items-center justify-center rounded-full border border-accent/10 text-accent/50 transition-colors duration-300 group-hover:border-accent/20 group-hover:text-accent/70">
+            <span className="mt-8 flex h-11 w-11 items-center justify-center rounded-full border border-accent/20 bg-background text-accent shadow-sm transition-all duration-300 group-hover:bg-accent group-hover:text-white group-hover:border-accent">
               <PlusIcon />
             </span>
           </motion.button>

@@ -4,7 +4,7 @@ const headingFont = { fontFamily: "var(--font-heading)" };
 
 function Frame({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-full w-full flex-col rounded-2xl border border-accent/10 bg-white/70 p-6 sm:p-7">
+    <div className="flex h-full w-full flex-col rounded-2xl border border-accent/15 bg-white/90 p-6 shadow-sm sm:p-7">
       {children}
     </div>
   );
