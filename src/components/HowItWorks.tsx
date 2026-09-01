@@ -8,64 +8,150 @@ import {
   useMotionValue,
   useReducedMotion,
   useTransform,
+  type MotionValue,
 } from "motion/react";
-
 const steps = [
   {
-    tag: "Phase 01 — Cadrage",
     title: "Analyse de votre activité",
     body: "Basée sur votre site, vos outils et vos process réels, pas un questionnaire générique.",
   },
   {
-    tag: "Phase 02 — Conception",
     title: "Construction de l'agent",
     body: "Sur mesure, connecté aux outils déjà en place, pas un chatbot prêt à l'emploi.",
   },
   {
-    tag: "Phase 03 — Déploiement",
     title: "Affinage en conditions réelles",
     body: "Ajustements après mise en service, tant que l'agent ne colle pas à l'usage réel.",
   },
 ];
 
+const VIEW_W = 1200;
+const VIEW_H = 550;
+
+// Le dernier point s'allume à 0.85 et non à 1 : sa transition dure 0.12,
+// donc calé sur 1 il n'atteignait le noir qu'à l'ultime image et paraissait
+// rester gris.
+// Les nœuds extrêmes sont rentrés à 210/990 et non 150/1050 : les libellés
+// sont centrés dessus et débordaient de l'écran en dessous de 1100px.
+const NODES = [
+  { x: 210, y: 212, at: 0.06, placement: "above" as const },
+  { x: 600, y: 388, at: 0.5, placement: "below" as const },
+  { x: 990, y: 212, at: 0.85, placement: "above" as const },
+];
+
+// Courbe unique continue 1 -> 2 -> 3
+const FULL_PATH = "M210,212 C 380,212 430,388 600,388 C 770,388 820,212 990,212";
+
+function PathNode({
+  index,
+  node,
+  progress,
+  reduce,
+}: {
+  index: number;
+  node: (typeof NODES)[number];
+  progress: MotionValue<number>;
+  reduce: boolean | null;
+}) {
+  const range: [number, number] = [node.at - 0.12, node.at];
+  const background = useTransform(progress, range, ["#ffffff", "#000000"]);
+  const color = useTransform(progress, range, ["#00000059", "#ffffff"]);
+  const borderColor = useTransform(progress, range, ["#0000001f", "#000000"]);
+  const scale = useTransform(
+    progress,
+    [node.at - 0.04, node.at, node.at + 0.06],
+    [1, 1.3, 1]
+  );
+  const ringScale = useTransform(
+    progress,
+    [node.at - 0.02, node.at + 0.16],
+    [0.7, 2.1]
+  );
+  const ringOpacity = useTransform(
+    progress,
+    [node.at - 0.02, node.at, node.at + 0.16],
+    [0, 0.28, 0]
+  );
+
+  return (
+    <div
+      className="absolute"
+      style={{
+        left: `${(node.x / VIEW_W) * 100}%`,
+        top: `${(node.y / VIEW_H) * 100}%`,
+        transform: "translate(-50%, -50%)",
+      }}
+    >
+      {!reduce && (
+        <motion.span
+          aria-hidden="true"
+          className="absolute inset-0 rounded-full border border-accent"
+          style={{ scale: ringScale, opacity: ringOpacity }}
+        />
+      )}
+      <motion.div
+        className="flex h-16 w-16 items-center justify-center rounded-full border-2 text-[15px] font-medium"
+        style={
+          reduce
+            ? {
+                background: "#000000",
+                color: "#ffffff",
+                borderColor: "#000000",
+                fontFamily: "var(--font-heading)",
+              }
+            : {
+                background,
+                color,
+                borderColor,
+                scale,
+                fontFamily: "var(--font-heading)",
+              }
+        }
+      >
+        0{index + 1}
+      </motion.div>
+    </div>
+  );
+}
+
 export function HowItWorks() {
   const reduce = useReducedMotion();
   const sectionRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(sectionRef, { once: true, amount: 0.3 });
+  const pathRef = useRef<SVGPathElement>(null);
+  const inView = useInView(sectionRef, { once: true, amount: 0.4 });
+
+  // progression 0 -> 1 (unique source de vérité)
   const progressMV = useMotionValue(0);
+  const dashOffset = useTransform(progressMV, [0, 1], [1, 0]);
+  // Déclaré ici et non dans le JSX : appelé sous condition, ce hook cassait
+  // l'ordre des hooks dès que la préférence de mouvement réduit changeait.
+  const tipOpacity = useTransform(progressMV, [0, 0.02, 0.97, 1], [0, 1, 1, 0]);
 
-  const [activeStep, setActiveStep] = useState(0);
-
-  // Largeur de la barre de progression (0% à 100%)
-  const fillWidth = useTransform(progressMV, (v) => `${Math.min(100, Math.max(0, v * 100))}%`);
+  const [tip, setTip] = useState({ x: NODES[0].x, y: NODES[0].y });
 
   useEffect(() => {
     if (!inView) return;
     if (reduce) {
       progressMV.set(1);
-      setActiveStep(2);
+      const p = pathRef.current;
+      if (p) {
+        const pt = p.getPointAtLength(0.96 * p.getTotalLength());
+        setTip({ x: pt.x, y: pt.y });
+      }
       return;
     }
-
     const controls = animate(progressMV, 1, {
-      duration: 3.5,
-      ease: [0.16, 1, 0.3, 1],
+      duration: 3,
+      ease: "easeInOut",
+      onUpdate: (v) => {
+        const p = pathRef.current;
+        if (p) {
+          const pt = p.getPointAtLength(Math.min(v, 0.96) * p.getTotalLength());
+          setTip({ x: pt.x, y: pt.y });
+        }
+      },
     });
-
-    const unsubscribe = progressMV.on("change", (latest) => {
-      if (latest < 0.33) {
-        setActiveStep(0);
-      } else if (latest < 0.75) {
-        setActiveStep(1);
-      } else {
-        setActiveStep(2);
-      }
-    });
-
-    return () => {
-      controls.stop();
-      unsubscribe();
-    };
+    return () => controls.stop();
   }, [inView, reduce, progressMV]);
 
   return (
@@ -74,7 +160,6 @@ export function HowItWorks() {
       aria-labelledby="methode-heading"
       className="w-full px-5 pb-32 sm:px-10 md:pb-40 lg:px-16"
     >
-      {/* En-tête de section */}
       <div className="mb-14 border-t border-border-soft pt-16 md:mb-20 md:pt-24">
         <div
           className="mb-4 text-base font-semibold text-foreground md:text-lg"
@@ -90,161 +175,131 @@ export function HowItWorks() {
             lineHeight: 1.08,
             letterSpacing: "-0.03em",
             textWrap: "balance",
-          } as React.CSSProperties}
+          }}
         >
           Trois étapes, pas de blabla.
         </h2>
       </div>
 
-      <div ref={sectionRef} className="relative">
-        {/* ══════════ Desktop : Timeline & 3 Cartes Connectées ══════════ */}
-        <div className="hidden lg:block space-y-10">
-          
-          {/* Barre de progression principale — Épaisse, épurée et arrondie (Linear style) */}
-          <div className="relative">
-            {/* Rail de fond */}
-            <div className="h-3 w-full rounded-full bg-border-soft/70 overflow-hidden">
-              {/* Remplissage animé */}
-              <motion.div
-                className="h-full rounded-full bg-accent"
-                style={{ width: fillWidth }}
+      <div ref={sectionRef}>
+        <div className="relative hidden h-[520px] lg:block lg:h-[580px]">
+          <svg
+            viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
+            className="absolute inset-0 h-full w-full overflow-visible"
+            fill="none"
+            preserveAspectRatio="none"
+          >
+            {/* Trace de fond */}
+            <path
+              d={FULL_PATH}
+              stroke="var(--border-soft)"
+              strokeWidth="2"
+              strokeLinecap="round"
+              vectorEffect="non-scaling-stroke"
+            />
+
+            {/* Remplissage noir continu 1 -> 3 */}
+            <motion.path
+              ref={pathRef}
+              d={FULL_PATH}
+              stroke="#000000"
+              strokeWidth="6"
+              strokeLinecap="round"
+              pathLength={1}
+              strokeDasharray="1"
+              style={{ strokeDashoffset: dashOffset }}
+            />
+
+            {/* Pointeur blanc qui suit la pointe et s'arrête au bord du nœud 3 */}
+            {!reduce && (
+              <motion.circle
+                cx={tip.x}
+                cy={tip.y}
+                r="8"
+                fill="#ffffff"
+                style={{ opacity: tipOpacity }}
               />
-            </div>
+            )}
+          </svg>
 
-            {/* Paliers / Points de repère sur la barre */}
-            <div className="absolute inset-0 flex items-center justify-between pointer-events-none px-4">
-              {[0, 1, 2].map((idx) => {
-                const isPassed = activeStep >= idx;
-                return (
-                  <div
-                    key={idx}
-                    className="relative flex items-center justify-center"
-                  >
-                    <div
-                      className={`h-5 w-5 rounded-full border-2 transition-all duration-500 flex items-center justify-center ${
-                        isPassed
-                          ? "bg-accent border-white scale-110 shadow-sm"
-                          : "bg-background border-border-soft"
-                      }`}
-                    >
-                      {isPassed && (
-                        <span className="h-1.5 w-1.5 rounded-full bg-white" />
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+          {NODES.map((node, i) => (
+            <PathNode
+              key={steps[i].title}
+              index={i}
+              node={node}
+              progress={progressMV}
+              reduce={reduce}
+            />
+          ))}
 
-          {/* Grille des 3 cartes d'étapes */}
-          <div className="grid grid-cols-3 gap-6 pt-4">
-            {steps.map((step, idx) => {
-              const isPassed = activeStep >= idx;
-              const isCurrent = activeStep === idx;
-
-              return (
-                <motion.div
-                  key={step.title}
-                  initial={reduce ? false : { opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: idx * 0.15 }}
-                  className={`relative flex flex-col justify-between rounded-3xl p-8 transition-all duration-500 border ${
-                    isPassed
-                      ? "bg-white/90 border-accent/40 shadow-soft ring-1 ring-accent/15"
-                      : "bg-background/40 border-border-soft/70 opacity-60"
-                  }`}
+          {NODES.map((node, i) => (
+            <div
+              key={`label-${steps[i].title}`}
+              className="absolute w-[16em] text-center"
+              style={{
+                left: `${(node.x / VIEW_W) * 100}%`,
+                top: `${(node.y / VIEW_H) * 100}%`,
+                transform:
+                  node.placement === "above"
+                    ? "translate(-50%, calc(-100% - 58px))"
+                    : "translate(-50%, 58px)",
+              }}
+            >
+              <motion.div
+                initial={reduce ? false : { opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.6 }}
+                transition={{
+                  duration: 0.55,
+                  delay: reduce ? 0 : i * 0.12,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+              >
+                <h3 className="text-[21px] font-medium tracking-[-0.02em] text-foreground">
+                  {steps[i].title}
+                </h3>
+                <p
+                  className="mt-2 text-[15px] text-muted"
+                  style={{ lineHeight: 1.55, textWrap: "pretty" }}
                 >
-                  <div>
-                    {/* Header de carte avec numéro et tag */}
-                    <div className="flex items-center justify-between mb-8">
-                      <span
-                        className={`text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full transition-colors duration-300 ${
-                          isPassed
-                            ? "bg-accent/10 text-accent"
-                            : "bg-border-soft text-muted"
-                        }`}
-                        style={{ fontFamily: "var(--font-heading)" }}
-                      >
-                        {step.tag}
-                      </span>
-                      <span
-                        className={`text-2xl font-bold tracking-tight transition-colors duration-300 ${
-                          isPassed ? "text-accent" : "text-border"
-                        }`}
-                        style={{ fontFamily: "var(--font-heading)" }}
-                      >
-                        0{idx + 1}
-                      </span>
-                    </div>
-
-                    {/* Titre */}
-                    <h3 className="text-xl font-semibold text-foreground tracking-[-0.02em] mb-3">
-                      {step.title}
-                    </h3>
-
-                    {/* Corps de texte */}
-                    <p className="text-[15px] text-muted leading-relaxed">
-                      {step.body}
-                    </p>
-                  </div>
-
-                  {/* Indicateur de statut en bas de carte */}
-                  <div className="mt-8 pt-5 border-t border-border-soft/60 flex items-center justify-between">
-                    <span className="text-xs text-muted-soft">
-                      {isCurrent
-                        ? "En cours"
-                        : isPassed
-                        ? "Validé"
-                        : "À venir"}
-                    </span>
-                    <div
-                      className={`h-2 w-2 rounded-full transition-all duration-300 ${
-                        isCurrent
-                          ? "bg-accent animate-pulse"
-                          : isPassed
-                          ? "bg-accent"
-                          : "bg-border-soft"
-                      }`}
-                    />
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
+                  {steps[i].body}
+                </p>
+              </motion.div>
+            </div>
+          ))}
         </div>
 
-        {/* ══════════ Mobile : Stepper Vertical Élégant ══════════ */}
-        <div className="grid gap-6 lg:hidden">
-          {steps.map((step, idx) => (
+        <div className="grid gap-8 lg:hidden">
+          {steps.map((step, i) => (
             <motion.div
               key={step.title}
+              className="flex items-start gap-4"
               initial={reduce ? false : { opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.4 }}
-              transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className="relative flex flex-col rounded-2xl border border-border-soft bg-white/80 p-6 shadow-soft"
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{
+                duration: 0.5,
+                delay: reduce ? 0 : i * 0.08,
+                ease: [0.16, 1, 0.3, 1],
+              }}
             >
-              <div className="flex items-center justify-between mb-4">
-                <span
-                  className="text-xs font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-accent/10 text-accent"
-                  style={{ fontFamily: "var(--font-heading)" }}
+              <span
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-medium text-accent-foreground"
+                style={{ fontFamily: "var(--font-heading)" }}
+              >
+                0{i + 1}
+              </span>
+              <div>
+                <h3 className="text-[20px] font-medium tracking-[-0.02em] text-foreground">
+                  {step.title}
+                </h3>
+                <p
+                  className="mt-1.5 text-base text-muted"
+                  style={{ lineHeight: 1.55, textWrap: "pretty" }}
                 >
-                  {step.tag}
-                </span>
-                <span
-                  className="text-lg font-bold text-accent"
-                  style={{ fontFamily: "var(--font-heading)" }}
-                >
-                  0{idx + 1}
-                </span>
+                  {step.body}
+                </p>
               </div>
-              <h3 className="text-lg font-semibold text-foreground tracking-[-0.02em] mb-2">
-                {step.title}
-              </h3>
-              <p className="text-[14px] text-muted leading-relaxed">
-                {step.body}
-              </p>
             </motion.div>
           ))}
         </div>
