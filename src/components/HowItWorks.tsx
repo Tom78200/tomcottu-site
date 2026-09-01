@@ -31,16 +31,16 @@ const steps = [
 ];
 
 const VIEW_W = 1200;
-const VIEW_H = 780;
+const VIEW_H = 750;
 
 const NODES = [
   { x: 230, y: 350, at: 0.06, placement: "above" as const },
-  { x: 600, y: 430, at: 0.5, placement: "below" as const },
+  { x: 600, y: 410, at: 0.5, placement: "below" as const },
   { x: 970, y: 350, at: 0.85, placement: "above" as const },
 ];
 
 // Courbe unique continue 1 -> 2 -> 3
-const FULL_PATH = "M230,350 C 400,350 430,430 600,430 C 770,430 800,350 970,350";
+const FULL_PATH = "M230,350 C 400,350 430,410 600,410 C 770,410 800,350 970,350";
 
 function PathNode({
   index,
@@ -128,7 +128,7 @@ function StepNodeContent({
   progress: MotionValue<number>;
   reduce: boolean | null;
 }) {
-  // L'image et la carte visuelle apparaissent au moment où le bleu passe sur le nœud
+  // L'image et le texte apparaissent au moment où le bleu passe sur le nœud
   const revealOpacity = useTransform(
     progress,
     [node.at - 0.06, node.at + 0.06],
@@ -137,25 +137,25 @@ function StepNodeContent({
   const revealScale = useTransform(
     progress,
     [node.at - 0.06, node.at + 0.06],
-    [0.88, 1]
+    [0.9, 1]
   );
   const revealY = useTransform(
     progress,
     [node.at - 0.06, node.at + 0.06],
-    [node.placement === "above" ? 18 : -18, 0]
+    [node.placement === "above" ? 14 : -14, 0]
   );
 
   const isAbove = node.placement === "above";
 
   return (
     <div
-      className="absolute w-[310px] text-center"
+      className="absolute w-[280px] text-center"
       style={{
         left: `${(node.x / VIEW_W) * 100}%`,
         top: `${(node.y / VIEW_H) * 100}%`,
         transform: isAbove
-          ? "translate(-50%, calc(-100% - 44px))"
-          : "translate(-50%, 44px)",
+          ? "translate(-50%, calc(-100% - 36px))"
+          : "translate(-50%, 36px)",
         zIndex: 5,
       }}
     >
@@ -169,24 +169,22 @@ function StepNodeContent({
                 y: revealY,
               }
         }
-        className="flex flex-col items-center gap-3.5"
+        className="flex flex-col items-center gap-2"
       >
-        {/* Nœud 1 & 3 : Grande Image au-dessus du texte */}
+        {/* Nœud 1 & 3 : Image entière sans boîte fermée au-dessus */}
         {isAbove && (
-          <div className="group relative aspect-[16/10] w-full overflow-hidden rounded-3xl border border-border-soft/80 bg-white p-1.5 shadow-card transition-all duration-300 hover:border-accent/30 hover:shadow-2xl">
-            <div className="relative h-full w-full overflow-hidden rounded-[20px] bg-black/5">
-              <Image
-                src={step.image}
-                alt={step.title}
-                fill
-                sizes="320px"
-                className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
-              />
-            </div>
+          <div className="relative h-56 w-44 drop-shadow-xl transition-transform duration-500 hover:scale-105">
+            <Image
+              src={step.image}
+              alt={step.title}
+              fill
+              sizes="200px"
+              className="object-contain object-bottom"
+            />
           </div>
         )}
 
-        {/* Titre & Légende discrets */}
+        {/* Titre & Sous-titre */}
         <div className="px-2">
           <h3 className="text-[17px] font-semibold tracking-[-0.02em] text-foreground">
             {step.title}
@@ -196,18 +194,16 @@ function StepNodeContent({
           </p>
         </div>
 
-        {/* Nœud 2 : Texte d'abord, puis Grande Image en-dessous */}
+        {/* Nœud 2 : Image entière sans boîte fermée en-dessous */}
         {!isAbove && (
-          <div className="group relative aspect-[16/10] w-full overflow-hidden rounded-3xl border border-border-soft/80 bg-white p-1.5 shadow-card transition-all duration-300 hover:border-accent/30 hover:shadow-2xl">
-            <div className="relative h-full w-full overflow-hidden rounded-[20px] bg-black/5">
-              <Image
-                src={step.image}
-                alt={step.title}
-                fill
-                sizes="320px"
-                className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
-              />
-            </div>
+          <div className="relative h-56 w-44 drop-shadow-xl transition-transform duration-500 hover:scale-105">
+            <Image
+              src={step.image}
+              alt={step.title}
+              fill
+              sizes="200px"
+              className="object-contain object-top"
+            />
           </div>
         )}
       </motion.div>
@@ -240,7 +236,7 @@ export function HowItWorks() {
       return;
     }
 
-    // Animation ralentie pour apprécier le reveal de chaque grande carte
+    // Animation fluide ralentie
     const controls = animate(progressMV, 1, {
       duration: 5.5,
       ease: "easeInOut",
@@ -283,7 +279,7 @@ export function HowItWorks() {
       </div>
 
       <div ref={sectionRef}>
-        <div className="relative hidden h-[780px] lg:block">
+        <div className="relative hidden h-[750px] lg:block">
           <svg
             viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
             className="absolute inset-0 h-full w-full overflow-visible"
@@ -346,11 +342,11 @@ export function HowItWorks() {
         </div>
 
         {/* Version Mobile */}
-        <div className="grid gap-8 sm:grid-cols-2 lg:hidden">
+        <div className="grid gap-10 sm:grid-cols-2 lg:hidden">
           {steps.map((step, i) => (
             <motion.div
               key={step.title}
-              className="flex flex-col gap-4 rounded-3xl border border-border-soft bg-white p-5 shadow-card"
+              className="flex flex-col items-center text-center gap-3"
               initial={reduce ? false : { opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
@@ -360,32 +356,32 @@ export function HowItWorks() {
                 ease: [0.16, 1, 0.3, 1],
               }}
             >
-              {/* Image d'abord sur mobile */}
-              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-black/5">
+              {/* Image entière sans boîte */}
+              <div className="relative h-56 w-44 drop-shadow-xl">
                 <Image
                   src={step.image}
                   alt={step.title}
                   fill
-                  sizes="350px"
-                  className="object-cover object-center"
+                  sizes="200px"
+                  className="object-contain object-bottom"
                 />
               </div>
 
-              <div className="flex items-start gap-3">
-                <span
-                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-semibold text-accent-foreground"
-                  style={{ fontFamily: "var(--font-heading)" }}
-                >
-                  0{i + 1}
-                </span>
-                <div>
+              <div className="flex flex-col items-center gap-1">
+                <div className="flex items-center gap-2">
+                  <span
+                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-semibold text-accent-foreground"
+                    style={{ fontFamily: "var(--font-heading)" }}
+                  >
+                    0{i + 1}
+                  </span>
                   <h3 className="text-[17px] font-semibold tracking-[-0.02em] text-foreground">
                     {step.title}
                   </h3>
-                  <p className="mt-1 text-[13px] text-muted leading-relaxed">
-                    {step.body}
-                  </p>
                 </div>
+                <p className="mt-1 text-[13px] text-muted leading-relaxed max-w-[260px]">
+                  {step.body}
+                </p>
               </div>
             </motion.div>
           ))}
