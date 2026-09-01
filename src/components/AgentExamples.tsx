@@ -54,7 +54,7 @@ const scenarios = [
 // Source en 1672x941 (16:9), avec du vide en haut et en bas. Le cadre 3:1
 // combiné à object-cover recadre pile sur la bande utile (y 192 à 749),
 // sans toucher au fichier d'origine.
-const BAND = { src: "/exemples/bande.webp", ratio: "3 / 1" };
+const BAND = { src: "/exemples/4.png", ratio: "3 / 1" };
 
 function PlusIcon() {
   return (
