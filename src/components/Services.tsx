@@ -68,7 +68,7 @@ function ModalList({
   return (
     <div>
       <div
-        className="mb-4 text-[11px] tracking-[0.09em] text-accent/40 uppercase"
+        className="mb-4 text-[11px] font-semibold tracking-[0.09em] text-accent uppercase"
         style={{ fontFamily: "var(--font-heading)" }}
       >
         {label}

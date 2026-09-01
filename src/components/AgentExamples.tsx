@@ -111,13 +111,13 @@ function DetailBlock({
   return (
     <div>
       <div
-        className="mb-2 text-[11px] tracking-[0.09em] text-accent/40 uppercase"
+        className="mb-2 text-[11px] font-semibold tracking-[0.09em] text-accent uppercase"
         style={{ fontFamily: "var(--font-heading)" }}
       >
         {label}
       </div>
       <p
-        className={`text-[15px] ${strong ? "font-medium text-foreground" : "text-muted"}`}
+        className={`text-[15px] ${strong ? "font-medium text-foreground" : "text-foreground/80"}`}
         style={{ lineHeight: 1.6 }}
       >
         {children}
@@ -321,13 +321,13 @@ export function AgentExamples() {
 
                 <div className="mb-4 flex items-baseline gap-3">
                   <span
-                    className="text-[22px] leading-none text-accent/25"
+                    className="text-[24px] font-semibold leading-none text-accent"
                     style={{ fontFamily: "var(--font-heading)" }}
                   >
                     0{activeIndex + 1}
                   </span>
                   <span
-                    className="text-[11px] tracking-[0.09em] text-accent/50 uppercase"
+                    className="text-[11px] font-semibold tracking-[0.09em] text-accent uppercase"
                     style={{ fontFamily: "var(--font-heading)" }}
                   >
                     {active.sector}
@@ -354,11 +354,11 @@ export function AgentExamples() {
                   </DetailBlock>
 
                   <div className="flex flex-wrap items-center gap-2 border-t border-border-soft pt-6">
-                    <span className="mr-1 text-xs text-accent/40">Connecté à</span>
+                    <span className="mr-1 text-xs font-semibold text-accent uppercase tracking-wider">Connecté à</span>
                     {active.tools.map((tool) => (
                       <span
                         key={tool}
-                        className="rounded-full border border-accent/10 px-3 py-1.5 text-[13px] text-foreground"
+                        className="rounded-full border border-accent/20 bg-accent/5 px-3 py-1.5 text-[13px] font-medium text-foreground"
                       >
                         {tool}
                       </span>
