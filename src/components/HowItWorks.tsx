@@ -54,9 +54,9 @@ function PathNode({
   reduce: boolean | null;
 }) {
   const range: [number, number] = [node.at - 0.12, node.at];
-  const background = useTransform(progress, range, ["#ffffff", "#000000"]);
+  const background = useTransform(progress, range, ["#ffffff", "#0077cd"]);
   const color = useTransform(progress, range, ["#00000059", "#ffffff"]);
-  const borderColor = useTransform(progress, range, ["#0000001f", "#000000"]);
+  const borderColor = useTransform(progress, range, ["#0000001f", "#0077cd"]);
   const scale = useTransform(
     progress,
     [node.at - 0.04, node.at, node.at + 0.06],
@@ -94,9 +94,9 @@ function PathNode({
         style={
           reduce
             ? {
-                background: "#000000",
+                background: "#0077cd",
                 color: "#ffffff",
-                borderColor: "#000000",
+                borderColor: "#0077cd",
                 fontFamily: "var(--font-heading)",
               }
             : {
@@ -198,11 +198,11 @@ export function HowItWorks() {
               vectorEffect="non-scaling-stroke"
             />
 
-            {/* Remplissage noir continu 1 -> 3 */}
+            {/* Remplissage bleu continu 1 -> 3 */}
             <motion.path
               ref={pathRef}
               d={FULL_PATH}
-              stroke="#000000"
+              stroke="#0077cd"
               strokeWidth="6"
               strokeLinecap="round"
               pathLength={1}
