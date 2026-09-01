@@ -54,13 +54,13 @@ function PathNode({
   reduce: boolean | null;
 }) {
   const range: [number, number] = [node.at - 0.12, node.at];
-  const background = useTransform(progress, range, ["#ffffff", "#000000"]);
-  const color = useTransform(progress, range, ["#00000059", "#ffffff"]);
-  const borderColor = useTransform(progress, range, ["#0000001f", "#000000"]);
+  const background = useTransform(progress, range, ["#162330", "#0077cd"]);
+  const color = useTransform(progress, range, ["#ffffff", "#ffffff"]);
+  const borderColor = useTransform(progress, range, ["#162330", "#0077cd"]);
   const scale = useTransform(
     progress,
     [node.at - 0.04, node.at, node.at + 0.06],
-    [1, 1.3, 1]
+    [1, 1.25, 1]
   );
   const ringScale = useTransform(
     progress,
@@ -69,8 +69,8 @@ function PathNode({
   );
   const ringOpacity = useTransform(
     progress,
-    [node.at - 0.02, node.at, node.at + 0.16],
-    [0, 0.28, 0]
+    [node.at - 0.02, node.at + 0.16],
+    [0, 0.35, 0]
   );
 
   return (
@@ -85,18 +85,18 @@ function PathNode({
       {!reduce && (
         <motion.span
           aria-hidden="true"
-          className="absolute inset-0 rounded-full border border-accent"
+          className="absolute inset-0 rounded-full border-2 border-accent"
           style={{ scale: ringScale, opacity: ringOpacity }}
         />
       )}
       <motion.div
-        className="flex h-16 w-16 items-center justify-center rounded-full border-2 text-[15px] font-medium"
+        className="flex h-16 w-16 items-center justify-center rounded-full border-2 text-[15px] font-medium shadow-sm"
         style={
           reduce
             ? {
-                background: "#000000",
+                background: "#0077cd",
                 color: "#ffffff",
-                borderColor: "#000000",
+                borderColor: "#0077cd",
                 fontFamily: "var(--font-heading)",
               }
             : {
@@ -109,6 +109,59 @@ function PathNode({
         }
       >
         0{index + 1}
+      </motion.div>
+    </div>
+  );
+}
+
+function StepLabel({
+  step,
+  node,
+  progress,
+  reduce,
+}: {
+  step: (typeof steps)[number];
+  node: (typeof NODES)[number];
+  progress: MotionValue<number>;
+  reduce: boolean | null;
+}) {
+  const range: [number, number] = [node.at - 0.08, node.at + 0.02];
+  const titleColor = useTransform(progress, range, ["#162330", "#0077cd"]);
+
+  return (
+    <div
+      className="absolute w-[16em] text-center"
+      style={{
+        left: `${(node.x / VIEW_W) * 100}%`,
+        top: `${(node.y / VIEW_H) * 100}%`,
+        transform:
+          node.placement === "above"
+            ? "translate(-50%, calc(-100% - 58px))"
+            : "translate(-50%, 58px)",
+      }}
+    >
+      <motion.div
+        initial={reduce ? false : { opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.6 }}
+        transition={{
+          duration: 0.55,
+          delay: reduce ? 0 : 0.1,
+          ease: [0.16, 1, 0.3, 1],
+        }}
+      >
+        <motion.h3
+          className="text-[21px] font-medium tracking-[-0.02em]"
+          style={{ color: reduce ? "#0077cd" : titleColor }}
+        >
+          {step.title}
+        </motion.h3>
+        <p
+          className="mt-2 text-[15px] text-muted"
+          style={{ lineHeight: 1.55, textWrap: "pretty" }}
+        >
+          {step.body}
+        </p>
       </motion.div>
     </div>
   );
@@ -198,25 +251,27 @@ export function HowItWorks() {
               vectorEffect="non-scaling-stroke"
             />
 
-            {/* Remplissage noir continu 1 -> 3 */}
+            {/* Remplissage bleu continu 1 -> 3 */}
             <motion.path
               ref={pathRef}
               d={FULL_PATH}
-              stroke="#000000"
-              strokeWidth="6"
+              stroke="#0077cd"
+              strokeWidth="5"
               strokeLinecap="round"
               pathLength={1}
               strokeDasharray="1"
               style={{ strokeDashoffset: dashOffset }}
             />
 
-            {/* Pointeur blanc qui suit la pointe et s'arrête au bord du nœud 3 */}
+            {/* Pointeur qui suit la pointe et s'arrête au bord du nœud 3 */}
             {!reduce && (
               <motion.circle
                 cx={tip.x}
                 cy={tip.y}
-                r="8"
+                r="7"
                 fill="#ffffff"
+                stroke="#0077cd"
+                strokeWidth="3"
                 style={{ opacity: tipOpacity }}
               />
             )}
@@ -233,39 +288,13 @@ export function HowItWorks() {
           ))}
 
           {NODES.map((node, i) => (
-            <div
+            <StepLabel
               key={`label-${steps[i].title}`}
-              className="absolute w-[16em] text-center"
-              style={{
-                left: `${(node.x / VIEW_W) * 100}%`,
-                top: `${(node.y / VIEW_H) * 100}%`,
-                transform:
-                  node.placement === "above"
-                    ? "translate(-50%, calc(-100% - 58px))"
-                    : "translate(-50%, 58px)",
-              }}
-            >
-              <motion.div
-                initial={reduce ? false : { opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.6 }}
-                transition={{
-                  duration: 0.55,
-                  delay: reduce ? 0 : i * 0.12,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-              >
-                <h3 className="text-[21px] font-medium tracking-[-0.02em] text-foreground">
-                  {steps[i].title}
-                </h3>
-                <p
-                  className="mt-2 text-[15px] text-muted"
-                  style={{ lineHeight: 1.55, textWrap: "pretty" }}
-                >
-                  {steps[i].body}
-                </p>
-              </motion.div>
-            </div>
+              step={steps[i]}
+              node={node}
+              progress={progressMV}
+              reduce={reduce}
+            />
           ))}
         </div>
 
@@ -284,13 +313,13 @@ export function HowItWorks() {
               }}
             >
               <span
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-medium text-accent-foreground"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-medium text-accent-foreground shadow-accent"
                 style={{ fontFamily: "var(--font-heading)" }}
               >
                 0{i + 1}
               </span>
               <div>
-                <h3 className="text-[20px] font-medium tracking-[-0.02em] text-foreground">
+                <h3 className="text-[20px] font-medium tracking-[-0.02em] text-accent">
                   {step.title}
                 </h3>
                 <p
