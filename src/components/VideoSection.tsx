@@ -84,9 +84,9 @@ export function VideoSection() {
       style={{ perspective: "1200px" }}
     >
       {/* ── En-tête de section ── */}
-      <div className="mb-14 border-t border-border-soft pt-16 md:mb-20 md:pt-24">
+      <div className="mb-14 flex flex-col items-center text-center border-t border-border-soft pt-16 md:mb-20 md:pt-24">
         <h2
-          className="max-w-4xl font-medium text-foreground"
+          className="max-w-4xl font-medium text-foreground text-center"
           style={{
             fontSize: "clamp(34px, 5vw, 60px)",
             lineHeight: 1.08,
