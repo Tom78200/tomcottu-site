@@ -27,103 +27,63 @@ const steps = [
 ];
 
 /*
-  Progress 0→1, fusée s'arrête sur le nœud 3 (x = 5/6 = 83.33 %).
-  Nœuds allumés respectivement à 0.20 / 0.60 / 1.00.
+  Layout : 3 colonnes égales → centres à 1/6, 1/2, 5/6 de la largeur.
+  La ligne (en dessous du contenu) a exactement la même largeur que la grille.
+  Les dots sur la ligne sont positionnés à ces mêmes %, donc alignés sans calc complexe.
+
+  Progress 0 → 1 :
+    - Fusée : de x=0 à x = (5/6) × 100 % (s'arrête sur le nœud 3)
+    - Node 1 s'allume à v = (1/6)/(5/6) ≈ 0.20
+    - Node 2 s'allume à v = (1/2)/(5/6) ≈ 0.60
+    - Node 3 s'allume à v = 1.00
 */
 const LINE_END = 5 / 6;
-const NODE_X   = [1 / 6, 1 / 2, 5 / 6] as const;
-const NODE_AT  = [(1 / 6) / (5 / 6), (3 / 6) / (5 / 6), 1.0] as const;
+const NODE_X = [1 / 6, 1 / 2, 5 / 6] as const;
+const NODE_AT = [
+  (1 / 6) / (5 / 6), // 0.200
+  (3 / 6) / (5 / 6), // 0.600
+  1.0,                // 1.000
+] as const;
 
-/* ── Icône check (SVG, pas de dépendance externe) ─────────────── */
-function CheckIcon() {
+/* ── Fusée : silhouette bullet épurée ───────────────────────────── */
+function RocketSVG() {
   return (
-    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
+    <svg width="40" height="16" viewBox="0 0 40 16" fill="none" aria-hidden>
+      {/* Corps */}
       <path
-        d="M2 6L5 9L10 3"
-        stroke="white"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-/* ── Checkpoint — inspire du status-progress de la facture ─────── */
-function Checkpoint({
-  index,
-  lit,
-  reduce,
-}: {
-  index: number;
-  lit: boolean;
-  reduce: boolean | null;
-}) {
-  return (
-    <div className="flex flex-col items-center gap-2">
-      {/* Cercle checkpoint */}
-      <motion.div
-        className="relative flex items-center justify-center rounded-full border-[1.5px]"
-        style={{ width: 32, height: 32 }}
-        animate={
-          lit
-            ? { borderColor: "var(--accent)", backgroundColor: "var(--accent)" }
-            : { borderColor: "var(--border)", backgroundColor: "var(--background)" }
-        }
-        transition={{ duration: 0.3 }}
-      >
-        {/* Check qui "tampon" en surgissant */}
-        {lit && (
-          <motion.div
-            initial={reduce ? false : { scale: 1.8, opacity: 0, rotate: -20 }}
-            animate={{ scale: 1, opacity: 1, rotate: 0 }}
-            transition={{ duration: 0.45, ease: [0.34, 1.56, 0.64, 1] }}
-          >
-            <CheckIcon />
-          </motion.div>
-        )}
-
-        {/* Cercle vide (avant lit) */}
-        {!lit && (
-          <span
-            className="rounded-full"
-            style={{
-              width: 8,
-              height: 8,
-              background: "var(--border-soft)",
-            }}
-          />
-        )}
-      </motion.div>
-
-      {/* Numéro sous le checkpoint */}
-      <motion.span
-        className="text-[11px] font-semibold tracking-widest uppercase"
-        style={{ fontFamily: "var(--font-heading)", letterSpacing: "0.1em" }}
-        animate={{ color: lit ? "var(--accent)" : "var(--muted-soft)" }}
-        transition={{ duration: 0.3 }}
-      >
-        {String(index + 1).padStart(2, "0")}
-      </motion.span>
-    </div>
-  );
-}
-
-/* ── Curseur (fusée épurée) ─────────────────────────────────────── */
-function RocketCursor() {
-  return (
-    <svg width="38" height="16" viewBox="0 0 38 16" fill="none" aria-hidden>
-      <path
-        d="M2,8 C5,2 11,0 24,0 L32,0 C35.3,0 38,3.6 38,8 C38,12.4 35.3,16 32,16 L24,16 C11,16 5,14 2,8Z"
+        d="M2,8 C4,2 10,0 24,0 L34,0 C37.3,0 40,3.6 40,8 C40,12.4 37.3,16 34,16 L24,16 C10,16 4,14 2,8Z"
         fill="var(--accent)"
       />
-      <circle cx="23" cy="8" r="3" fill="white" opacity="0.5" />
-      <path d="M2,8 L-7,5 L-7,11Z" fill="var(--accent)" opacity="0.18" />
+      {/* Hublot */}
+      <circle cx="24" cy="8" r="3" fill="white" opacity="0.5" />
+      {/* Aileron bas — micro-détail qui donne la direction */}
+      <path d="M10,16 L4,22 L14,16Z" fill="oklch(0.46 0.17 250)" />
+      {/* Sillage : dégradé de transparence, pas de couleur vive */}
+      <path
+        d="M2,8 L-10,5 L-10,11 Z"
+        fill="var(--accent)"
+        opacity="0.18"
+      />
     </svg>
   );
 }
 
-/* ── Colonne de contenu ─────────────────────────────────────────── */
+/* ── Dot sur la ligne ────────────────────────────────────────────── */
+function LineDot({ lit }: { lit: boolean }) {
+  return (
+    <motion.div
+      style={{ width: 12, height: 12, borderRadius: "50%", border: "2px solid" }}
+      animate={
+        lit
+          ? { backgroundColor: "var(--accent)", borderColor: "var(--accent)" }
+          : { backgroundColor: "var(--background)", borderColor: "var(--border-soft)" }
+      }
+      transition={{ duration: 0.35 }}
+    />
+  );
+}
+
+/* ── Colonne étape ───────────────────────────────────────────────── */
 function StepColumn({
   step,
   index,
@@ -155,16 +115,16 @@ function StepColumn({
   }, [progress, index, reduce, onLit]);
 
   return (
-    <div className="flex flex-col gap-3 pr-8">
-      {/* Grand numéro fantôme qui s'illumine */}
+    <div className="flex flex-col gap-4">
+      {/* Numéro géant : "fantôme" → vivid accent */}
       <motion.span
-        className="block select-none font-black leading-none tracking-[-0.04em]"
+        className="block select-none font-black leading-none tracking-tighter"
         style={{
           fontFamily: "var(--font-heading)",
-          fontSize: "clamp(52px, 5.5vw, 76px)",
+          fontSize: "clamp(56px, 6vw, 80px)",
         }}
         animate={{
-          color: lit ? "var(--accent)" : "oklch(0.25 0.03 250 / 0.1)",
+          color: lit ? "var(--accent)" : "oklch(0.25 0.03 250 / 0.12)",
         }}
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       >
@@ -173,37 +133,41 @@ function StepColumn({
 
       {/* Titre */}
       <motion.h3
-        className="text-[16px] font-semibold leading-snug tracking-[-0.02em]"
-        animate={{ color: lit ? "var(--foreground)" : "var(--foreground)" }}
-        transition={{ duration: 0.3 }}
+        className="text-[17px] font-semibold leading-snug tracking-[-0.02em]"
+        animate={{ color: lit ? "var(--accent)" : "var(--foreground)" }}
+        transition={{ duration: 0.4, delay: 0.06, ease: [0.16, 1, 0.3, 1] }}
       >
         {step.title}
       </motion.h3>
 
       {/* Corps */}
-      <p
-        className="text-[13px] leading-relaxed text-muted"
+      <motion.p
+        className="text-[14px] text-muted leading-relaxed"
+        animate={{ opacity: lit ? 1 : 0.45 }}
+        transition={{ duration: 0.45, delay: 0.1 }}
         style={{ textWrap: "pretty" } as React.CSSProperties}
       >
         {step.body}
-      </p>
+      </motion.p>
     </div>
   );
 }
 
-/* ── Composant principal ─────────────────────────────────────────── */
+/* ── Section principale ──────────────────────────────────────────── */
 export function HowItWorks() {
   const reduce = useReducedMotion();
   const sectionRef = useRef<HTMLDivElement>(null);
   const inView = useInView(sectionRef, { once: true, amount: 0.35 });
   const progressMV = useMotionValue(0);
 
-  /* Fusée : centre → v × LINE_END × 100 %, largeur 38 px → left = centre − 19 px */
+  /*
+    La fusée va de 0 % à (5/6)×100 % = 83.33 %.
+    Largeur fusée = 40 px → left = centre - 20 px.
+  */
   const rocketLeft = useTransform(
     progressMV,
-    (v) => `calc(${v * LINE_END * 100}% - 19px)`
+    (v) => `calc(${v * LINE_END * 100}% - 20px)`
   );
-  /* Traînée bleue */
   const trailWidth = useTransform(
     progressMV,
     (v) => `${v * LINE_END * 100}%`
@@ -223,7 +187,11 @@ export function HowItWorks() {
 
   useEffect(() => {
     if (!inView) return;
-    if (reduce) { progressMV.set(1); setLitStates([true, true, true]); return; }
+    if (reduce) {
+      progressMV.set(1);
+      setLitStates([true, true, true]);
+      return;
+    }
     const c = animate(progressMV, 1, { duration: 4.0, ease: [0.22, 0, 0.12, 1] });
     return () => c.stop();
   }, [inView, reduce, progressMV]);
@@ -234,7 +202,7 @@ export function HowItWorks() {
       aria-labelledby="methode-heading"
       className="w-full px-5 pb-32 sm:px-10 md:pb-40 lg:px-16"
     >
-      {/* En-tête */}
+      {/* En-tête ────────────────────────────────────────────────── */}
       <div className="mb-14 border-t border-border-soft pt-16 md:mb-20 md:pt-24">
         <div
           className="mb-4 text-base font-semibold text-foreground md:text-lg"
@@ -260,8 +228,8 @@ export function HowItWorks() {
         {/* ════ Desktop ════ */}
         <div className="hidden lg:block">
 
-          {/* Colonnes de contenu (grands numéros + titres + corps) */}
-          <div className="grid grid-cols-3 gap-x-10 mb-14">
+          {/* Contenu : 3 colonnes */}
+          <div className="grid grid-cols-3 gap-x-10 mb-16">
             {steps.map((step, i) => (
               <StepColumn
                 key={step.title}
@@ -275,20 +243,22 @@ export function HowItWorks() {
           </div>
 
           {/*
-            ── Tracker de progression (inspiré status-progress de la facture) ──
-            Ligne + fusée + checkpoints qui tamponnent quand atteints.
+            Ligne + fusée.
+            height: 24px pour laisser de l'espace aux ailerons de la fusée.
+            La ligne elle-même est centrée verticalement (top: 50%).
+            Les dots et la fusée aussi.
           */}
-          <div className="relative" style={{ height: 56 }}>
-
-            {/* Ligne de fond */}
+          <div className="relative" style={{ height: 24 }}>
+            {/* Fond de ligne */}
             <div
               className="absolute"
               style={{
-                top: 14, /* aligne sur le centre des checkpoints (32px/2 = 16 − 2 offset) */
-                left: `${NODE_X[0] * 100}%`,
-                right: `${(1 - NODE_X[2]) * 100}%`,
+                top: "50%",
+                left: 0,
+                right: `${(1 - LINE_END) * 100}%`,
                 height: 1,
                 background: "var(--border-soft)",
+                transform: "translateY(-50%)",
               }}
             />
 
@@ -296,42 +266,44 @@ export function HowItWorks() {
             <motion.div
               className="absolute"
               style={{
-                top: 14,
-                left: `${NODE_X[0] * 100}%`,
+                top: "50%",
+                left: 0,
                 height: 1.5,
                 background: "var(--accent)",
-                /* Traînée de NODE_X[0] jusqu'à la fusée */
-                width: useTransform(
-                  progressMV,
-                  (v) =>
-                    `${Math.max(0, v * LINE_END * 100 - NODE_X[0] * 100)}%`
-                ),
+                width: trailWidth,
+                transform: "translateY(-50%)",
               }}
             />
 
-            {/* Fusée (se déplace de 0 à LINE_END) */}
+            {/* Fusée */}
             {!reduce && (
               <motion.div
                 aria-hidden="true"
                 className="absolute"
                 style={{
-                  top: 6,
+                  top: "50%",
                   left: rocketLeft,
+                  transform: "translateY(-50%)",
                   zIndex: 10,
                 }}
               >
-                <RocketCursor />
+                <RocketSVG />
               </motion.div>
             )}
 
-            {/* Checkpoints aux positions des nœuds */}
+            {/* Dots aux positions des nœuds */}
             {NODE_X.map((x, i) => (
               <div
                 key={i}
                 className="absolute"
-                style={{ left: `${x * 100}%`, top: 0, transform: "translateX(-50%)" }}
+                style={{
+                  top: "50%",
+                  left: `${x * 100}%`,
+                  transform: "translate(-50%, -50%)",
+                  zIndex: 5,
+                }}
               >
-                <Checkpoint index={i} lit={litStates[i]} reduce={reduce} />
+                <LineDot lit={litStates[i]} />
               </div>
             ))}
           </div>
@@ -342,7 +314,7 @@ export function HowItWorks() {
           {steps.map((step, i) => (
             <motion.div
               key={step.title}
-              className="flex gap-4 items-start"
+              className="flex gap-5 items-start"
               initial={reduce ? false : { opacity: 0, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.5 }}
@@ -352,27 +324,20 @@ export function HowItWorks() {
                 ease: [0.16, 1, 0.3, 1],
               }}
             >
-              {/* Checkpoint mobile */}
-              <div className="shrink-0 flex flex-col items-center gap-1 mt-1">
-                <div
-                  className="flex items-center justify-center rounded-full border-[1.5px] border-accent bg-accent"
-                  style={{ width: 28, height: 28 }}
-                >
-                  <CheckIcon />
-                </div>
-                <span
-                  className="text-[10px] font-semibold tracking-widest text-accent"
-                  style={{ fontFamily: "var(--font-heading)" }}
-                >
-                  0{i + 1}
-                </span>
-              </div>
-
-              <div>
+              <span
+                className="shrink-0 select-none font-black leading-none tracking-tighter text-accent/25"
+                style={{
+                  fontFamily: "var(--font-heading)",
+                  fontSize: "clamp(40px, 5vw, 52px)",
+                }}
+              >
+                0{i + 1}
+              </span>
+              <div className="pt-1">
                 <h3 className="text-[17px] font-semibold tracking-[-0.02em] text-foreground">
                   {step.title}
                 </h3>
-                <p className="mt-1.5 text-[14px] text-muted" style={{ lineHeight: 1.55 }}>
+                <p className="mt-2 text-[14px] text-muted" style={{ lineHeight: 1.6 }}>
                   {step.body}
                 </p>
               </div>
