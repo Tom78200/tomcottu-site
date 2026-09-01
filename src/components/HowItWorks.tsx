@@ -15,124 +15,83 @@ const steps = [
   {
     title: "Analyse de votre activité",
     body: "Basée sur votre site, vos outils et vos process réels, pas un questionnaire générique.",
-    placement: "above" as const,
   },
   {
     title: "Construction de l'agent",
     body: "Sur mesure, connecté aux outils déjà en place, pas un chatbot prêt à l'emploi.",
-    placement: "below" as const,
   },
   {
     title: "Affinage en conditions réelles",
     body: "Ajustements après mise en service, tant que l'agent ne colle pas à l'usage réel.",
-    placement: "above" as const,
   },
 ];
 
 /*
-  Layout desktop (tout en px absolus pour un alignement parfait) :
-  - LABEL_H   : hauteur de la zone texte (au-dessus ET en-dessous de la ligne)
-  - BADGE_D   : diamètre du badge
-  - LINE_Y    : ordonnée de la ligne = LABEL_H + BADGE_D/2
-  - Badges centrés à 1/6, 1/2, 5/6 de la largeur du conteneur
-  - Fusée se déplace de 0 % à 83.33 % (= 5/6)
-  - Nœuds s'allument à progress 0.2 / 0.6 / 1.0
+  Layout : 3 colonnes égales → centres à 1/6, 1/2, 5/6 de la largeur.
+  La ligne (en dessous du contenu) a exactement la même largeur que la grille.
+  Les dots sur la ligne sont positionnés à ces mêmes %, donc alignés sans calc complexe.
+
+  Progress 0 → 1 :
+    - Fusée : de x=0 à x = (5/6) × 100 % (s'arrête sur le nœud 3)
+    - Node 1 s'allume à v = (1/6)/(5/6) ≈ 0.20
+    - Node 2 s'allume à v = (1/2)/(5/6) ≈ 0.60
+    - Node 3 s'allume à v = 1.00
 */
-const LABEL_H = 148;
-const BADGE_D = 48;
-const LINE_Y = LABEL_H + BADGE_D / 2;    // 172 px depuis le haut
-const TRACK_H = LABEL_H * 2 + BADGE_D;   // 344 px total
+const LINE_END = 5 / 6;
+const NODE_X = [1 / 6, 1 / 2, 5 / 6] as const;
+const NODE_AT = [
+  (1 / 6) / (5 / 6), // 0.200
+  (3 / 6) / (5 / 6), // 0.600
+  1.0,                // 1.000
+] as const;
 
-const LINE_START = 1 / 6;   // 16.67 %
-const LINE_END   = 5 / 6;   // 83.33 %
-const LINE_RANGE = LINE_END - LINE_START; // 66.66 %
-
-const NODE_X   = [LINE_START, 0.5, LINE_END] as const;
-const NODE_AT  = [0.2, 0.6, 1.0] as const; // valeurs progress pour chaque allumage
-
-/* ── Fusée aérodynamique ─────────────────────────────────────────── */
+/* ── Fusée : silhouette bullet épurée ───────────────────────────── */
 function RocketSVG() {
   return (
-    <svg
-      width="62"
-      height="24"
-      viewBox="0 0 62 24"
-      fill="none"
-      aria-hidden="true"
-    >
-      {/* Corps principal */}
+    <svg width="40" height="16" viewBox="0 0 40 16" fill="none" aria-hidden>
+      {/* Corps */}
       <path
-        d="M2,12 C5,3 16,0 32,0 L50,0 C57,0 62,6 62,12 C62,18 57,24 50,24 L32,24 C16,24 5,21 2,12Z"
+        d="M2,8 C4,2 10,0 24,0 L34,0 C37.3,0 40,3.6 40,8 C40,12.4 37.3,16 34,16 L24,16 C10,16 4,14 2,8Z"
         fill="var(--accent)"
       />
-      {/* Nez légèrement plus sombre */}
-      <path
-        d="M46,0 L50,0 C57,0 62,6 62,12 C62,18 57,24 50,24 L46,24Z"
-        fill="oklch(0.46 0.17 250)"
-      />
       {/* Hublot */}
-      <circle cx="28" cy="12" r="4.5" fill="white" opacity="0.55" />
-      {/* Aileron bas */}
-      <path d="M14,24 L6,32 L18,24Z" fill="oklch(0.46 0.17 250)" />
-      {/* Sillage très discret — pas de flamme néon */}
-      <ellipse
-        cx="-3"
-        cy="12"
-        rx="9"
-        ry="4"
-        fill="oklch(0.56 0.17 250 / 0.12)"
+      <circle cx="24" cy="8" r="3" fill="white" opacity="0.5" />
+      {/* Aileron bas — micro-détail qui donne la direction */}
+      <path d="M10,16 L4,22 L14,16Z" fill="oklch(0.46 0.17 250)" />
+      {/* Sillage : dégradé de transparence, pas de couleur vive */}
+      <path
+        d="M2,8 L-10,5 L-10,11 Z"
+        fill="var(--accent)"
+        opacity="0.18"
       />
     </svg>
   );
 }
 
-/* ── Badge numéroté ─────────────────────────────────────────────── */
-function Badge({
-  index,
-  lit,
-  reduce,
-}: {
-  index: number;
-  lit: boolean;
-  reduce: boolean | null;
-}) {
+/* ── Dot sur la ligne ────────────────────────────────────────────── */
+function LineDot({ lit }: { lit: boolean }) {
   return (
     <motion.div
-      className="flex items-center justify-center rounded-full border-2 text-[14px] font-semibold text-white"
-      style={{
-        width: BADGE_D,
-        height: BADGE_D,
-        fontFamily: "var(--font-heading)",
-        position: "relative",
-        zIndex: 4,
-      }}
+      style={{ width: 12, height: 12, borderRadius: "50%", border: "2px solid" }}
       animate={
         lit
-          ? {
-              backgroundColor: "var(--accent)",
-              borderColor: "var(--accent)",
-              scale: reduce ? 1 : [1, 1.12, 0.95, 1.04, 1],
-            }
-          : {
-              backgroundColor: "oklch(0.25 0.03 250)",
-              borderColor: "oklch(0.25 0.03 250)",
-              scale: 1,
-            }
+          ? { backgroundColor: "var(--accent)", borderColor: "var(--accent)" }
+          : { backgroundColor: "var(--background)", borderColor: "var(--border-soft)" }
       }
-      transition={{ duration: 0.55, ease: [0.34, 1.56, 0.64, 1] }}
-    >
-      0{index + 1}
-    </motion.div>
+      transition={{ duration: 0.35 }}
+    />
   );
 }
 
-/* ── Nœud (badge + logique d'allumage) ─────────────────────────── */
-function StepNode({
+/* ── Colonne étape ───────────────────────────────────────────────── */
+function StepColumn({
+  step,
   index,
   progress,
   reduce,
   onLit,
 }: {
+  step: (typeof steps)[number];
   index: number;
   progress: MotionValue<number>;
   reduce: boolean | null;
@@ -155,83 +114,76 @@ function StepNode({
     });
   }, [progress, index, reduce, onLit]);
 
-  return <Badge index={index} lit={lit} reduce={reduce} />;
-}
-
-/* ── Libellé (titre + corps) ─────────────────────────────────────── */
-function StepLabel({
-  step,
-  lit,
-  placement,
-}: {
-  step: (typeof steps)[number];
-  lit: boolean;
-  placement: "above" | "below";
-}) {
   return (
-    <motion.div
-      className="w-full px-5 text-center"
-      initial={{ opacity: 0, y: placement === "above" ? 8 : -8 }}
-      animate={lit ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay: 0.06, ease: [0.16, 1, 0.3, 1] }}
-    >
-      <motion.p
-        className="text-[16px] font-semibold leading-snug tracking-[-0.02em]"
+    <div className="flex flex-col gap-4">
+      {/* Numéro géant : "fantôme" → vivid accent */}
+      <motion.span
+        className="block select-none font-black leading-none tracking-tighter"
+        style={{
+          fontFamily: "var(--font-heading)",
+          fontSize: "clamp(56px, 6vw, 80px)",
+        }}
+        animate={{
+          color: lit ? "var(--accent)" : "oklch(0.25 0.03 250 / 0.12)",
+        }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      >
+        0{index + 1}
+      </motion.span>
+
+      {/* Titre */}
+      <motion.h3
+        className="text-[17px] font-semibold leading-snug tracking-[-0.02em]"
         animate={{ color: lit ? "var(--accent)" : "var(--foreground)" }}
-        transition={{ duration: 0.35 }}
+        transition={{ duration: 0.4, delay: 0.06, ease: [0.16, 1, 0.3, 1] }}
       >
         {step.title}
-      </motion.p>
-      <p className="mt-2 text-[13px] leading-relaxed text-muted">
+      </motion.h3>
+
+      {/* Corps */}
+      <motion.p
+        className="text-[14px] text-muted leading-relaxed"
+        animate={{ opacity: lit ? 1 : 0.45 }}
+        transition={{ duration: 0.45, delay: 0.1 }}
+        style={{ textWrap: "pretty" } as React.CSSProperties}
+      >
         {step.body}
-      </p>
-    </motion.div>
+      </motion.p>
+    </div>
   );
 }
 
-/* ── Composant principal ─────────────────────────────────────────── */
+/* ── Section principale ──────────────────────────────────────────── */
 export function HowItWorks() {
   const reduce = useReducedMotion();
   const sectionRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(sectionRef, { once: true, amount: 0.4 });
-
+  const inView = useInView(sectionRef, { once: true, amount: 0.35 });
   const progressMV = useMotionValue(0);
 
   /*
-    Toutes les transformations découlent du seul progressMV (0 → 1).
-    La fusée va de 0 % à LINE_END * 100 % en x.
+    La fusée va de 0 % à (5/6)×100 % = 83.33 %.
+    Largeur fusée = 40 px → left = centre - 20 px.
   */
   const rocketLeft = useTransform(
     progressMV,
-    (v) => `calc(${v * LINE_END * 100}% - 31px)` // 31 = moitié de 62 px (largeur fusée)
+    (v) => `calc(${v * LINE_END * 100}% - 20px)`
   );
-
   const trailWidth = useTransform(
     progressMV,
     (v) => `${v * LINE_END * 100}%`
   );
 
-  /*
-    Fond animé : un halo de lumière douce qui suit la fusée.
-    Pas de néon — juste une lueur accent-soft très diluée.
-    Le halo est large (60 % du conteneur) et très flou (blur 56 px),
-    ce qui donne un effet de "lumière naturelle qui se déplace".
-  */
-  const spotLeft = useTransform(
-    progressMV,
-    (v) => `${v * LINE_END * 100}%`
-  );
-
-  // État "allumé" par colonne (pour les libellés)
   const [litStates, setLitStates] = useState([false, false, false]);
-  const markLit = useCallback((i: number) => {
-    setLitStates((prev) => {
-      if (prev[i]) return prev;
-      const next = [...prev];
-      next[i] = true;
-      return next;
-    });
-  }, []);
+  const markLit = useCallback(
+    (i: number) =>
+      setLitStates((prev) => {
+        if (prev[i]) return prev;
+        const next = [...prev];
+        next[i] = true;
+        return next;
+      }),
+    []
+  );
 
   useEffect(() => {
     if (!inView) return;
@@ -240,10 +192,7 @@ export function HowItWorks() {
       setLitStates([true, true, true]);
       return;
     }
-    const c = animate(progressMV, 1, {
-      duration: 4.0,
-      ease: [0.2, 0, 0.12, 1],
-    });
+    const c = animate(progressMV, 1, { duration: 4.0, ease: [0.22, 0, 0.12, 1] });
     return () => c.stop();
   }, [inView, reduce, progressMV]);
 
@@ -253,7 +202,7 @@ export function HowItWorks() {
       aria-labelledby="methode-heading"
       className="w-full px-5 pb-32 sm:px-10 md:pb-40 lg:px-16"
     >
-      {/* En-tête */}
+      {/* En-tête ────────────────────────────────────────────────── */}
       <div className="mb-14 border-t border-border-soft pt-16 md:mb-20 md:pt-24">
         <div
           className="mb-4 text-base font-semibold text-foreground md:text-lg"
@@ -269,155 +218,103 @@ export function HowItWorks() {
             lineHeight: 1.08,
             letterSpacing: "-0.03em",
             textWrap: "balance",
-          }}
+          } as React.CSSProperties}
         >
           Trois étapes, pas de blabla.
         </h2>
       </div>
 
       <div ref={sectionRef}>
-        {/* ════════ Desktop ════════ */}
-        <div
-          className="relative hidden overflow-hidden rounded-2xl lg:block"
-          style={{ height: TRACK_H }}
-        >
-          {/* ── Fond animé (lumière qui suit la fusée) ── */}
-          {!reduce && (
-            <motion.div
-              aria-hidden="true"
-              className="pointer-events-none absolute"
-              style={{
-                inset: 0,
-                /* On déplace un gradient radial via clip-path trick :
-                   on crée le gradient centré à droite, et on le translate */
-              }}
-            >
-              <motion.div
-                className="absolute h-full"
-                style={{
-                  width: "60%",
-                  left: spotLeft,
-                  transform: "translateX(-50%)",
-                  background:
-                    "radial-gradient(ellipse 80% 100% at 50% 50%, oklch(0.94 0.05 250 / 0.28) 0%, transparent 75%)",
-                  filter: "blur(48px)",
-                }}
+        {/* ════ Desktop ════ */}
+        <div className="hidden lg:block">
+
+          {/* Contenu : 3 colonnes */}
+          <div className="grid grid-cols-3 gap-x-10 mb-16">
+            {steps.map((step, i) => (
+              <StepColumn
+                key={step.title}
+                step={step}
+                index={i}
+                progress={progressMV}
+                reduce={reduce}
+                onLit={() => markLit(i)}
               />
-            </motion.div>
-          )}
-
-          {/* ── Ligne de référence (grise, fond) ── */}
-          <div
-            className="pointer-events-none absolute"
-            style={{
-              top: LINE_Y,
-              left: `${LINE_START * 100}%`,
-              right: `${(1 - LINE_END) * 100}%`,
-              height: 1,
-              background: "var(--border-soft)",
-              transform: "translateY(-50%)",
-            }}
-          />
-
-          {/* ── Traînée bleue (suit la fusée) ── */}
-          <motion.div
-            className="pointer-events-none absolute"
-            style={{
-              top: LINE_Y,
-              left: 0,
-              height: 1.5,
-              borderRadius: 99,
-              background: "var(--accent)",
-              transform: "translateY(-50%)",
-              width: trailWidth,
-              opacity: 0.7,
-            }}
-          />
-
-          {/* ── Fusée ── */}
-          {!reduce && (
-            <motion.div
-              aria-hidden="true"
-              className="pointer-events-none absolute"
-              style={{
-                top: LINE_Y - 12, // centre vertical : fusée h=24 → -12
-                left: rocketLeft,
-                zIndex: 10,
-              }}
-            >
-              <RocketSVG />
-            </motion.div>
-          )}
+            ))}
+          </div>
 
           {/*
-            ── Grille 3 colonnes pour libellés + badges ──
-            Les labels vivent dans la grille (positionnement stable).
-            Les badges sont absolus sur la ligne (alignement exact).
+            Ligne + fusée.
+            height: 24px pour laisser de l'espace aux ailerons de la fusée.
+            La ligne elle-même est centrée verticalement (top: 50%).
+            Les dots et la fusée aussi.
           */}
-          <div
-            className="absolute inset-0 grid grid-cols-3"
-            style={{ height: TRACK_H, zIndex: 5 }}
-          >
-            {steps.map((step, i) => {
-              const isAbove = step.placement === "above";
-              return (
-                <div key={step.title} className="flex flex-col items-center">
-                  {/* Zone label au-dessus */}
-                  <div
-                    className="flex w-full items-end justify-center"
-                    style={{ height: LABEL_H }}
-                  >
-                    {isAbove && (
-                      <div className="pb-8 w-full">
-                        <StepLabel
-                          step={step}
-                          lit={litStates[i]}
-                          placement="above"
-                        />
-                      </div>
-                    )}
-                  </div>
+          <div className="relative" style={{ height: 24 }}>
+            {/* Fond de ligne */}
+            <div
+              className="absolute"
+              style={{
+                top: "50%",
+                left: 0,
+                right: `${(1 - LINE_END) * 100}%`,
+                height: 1,
+                background: "var(--border-soft)",
+                transform: "translateY(-50%)",
+              }}
+            />
 
-                  {/* Badge (toujours affiché, même quand pas encore allumé) */}
-                  <div
-                    className="flex items-center justify-center"
-                    style={{ height: BADGE_D }}
-                  >
-                    <StepNode
-                      index={i}
-                      progress={progressMV}
-                      reduce={reduce}
-                      onLit={() => markLit(i)}
-                    />
-                  </div>
+            {/* Traînée bleue */}
+            <motion.div
+              className="absolute"
+              style={{
+                top: "50%",
+                left: 0,
+                height: 1.5,
+                background: "var(--accent)",
+                width: trailWidth,
+                transform: "translateY(-50%)",
+              }}
+            />
 
-                  {/* Zone label en-dessous */}
-                  <div
-                    className="flex w-full items-start justify-center"
-                    style={{ height: LABEL_H }}
-                  >
-                    {!isAbove && (
-                      <div className="pt-8 w-full">
-                        <StepLabel
-                          step={step}
-                          lit={litStates[i]}
-                          placement="below"
-                        />
-                      </div>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
+            {/* Fusée */}
+            {!reduce && (
+              <motion.div
+                aria-hidden="true"
+                className="absolute"
+                style={{
+                  top: "50%",
+                  left: rocketLeft,
+                  transform: "translateY(-50%)",
+                  zIndex: 10,
+                }}
+              >
+                <RocketSVG />
+              </motion.div>
+            )}
+
+            {/* Dots aux positions des nœuds */}
+            {NODE_X.map((x, i) => (
+              <div
+                key={i}
+                className="absolute"
+                style={{
+                  top: "50%",
+                  left: `${x * 100}%`,
+                  transform: "translate(-50%, -50%)",
+                  zIndex: 5,
+                }}
+              >
+                <LineDot lit={litStates[i]} />
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* ════════ Mobile ════════ */}
-        <div className="grid gap-8 lg:hidden">
+        {/* ════ Mobile ════ */}
+        <div className="grid gap-10 lg:hidden">
           {steps.map((step, i) => (
             <motion.div
               key={step.title}
-              className="flex items-start gap-4"
+              className="flex gap-5 items-start"
               initial={reduce ? false : { opacity: 0, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.5 }}
@@ -427,29 +324,20 @@ export function HowItWorks() {
                 ease: [0.16, 1, 0.3, 1],
               }}
             >
-              <motion.span
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent text-[13px] font-semibold text-accent-foreground"
-                style={{ fontFamily: "var(--font-heading)" }}
-                initial={reduce ? false : { scale: 0 }}
-                whileInView={{ scale: 1 }}
-                viewport={{ once: true, amount: 0.5 }}
-                transition={{
-                  delay: reduce ? 0 : i * 0.1 + 0.12,
-                  type: "spring",
-                  stiffness: 300,
-                  damping: 18,
+              <span
+                className="shrink-0 select-none font-black leading-none tracking-tighter text-accent/25"
+                style={{
+                  fontFamily: "var(--font-heading)",
+                  fontSize: "clamp(40px, 5vw, 52px)",
                 }}
               >
                 0{i + 1}
-              </motion.span>
-              <div>
-                <h3 className="text-[18px] font-semibold tracking-[-0.02em] text-foreground">
+              </span>
+              <div className="pt-1">
+                <h3 className="text-[17px] font-semibold tracking-[-0.02em] text-foreground">
                   {step.title}
                 </h3>
-                <p
-                  className="mt-1.5 text-[15px] text-muted"
-                  style={{ lineHeight: 1.55, textWrap: "pretty" }}
-                >
+                <p className="mt-2 text-[14px] text-muted" style={{ lineHeight: 1.6 }}>
                   {step.body}
                 </p>
               </div>
