@@ -30,12 +30,11 @@ const nextConfig: NextConfig = {
             value: "0",
           },
           {
-            // CSP stricte : autorise uniquement les scripts/styles inline nécessaires
-            // au rendu (Vercel Analytics, typewriter) + fonts gfont.
+            // CSP : autorise 'unsafe-eval' en dev pour React / Turbopack devtools
             key: "Content-Security-Policy",
             value:
               "default-src 'self'; " +
-              "script-src 'self' 'unsafe-inline' www.googletagmanager.com www.google-analytics.com va.vercel-analytics.com; " +
+              `script-src 'self' 'unsafe-inline' ${process.env.NODE_ENV !== "production" ? "'unsafe-eval' " : ""}www.googletagmanager.com www.google-analytics.com va.vercel-analytics.com; ` +
               "style-src 'self' 'unsafe-inline' fonts.googleapis.com; " +
               "img-src 'self' data: blob: www.googletagmanager.com www.google-analytics.com va.vercel-analytics.com; " +
               "font-src 'self' fonts.gstatic.com; " +
@@ -46,7 +45,7 @@ const nextConfig: NextConfig = {
               "frame-ancestors 'none'; " +
               "base-uri 'self'; " +
               "form-action 'self'; " +
-              "upgrade-insecure-requests",
+              (process.env.NODE_ENV === "production" ? "upgrade-insecure-requests" : ""),
           },
         ],
       },
