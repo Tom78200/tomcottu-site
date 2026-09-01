@@ -21,7 +21,7 @@ const steps = [
   {
     title: "Construction de l'agent",
     body: "Sur mesure, connecté à vos outils déjà en place.",
-    image: "/exemples/02.webp",
+    image: "/howitworks/etape2.png",
   },
   {
     title: "Affinage en conditions réelles",
