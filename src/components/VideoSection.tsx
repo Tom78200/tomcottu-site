@@ -80,37 +80,22 @@ export function VideoSection() {
     <section
       ref={containerRef}
       aria-label="Démonstration vidéo"
-      className="relative w-full px-5 py-16 sm:px-10 sm:py-24 lg:px-16 overflow-hidden"
+      className="w-full px-5 pb-32 sm:px-10 md:pb-44 lg:px-16"
       style={{ perspective: "1200px" }}
     >
       {/* ── En-tête de section ── */}
-      <div className="mx-auto max-w-4xl text-center mb-10 sm:mb-14">
-        <motion.div
-          initial={reduce ? false : { opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-3 inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/5 px-3.5 py-1 text-xs font-semibold text-accent uppercase tracking-wider"
-          style={{ fontFamily: "var(--font-heading)" }}
-        >
-          <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
-          Démonstration en conditions réelles
-        </motion.div>
-        <motion.h2
-          initial={reduce ? false : { opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 0.5, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
-          className="text-foreground font-medium tracking-tight"
+      <div className="mb-14 border-t border-border-soft pt-16 md:mb-20 md:pt-24">
+        <h2
+          className="max-w-4xl font-medium text-foreground"
           style={{
-            fontSize: "clamp(28px, 3.5vw, 44px)",
-            lineHeight: 1.15,
-            letterSpacing: "-0.025em",
+            fontSize: "clamp(34px, 5vw, 60px)",
+            lineHeight: 1.08,
+            letterSpacing: "-0.03em",
             textWrap: "balance",
           } as React.CSSProperties}
         >
           Voyez un agent exécuter une mission de bout en bout.
-        </motion.h2>
+        </h2>
       </div>
 
       {/* ── Player Studio Mockup ── */}
