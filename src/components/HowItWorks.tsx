@@ -242,33 +242,30 @@ export function HowItWorks() {
             ))}
           </div>
 
-          {/*
-            Ligne + fusée.
-            height: 24px pour laisser de l'espace aux ailerons de la fusée.
-            La ligne elle-même est centrée verticalement (top: 50%).
-            Les dots et la fusée aussi.
-          */}
-          <div className="relative" style={{ height: 24 }}>
-            {/* Fond de ligne */}
+          {/* Barre + fusée */}
+          <div className="relative" style={{ height: 40 }}>
+            {/* Barre de fond — épaisse et arrondie */}
             <div
               className="absolute"
               style={{
                 top: "50%",
                 left: 0,
                 right: `${(1 - LINE_END) * 100}%`,
-                height: 1,
+                height: 12,
+                borderRadius: 99,
                 background: "var(--border-soft)",
                 transform: "translateY(-50%)",
               }}
             />
 
-            {/* Traînée bleue */}
+            {/* Portion bleue */}
             <motion.div
               className="absolute"
               style={{
                 top: "50%",
                 left: 0,
-                height: 1.5,
+                height: 12,
+                borderRadius: 99,
                 background: "var(--accent)",
                 width: trailWidth,
                 transform: "translateY(-50%)",
@@ -291,20 +288,23 @@ export function HowItWorks() {
               </motion.div>
             )}
 
-            {/* Dots aux positions des nœuds */}
+            {/* Marqueurs aux nœuds */}
             {NODE_X.map((x, i) => (
-              <div
+              <motion.div
                 key={i}
                 className="absolute"
                 style={{
                   top: "50%",
                   left: `${x * 100}%`,
                   transform: "translate(-50%, -50%)",
-                  zIndex: 5,
+                  width: 3,
+                  height: 18,
+                  borderRadius: 99,
+                  zIndex: 6,
+                  background: "white",
+                  opacity: 0.6,
                 }}
-              >
-                <LineDot lit={litStates[i]} />
-              </div>
+              />
             ))}
           </div>
         </div>
