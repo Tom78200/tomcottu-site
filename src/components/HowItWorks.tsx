@@ -15,204 +15,152 @@ const steps = [
   {
     title: "Analyse de votre activité",
     body: "Basée sur votre site, vos outils et vos process réels, pas un questionnaire générique.",
+    placement: "above" as const,
+    at: 0.10,
   },
   {
     title: "Construction de l'agent",
     body: "Sur mesure, connecté aux outils déjà en place, pas un chatbot prêt à l'emploi.",
+    placement: "below" as const,
+    at: 0.50,
   },
   {
     title: "Affinage en conditions réelles",
     body: "Ajustements après mise en service, tant que l'agent ne colle pas à l'usage réel.",
+    placement: "above" as const,
+    at: 0.90,
   },
 ];
 
-const VIEW_W = 1200;
-const VIEW_H = 550;
+/* ── Fusée SVG pointant à droite ────────────────────────────────── */
+function RocketIcon() {
+  return (
+    <svg width="52" height="32" viewBox="0 0 52 32" fill="none" aria-hidden="true">
+      {/* Corps */}
+      <path d="M8,16 C13,4 26,0 46,16 C26,32 13,28 8,16Z" fill="#0077cd" />
+      {/* Hublot */}
+      <circle cx="28" cy="16" r="5.5" fill="white" opacity="0.72" />
+      <circle cx="28" cy="16" r="2.8" fill="#d0eaff" opacity="0.55" />
+      {/* Aileron haut */}
+      <path d="M15,9 L7,1 L5,11Z" fill="#0058a5" />
+      {/* Aileron bas */}
+      <path d="M15,23 L7,31 L5,21Z" fill="#0058a5" />
+      {/* Flamme extérieure */}
+      <ellipse cx="3" cy="16" rx="7" ry="4" fill="#ff8400" />
+      {/* Flamme intérieure */}
+      <ellipse cx="1.5" cy="16" rx="3.5" ry="2.2" fill="#ffe44a" />
+    </svg>
+  );
+}
 
-const NODES = [
-  { x: 210, y: 212, at: 0.06, placement: "above" as const },
-  { x: 600, y: 388, at: 0.5, placement: "below" as const },
-  { x: 990, y: 212, at: 0.85, placement: "above" as const },
-];
-
-const FULL_PATH = "M210,212 C 380,212 430,388 600,388 C 770,388 820,212 990,212";
-
-/* ── Node avec spring goofy ─────────────────────────────────────── */
-function PathNode({
+/* ── Nœud d'étape ────────────────────────────────────────────────── */
+function StepNode({
+  step,
   index,
-  node,
   progress,
   reduce,
 }: {
+  step: (typeof steps)[number];
   index: number;
-  node: (typeof NODES)[number];
   progress: MotionValue<number>;
   reduce: boolean | null;
 }) {
-  // Suivi de l'état "allumé" pour déclencher les animations spring
-  const [lit, setLit] = useState(false);
+  const [lit, setLit] = useState(reduce ? true : false);
+  const [showHalo, setShowHalo] = useState(false);
+  const fired = useRef(false);
 
   useEffect(() => {
-    const unsubscribe = progress.on("change", (v) => {
-      if (v >= node.at && !lit) setLit(true);
+    if (reduce) { setLit(true); return; }
+    return progress.on("change", (v) => {
+      if (v >= step.at && !fired.current) {
+        fired.current = true;
+        setLit(true);
+        setShowHalo(true);
+        setTimeout(() => setShowHalo(false), 700);
+      }
     });
-    return unsubscribe;
-  }, [progress, node.at, lit]);
-
-  // Couleur animée via useTransform (interpolation douce)
-  const range: [number, number] = [node.at - 0.1, node.at];
-  const background = useTransform(progress, range, ["#162330", "#0077cd"]);
-  const borderColor = useTransform(progress, range, ["#162330", "#0077cd"]);
-
-  // Halo/ring qui pulse fort au moment du pop
-  const ringScale = useTransform(
-    progress,
-    [node.at - 0.01, node.at + 0.04, node.at + 0.22],
-    [0.6, 1.8, 2.8]
-  );
-  const ringOpacity = useTransform(
-    progress,
-    [node.at - 0.01, node.at + 0.05, node.at + 0.22],
-    [0, 0.55, 0]
-  );
+  }, [progress, step.at, reduce]);
 
   return (
     <div
       className="absolute"
       style={{
-        left: `${(node.x / VIEW_W) * 100}%`,
-        top: `${(node.y / VIEW_H) * 100}%`,
+        left: `${step.at * 100}%`,
+        top: "50%",
         transform: "translate(-50%, -50%)",
+        zIndex: 10,
       }}
     >
-      {/* Halo qui explose au pop */}
-      {!reduce && (
+      {/* Halo explosion au passage de la fusée */}
+      {showHalo && (
         <motion.span
-          aria-hidden="true"
-          className="absolute inset-0 rounded-full border-2 border-accent"
-          style={{ scale: ringScale, opacity: ringOpacity }}
+          className="pointer-events-none absolute rounded-full border-2 border-accent"
+          initial={{ scale: 0.4, opacity: 1 }}
+          animate={{ scale: 3.2, opacity: 0 }}
+          transition={{ duration: 0.55, ease: "easeOut" }}
+          style={{
+            width: 48,
+            height: 48,
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            marginTop: -24,
+            marginLeft: -24,
+          }}
         />
       )}
 
-      {/* Badge avec spring goofy : overshoot + wobble */}
+      {/* Badge 01/02/03 */}
       <motion.div
-        className="flex h-16 w-16 items-center justify-center rounded-full border-2 text-[15px] font-medium"
-        style={
-          reduce
-            ? {
-                background: "#0077cd",
-                color: "#ffffff",
-                borderColor: "#0077cd",
-                fontFamily: "var(--font-heading)",
-              }
-            : {
-                background,
-                color: "#ffffff",
-                borderColor,
-                fontFamily: "var(--font-heading)",
-              }
-        }
+        className="relative flex h-12 w-12 items-center justify-center rounded-full border-2 text-sm font-semibold text-white"
+        style={{ fontFamily: "var(--font-heading)" }}
         animate={
-          reduce
-            ? {}
-            : lit
+          lit
             ? {
-                scale: [1, 1.55, 0.85, 1.18, 0.95, 1.04, 1],
-                rotate: [0, -8, 10, -5, 3, -1, 0],
+                backgroundColor: "#0077cd",
+                borderColor: "#0077cd",
+                scale: [1, 1.55, 0.80, 1.20, 0.94, 1],
+                rotate: [0, -14, 11, -5, 2, 0],
               }
-            : { scale: 1, rotate: 0 }
-        }
-        transition={
-          reduce
-            ? {}
             : {
-                duration: 0.7,
-                ease: "easeOut",
+                backgroundColor: "#162330",
+                borderColor: "#162330",
+                scale: 1,
+                rotate: 0,
               }
         }
+        transition={{ duration: 0.65, ease: "easeOut" }}
       >
         0{index + 1}
       </motion.div>
-    </div>
-  );
-}
 
-/* ── Label avec pop goofy ────────────────────────────────────────── */
-function StepLabel({
-  step,
-  node,
-  progress,
-  index,
-  reduce,
-}: {
-  step: (typeof steps)[number];
-  node: (typeof NODES)[number];
-  progress: MotionValue<number>;
-  index: number;
-  reduce: boolean | null;
-}) {
-  const [lit, setLit] = useState(false);
-
-  useEffect(() => {
-    const unsubscribe = progress.on("change", (v) => {
-      if (v >= node.at && !lit) setLit(true);
-    });
-    return unsubscribe;
-  }, [progress, node.at, lit]);
-
-  const range: [number, number] = [node.at - 0.06, node.at + 0.02];
-  const titleColor = useTransform(progress, range, ["#162330", "#0077cd"]);
-
-  return (
-    <div
-      className="absolute w-[16em] text-center"
-      style={{
-        left: `${(node.x / VIEW_W) * 100}%`,
-        top: `${(node.y / VIEW_H) * 100}%`,
-        transform:
-          node.placement === "above"
-            ? "translate(-50%, calc(-100% - 58px))"
-            : "translate(-50%, 58px)",
-      }}
-    >
-      {/* Apparition initiale du bloc texte */}
+      {/* Libellé au-dessus ou en-dessous */}
       <motion.div
-        initial={reduce ? false : { opacity: 0, y: 18 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.5 }}
-        transition={{
-          duration: 0.6,
-          delay: reduce ? 0 : index * 0.1,
-          ease: [0.16, 1, 0.3, 1],
+        className="absolute w-[15em] text-center"
+        style={{
+          left: "50%",
+          transform: "translateX(-50%)",
+          ...(step.placement === "above"
+            ? { bottom: "calc(100% + 20px)" }
+            : { top: "calc(100% + 20px)" }),
         }}
+        initial={{ opacity: 0, y: step.placement === "above" ? 12 : -12 }}
+        animate={lit ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.45, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
       >
-        {/* Titre qui bounce au pop avec spring goofy */}
         <motion.h3
-          className="text-[21px] font-medium tracking-[-0.02em]"
-          style={{ color: reduce ? "#0077cd" : titleColor }}
-          animate={
-            reduce
-              ? {}
-              : lit
-              ? {
-                  y: [0, -10, 4, -4, 1, 0],
-                  scale: [1, 1.08, 0.97, 1.03, 0.99, 1],
-                }
-              : { y: 0, scale: 1 }
-          }
-          transition={
-            reduce
-              ? {}
-              : {
-                  duration: 0.65,
-                  ease: "easeOut",
-                }
-          }
+          className="text-[19px] font-medium tracking-[-0.02em]"
+          animate={{
+            color: lit ? "#0077cd" : "#162330",
+            y: lit ? [0, -7, 3, -2, 0] : 0,
+            scale: lit ? [1, 1.06, 0.97, 1.02, 1] : 1,
+          }}
+          transition={{ duration: 0.5, ease: "easeOut", delay: 0.1 }}
         >
           {step.title}
         </motion.h3>
         <p
-          className="mt-2 text-[15px] text-muted"
+          className="mt-2 text-[14px] text-muted"
           style={{ lineHeight: 1.55, textWrap: "pretty" }}
         >
           {step.body}
@@ -226,43 +174,24 @@ function StepLabel({
 export function HowItWorks() {
   const reduce = useReducedMotion();
   const sectionRef = useRef<HTMLDivElement>(null);
-  const pathRef = useRef<SVGPathElement>(null);
   const inView = useInView(sectionRef, { once: true, amount: 0.4 });
 
   const progressMV = useMotionValue(0);
-  const dashOffset = useTransform(progressMV, [0, 1], [1, 0]);
-  const tipOpacity = useTransform(progressMV, [0, 0.03, 0.97, 1], [0, 1, 1, 0]);
-  // La bille pulse légèrement (scale) en continu pour un effet "vivant"
-  const tipScale = useTransform(
-    progressMV,
-    [0, 0.03, 0.5, 1],
-    [0, 1, 1, 0]
-  );
 
-  const [tip, setTip] = useState({ x: NODES[0].x, y: NODES[0].y });
+  // Fusée centrée sur le point de progression
+  const rocketLeft = useTransform(progressMV, (v) => `calc(${v * 100}% - 26px)`);
+  // Traînée bleue = portion de ligne parcourue
+  const trailWidth = useTransform(progressMV, (v) => `${v * 100}%`);
 
   useEffect(() => {
     if (!inView) return;
     if (reduce) {
       progressMV.set(1);
-      const p = pathRef.current;
-      if (p) {
-        const pt = p.getPointAtLength(0.96 * p.getTotalLength());
-        setTip({ x: pt.x, y: pt.y });
-      }
       return;
     }
     const controls = animate(progressMV, 1, {
-      // Légèrement plus lent pour profiter de l'animation goofy
-      duration: 3.4,
-      ease: [0.4, 0, 0.2, 1],
-      onUpdate: (v) => {
-        const p = pathRef.current;
-        if (p) {
-          const pt = p.getPointAtLength(Math.min(v, 0.96) * p.getTotalLength());
-          setTip({ x: pt.x, y: pt.y });
-        }
-      },
+      duration: 3.6,
+      ease: [0.2, 0, 0.15, 1],
     });
     return () => controls.stop();
   }, [inView, reduce, progressMV]);
@@ -295,76 +224,58 @@ export function HowItWorks() {
       </div>
 
       <div ref={sectionRef}>
-        {/* ── Desktop ── */}
-        <div className="relative hidden h-[520px] lg:block lg:h-[580px]">
-          <svg
-            viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
-            className="absolute inset-0 h-full w-full overflow-visible"
-            fill="none"
-            preserveAspectRatio="none"
-          >
-            {/* Trace de fond */}
-            <path
-              d={FULL_PATH}
-              stroke="var(--border-soft)"
-              strokeWidth="2"
-              strokeLinecap="round"
-              vectorEffect="non-scaling-stroke"
-            />
+        {/* ── Desktop : animation fusée ── */}
+        <div className="relative hidden lg:block" style={{ height: "400px" }}>
 
-            {/* Trait bleu animé */}
-            <motion.path
-              ref={pathRef}
-              d={FULL_PATH}
-              stroke="#0077cd"
-              strokeWidth="5"
-              strokeLinecap="round"
-              pathLength={1}
-              strokeDasharray="1"
-              style={{ strokeDashoffset: dashOffset }}
-            />
+          {/* Ligne de fond */}
+          <div
+            className="absolute"
+            style={{
+              top: "50%",
+              left: 0,
+              right: 0,
+              height: 2,
+              borderRadius: 99,
+              background: "var(--border-soft)",
+              transform: "translateY(-50%)",
+            }}
+          />
 
-            {/* Bille qui trace : plus grosse + halo blanc pour un effet pop */}
-            {!reduce && (
-              <>
-                {/* Halo flou derrière la bille */}
-                <motion.circle
-                  cx={tip.x}
-                  cy={tip.y}
-                  r="16"
-                  fill="#0077cd"
-                  style={{ opacity: tipOpacity, scale: tipScale }}
-                  className="blur-[6px]"
-                />
-                {/* Bille principale */}
-                <motion.circle
-                  cx={tip.x}
-                  cy={tip.y}
-                  r="8"
-                  fill="#ffffff"
-                  stroke="#0077cd"
-                  strokeWidth="3"
-                  style={{ opacity: tipOpacity }}
-                />
-              </>
-            )}
-          </svg>
+          {/* Traînée bleue */}
+          <motion.div
+            className="absolute"
+            style={{
+              top: "50%",
+              left: 0,
+              height: 2,
+              width: trailWidth,
+              borderRadius: 99,
+              background: "linear-gradient(to right, #0077cd, #38b6ff)",
+              transform: "translateY(-50%)",
+            }}
+          />
 
-          {NODES.map((node, i) => (
-            <PathNode
-              key={steps[i].title}
-              index={i}
-              node={node}
-              progress={progressMV}
-              reduce={reduce}
-            />
-          ))}
+          {/* Fusée */}
+          {!reduce && (
+            <motion.div
+              aria-hidden="true"
+              className="absolute z-20"
+              style={{
+                top: "50%",
+                left: rocketLeft,
+                transform: "translateY(-50%)",
+                filter: "drop-shadow(0 0 12px rgba(0,119,205,0.55))",
+              }}
+            >
+              <RocketIcon />
+            </motion.div>
+          )}
 
-          {NODES.map((node, i) => (
-            <StepLabel
-              key={`label-${steps[i].title}`}
-              step={steps[i]}
-              node={node}
+          {/* Nœuds des 3 étapes */}
+          {steps.map((step, i) => (
+            <StepNode
+              key={step.title}
+              step={step}
               index={i}
               progress={progressMV}
               reduce={reduce}
@@ -372,19 +283,19 @@ export function HowItWorks() {
           ))}
         </div>
 
-        {/* ── Mobile ── */}
+        {/* ── Mobile : liste verticale ── */}
         <div className="grid gap-8 lg:hidden">
           {steps.map((step, i) => (
             <motion.div
               key={step.title}
               className="flex items-start gap-4"
-              initial={reduce ? false : { opacity: 0, y: 20 }}
+              initial={reduce ? false : { opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.5 }}
               transition={{
-                duration: 0.55,
+                duration: 0.5,
                 delay: reduce ? 0 : i * 0.1,
-                ease: [0.34, 1.56, 0.64, 1],
+                ease: [0.16, 1, 0.3, 1],
               }}
             >
               <motion.span
