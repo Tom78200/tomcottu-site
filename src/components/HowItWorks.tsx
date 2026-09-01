@@ -69,7 +69,7 @@ function PathNode({
   );
   const ringOpacity = useTransform(
     progress,
-    [node.at - 0.02, node.at + 0.16],
+    [node.at - 0.02, node.at + 0.07, node.at + 0.16],
     [0, 0.28, 0]
   );
 
