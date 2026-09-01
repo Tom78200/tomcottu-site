@@ -84,13 +84,13 @@ function Heading({ index, sector }: { index: number; sector: string }) {
   return (
     <div className="mb-3 flex items-baseline gap-3">
       <span
-        className="text-[26px] leading-none text-accent/20 transition-colors duration-300 group-hover:text-accent/35"
+        className="text-[26px] font-semibold leading-none text-accent/35 transition-colors duration-300 group-hover:text-accent/50"
         style={{ fontFamily: "var(--font-heading)" }}
       >
         0{index + 1}
       </span>
       <span
-        className="text-[11px] tracking-[0.09em] text-accent/50 uppercase"
+        className="text-[11px] font-semibold tracking-[0.09em] text-accent/70 uppercase"
         style={{ fontFamily: "var(--font-heading)" }}
       >
         {sector}
@@ -173,7 +173,7 @@ export function AgentExamples() {
           Des exemples d&apos;agents IA, métier par métier.
         </h2>
         <p
-          className="mt-6 max-w-xl text-lg text-muted"
+          className="mt-6 max-w-xl text-lg text-foreground/80 font-normal"
           style={{ lineHeight: 1.6, textWrap: "pretty" }}
         >
           Quatre situations de PME et l&apos;agent IA sur mesure qui les prend
@@ -203,7 +203,7 @@ export function AgentExamples() {
             >
               <Heading index={i} sector={scenario.sector} />
               <h3
-                className="min-h-[3.6em] font-medium text-foreground"
+                className="min-h-[3.6em] font-semibold text-foreground"
                 style={{
                   fontSize: "clamp(17px, 1.4vw, 20px)",
                   lineHeight: 1.24,
@@ -213,7 +213,7 @@ export function AgentExamples() {
               >
                 {scenario.title}
               </h3>
-              <span className="mt-4 flex h-9 w-9 items-center justify-center rounded-full border border-accent/10 text-accent/45 transition-colors duration-300 group-hover:border-accent/25 group-hover:text-accent/70">
+              <span className="mt-4 flex h-9 w-9 items-center justify-center rounded-full border border-accent/20 text-accent/60 transition-colors duration-300 group-hover:border-accent/40 group-hover:text-accent">
                 <PlusIcon />
               </span>
             </motion.button>
