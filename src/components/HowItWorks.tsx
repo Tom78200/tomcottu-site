@@ -15,32 +15,32 @@ import {
 const steps = [
   {
     title: "Analyse de votre activité",
-    body: "Basée sur votre site, vos outils et vos process réels, pas un questionnaire générique.",
+    body: "Basée sur votre site, vos outils et vos process réels.",
     image: "/exemples/01.webp",
   },
   {
     title: "Construction de l'agent",
-    body: "Sur mesure, connecté aux outils déjà en place, pas un chatbot prêt à l'emploi.",
+    body: "Sur mesure, connecté à vos outils déjà en place.",
     image: "/exemples/02.webp",
   },
   {
     title: "Affinage en conditions réelles",
-    body: "Ajustements après mise en service, tant que l'agent ne colle pas à l'usage réel.",
+    body: "Ajustements continus tant que l'usage n'est pas parfait.",
     image: "/exemples/03.webp",
   },
 ];
 
 const VIEW_W = 1200;
-const VIEW_H = 620;
+const VIEW_H = 780;
 
 const NODES = [
-  { x: 210, y: 260, at: 0.06, placement: "above" as const },
-  { x: 600, y: 390, at: 0.5, placement: "below" as const },
-  { x: 990, y: 260, at: 0.85, placement: "above" as const },
+  { x: 230, y: 350, at: 0.06, placement: "above" as const },
+  { x: 600, y: 430, at: 0.5, placement: "below" as const },
+  { x: 970, y: 350, at: 0.85, placement: "above" as const },
 ];
 
 // Courbe unique continue 1 -> 2 -> 3
-const FULL_PATH = "M210,260 C 380,260 430,390 600,390 C 770,390 820,260 990,260";
+const FULL_PATH = "M230,350 C 400,350 430,430 600,430 C 770,430 800,350 970,350";
 
 function PathNode({
   index,
@@ -80,6 +80,7 @@ function PathNode({
         left: `${(node.x / VIEW_W) * 100}%`,
         top: `${(node.y / VIEW_H) * 100}%`,
         transform: "translate(-50%, -50%)",
+        zIndex: 10,
       }}
     >
       {!reduce && (
@@ -90,7 +91,7 @@ function PathNode({
         />
       )}
       <motion.div
-        className="flex h-16 w-16 items-center justify-center rounded-full border-2 text-[15px] font-medium"
+        className="flex h-14 w-14 items-center justify-center rounded-full border-2 text-[15px] font-semibold shadow-md"
         style={
           reduce
             ? {
@@ -127,7 +128,7 @@ function StepNodeContent({
   progress: MotionValue<number>;
   reduce: boolean | null;
 }) {
-  // L'image et le bloc apparaissent au moment où le bleu passe sur le nœud
+  // L'image et la carte visuelle apparaissent au moment où le bleu passe sur le nœud
   const revealOpacity = useTransform(
     progress,
     [node.at - 0.06, node.at + 0.06],
@@ -136,25 +137,26 @@ function StepNodeContent({
   const revealScale = useTransform(
     progress,
     [node.at - 0.06, node.at + 0.06],
-    [0.85, 1]
+    [0.88, 1]
   );
   const revealY = useTransform(
     progress,
     [node.at - 0.06, node.at + 0.06],
-    [node.placement === "above" ? 12 : -12, 0]
+    [node.placement === "above" ? 18 : -18, 0]
   );
 
   const isAbove = node.placement === "above";
 
   return (
     <div
-      className="absolute w-[18em] text-center"
+      className="absolute w-[310px] text-center"
       style={{
         left: `${(node.x / VIEW_W) * 100}%`,
         top: `${(node.y / VIEW_H) * 100}%`,
         transform: isAbove
-          ? "translate(-50%, calc(-100% - 50px))"
-          : "translate(-50%, 50px)",
+          ? "translate(-50%, calc(-100% - 44px))"
+          : "translate(-50%, 44px)",
+        zIndex: 5,
       }}
     >
       <motion.div
@@ -167,43 +169,45 @@ function StepNodeContent({
                 y: revealY,
               }
         }
-        className="flex flex-col items-center gap-3"
+        className="flex flex-col items-center gap-3.5"
       >
-        {/* Si le texte est au-dessus du point : Image au sommet, puis texte */}
+        {/* Nœud 1 & 3 : Grande Image au-dessus du texte */}
         {isAbove && (
-          <div className="relative h-24 w-36 overflow-hidden rounded-2xl border border-border-soft bg-white shadow-soft">
-            <Image
-              src={step.image}
-              alt={step.title}
-              fill
-              sizes="150px"
-              className="object-cover object-center"
-            />
+          <div className="group relative aspect-[16/10] w-full overflow-hidden rounded-3xl border border-border-soft/80 bg-white p-1.5 shadow-card transition-all duration-300 hover:border-accent/30 hover:shadow-2xl">
+            <div className="relative h-full w-full overflow-hidden rounded-[20px] bg-black/5">
+              <Image
+                src={step.image}
+                alt={step.title}
+                fill
+                sizes="320px"
+                className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+              />
+            </div>
           </div>
         )}
 
-        <div>
-          <h3 className="text-[20px] font-semibold tracking-[-0.02em] text-foreground">
+        {/* Titre & Légende discrets */}
+        <div className="px-2">
+          <h3 className="text-[17px] font-semibold tracking-[-0.02em] text-foreground">
             {step.title}
           </h3>
-          <p
-            className="mt-1.5 text-[14px] text-muted leading-relaxed"
-            style={{ textWrap: "pretty" }}
-          >
+          <p className="mt-1 text-[13px] text-muted leading-relaxed">
             {step.body}
           </p>
         </div>
 
-        {/* Si le texte est en-dessous du point : Texte d'abord, puis Image en-dessous */}
+        {/* Nœud 2 : Texte d'abord, puis Grande Image en-dessous */}
         {!isAbove && (
-          <div className="relative mt-1 h-24 w-36 overflow-hidden rounded-2xl border border-border-soft bg-white shadow-soft">
-            <Image
-              src={step.image}
-              alt={step.title}
-              fill
-              sizes="150px"
-              className="object-cover object-center"
-            />
+          <div className="group relative aspect-[16/10] w-full overflow-hidden rounded-3xl border border-border-soft/80 bg-white p-1.5 shadow-card transition-all duration-300 hover:border-accent/30 hover:shadow-2xl">
+            <div className="relative h-full w-full overflow-hidden rounded-[20px] bg-black/5">
+              <Image
+                src={step.image}
+                alt={step.title}
+                fill
+                sizes="320px"
+                className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+              />
+            </div>
           </div>
         )}
       </motion.div>
@@ -215,7 +219,7 @@ export function HowItWorks() {
   const reduce = useReducedMotion();
   const sectionRef = useRef<HTMLDivElement>(null);
   const pathRef = useRef<SVGPathElement>(null);
-  const inView = useInView(sectionRef, { once: true, amount: 0.35 });
+  const inView = useInView(sectionRef, { once: true, amount: 0.3 });
 
   // progression 0 -> 1 (unique source de vérité)
   const progressMV = useMotionValue(0);
@@ -236,7 +240,7 @@ export function HowItWorks() {
       return;
     }
 
-    // Animation ralentie pour bien voir chaque étape et ses illustrations apparaître
+    // Animation ralentie pour apprécier le reveal de chaque grande carte
     const controls = animate(progressMV, 1, {
       duration: 5.5,
       ease: "easeInOut",
@@ -279,7 +283,7 @@ export function HowItWorks() {
       </div>
 
       <div ref={sectionRef}>
-        <div className="relative hidden h-[620px] lg:block">
+        <div className="relative hidden h-[780px] lg:block">
           <svg
             viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
             className="absolute inset-0 h-full w-full overflow-visible"
@@ -342,48 +346,47 @@ export function HowItWorks() {
         </div>
 
         {/* Version Mobile */}
-        <div className="grid gap-10 lg:hidden">
+        <div className="grid gap-8 sm:grid-cols-2 lg:hidden">
           {steps.map((step, i) => (
             <motion.div
               key={step.title}
-              className="flex flex-col gap-4 rounded-2xl border border-border-soft bg-white p-6 shadow-soft"
+              className="flex flex-col gap-4 rounded-3xl border border-border-soft bg-white p-5 shadow-card"
               initial={reduce ? false : { opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.4 }}
+              viewport={{ once: true, amount: 0.3 }}
               transition={{
                 duration: 0.5,
                 delay: reduce ? 0 : i * 0.1,
                 ease: [0.16, 1, 0.3, 1],
               }}
             >
-              <div className="flex items-center gap-3">
-                <span
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-medium text-accent-foreground"
-                  style={{ fontFamily: "var(--font-heading)" }}
-                >
-                  0{i + 1}
-                </span>
-                <h3 className="text-[19px] font-semibold tracking-[-0.02em] text-foreground">
-                  {step.title}
-                </h3>
-              </div>
-
-              <div className="relative h-32 w-full overflow-hidden rounded-xl border border-border-soft bg-black/5">
+              {/* Image d'abord sur mobile */}
+              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-black/5">
                 <Image
                   src={step.image}
                   alt={step.title}
                   fill
-                  sizes="300px"
+                  sizes="350px"
                   className="object-cover object-center"
                 />
               </div>
 
-              <p
-                className="text-sm text-muted leading-relaxed"
-                style={{ textWrap: "pretty" }}
-              >
-                {step.body}
-              </p>
+              <div className="flex items-start gap-3">
+                <span
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-semibold text-accent-foreground"
+                  style={{ fontFamily: "var(--font-heading)" }}
+                >
+                  0{i + 1}
+                </span>
+                <div>
+                  <h3 className="text-[17px] font-semibold tracking-[-0.02em] text-foreground">
+                    {step.title}
+                  </h3>
+                  <p className="mt-1 text-[13px] text-muted leading-relaxed">
+                    {step.body}
+                  </p>
+                </div>
+              </div>
             </motion.div>
           ))}
         </div>
