@@ -364,7 +364,7 @@ export function Services() {
                   initial={reduce ? false : { opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: reduce ? 0 : 0.22 }}
-                  className="mt-8 inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-[15px] font-medium text-accent-foreground transition-colors duration-200 hover:bg-accent/80"
+                  className="mt-8 inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-[15px] font-medium text-accent-foreground shadow-accent transition-all duration-200 hover:bg-accent-hover hover:shadow-lg"
                 >
                   En discuter
                   <ArrowIcon />
