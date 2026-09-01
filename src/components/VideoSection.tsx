@@ -23,20 +23,16 @@ export function VideoSection() {
 
   return (
     <section
-      className="flex w-full justify-center overflow-hidden px-0 py-10 sm:py-16"
+      className="flex w-full justify-center px-5 py-8 sm:px-10 sm:py-12 lg:px-16"
       style={{ background: "var(--background)" }}
     >
-      <div className="relative w-full">
+      <div className="relative w-full max-w-4xl overflow-hidden rounded-3xl border border-border-soft bg-black/5 shadow-soft">
         {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
         <video
           ref={videoRef}
           className="block w-full object-cover"
           style={{
             aspectRatio: "16 / 9",
-            WebkitMaskImage:
-              "linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)",
-            maskImage:
-              "linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)",
           }}
           src="/agent-presentation.mp4"
           loop
@@ -50,15 +46,16 @@ export function VideoSection() {
             type="button"
             onClick={toggle}
             aria-label="Lire la vidéo"
-            className="absolute inset-0 flex items-center justify-center"
+            className="absolute inset-0 flex items-center justify-center bg-black/10 transition-colors hover:bg-black/20"
           >
-            <span className="flex h-20 w-20 items-center justify-center rounded-full bg-accent/55 text-accent-foreground backdrop-blur-sm transition-colors duration-200 hover:bg-accent/70">
+            <span className="flex h-16 w-16 items-center justify-center rounded-full bg-accent text-accent-foreground shadow-lg backdrop-blur-sm transition-transform duration-200 hover:scale-105 sm:h-20 sm:w-20">
               <svg
-                width="26"
-                height="26"
+                width="24"
+                height="24"
                 viewBox="0 0 22 22"
                 fill="currentColor"
                 aria-hidden="true"
+                className="ml-1"
               >
                 <path d="M7 4.5v13l11-6.5z" />
               </svg>
