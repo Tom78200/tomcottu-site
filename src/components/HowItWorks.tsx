@@ -85,15 +85,21 @@ export function HowItWorks() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const inView = useInView(sectionRef, { once: true, amount: 0.25 });
   const [activeStep, setActiveStep] = useState(0);
+  const [isManual, setIsManual] = useState(false);
 
-  // Défilement automatique doux si l'utilisateur ne clique pas
+  // Défilement automatique plus lent (9.5s) qui s'arrête définitivement dès que l'utilisateur clique
   useEffect(() => {
-    if (!inView || reduce) return;
+    if (!inView || reduce || isManual) return;
     const interval = setInterval(() => {
       setActiveStep((prev) => (prev + 1) % stages.length);
-    }, 6000);
+    }, 9500);
     return () => clearInterval(interval);
-  }, [inView, reduce]);
+  }, [inView, reduce, isManual]);
+
+  const handleStepClick = (idx: number) => {
+    setActiveStep(idx);
+    setIsManual(true); // Arrêt définitif du défilement automatique
+  };
 
   const current = stages[activeStep];
 
@@ -135,7 +141,7 @@ export function HowItWorks() {
               <button
                 key={stage.step}
                 type="button"
-                onClick={() => setActiveStep(idx)}
+                onClick={() => handleStepClick(idx)}
                 className={`group relative flex flex-col rounded-2xl p-5 text-left transition-all duration-300 border ${
                   isActive
                     ? "border-accent/40 bg-white shadow-soft"
