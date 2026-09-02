@@ -137,21 +137,21 @@ const services = [
     ],
   },
   {
-    title: "Assistant IA Privé (Sur votre matériel)",
-    body: "Installation d'une IA 100% confidentielle sur votre propre équipement. Aucune de vos données sensibles ne part à l'extérieur.",
+    title: "Assistant IA Hermes (Sur votre matériel)",
+    body: "Installation de l'agent Hermes sur votre propre équipement. Une IA 100% confidentielle où aucune donnée ne sort de votre entreprise.",
     visual: SelfHostedVisual,
     intro:
-      "Pour les entreprises exigeantes sur la confidentialité : un modèle d'IA puissant hébergé chez vous, sous votre contrôle exclusif.",
+      "J'installe Hermes, l'agent IA de référence, directement sur votre machine ou serveur privé. Vos données restent chez vous et vous ne payez aucun abonnement d'API externe.",
     livre: [
-      "Installation et réglage complet sur votre serveur ou machine",
-      "Connexion sécurisée à vos outils de travail",
-      "Gestion stricte des permissions et accès par collaborateur",
-      "Maintenance, sécurité et mises à jour assurées",
+      "Installation et paramétrage complet de l'agent Hermes",
+      "Connexion sécurisée à votre messagerie et à vos outils",
+      "Gestion stricte des accès et permissions de votre équipe",
+      "Maintenance, sécurité et mises à jour assurées par mes soins",
     ],
     deroule: [
-      "Zéro fuite : vos données ne transitent par aucun service tiers",
-      "Indépendance totale : aucun abonnement récurrent imposé",
-      "Assistance continue et suivi technique inclus",
+      "Confidentialité absolue : vos données ne transitent par aucun tiers",
+      "Indépendance totale : l'agent vous appartient sans abonnement imposé",
+      "Suivi technique et accompagnement inclus",
     ],
   },
   {
