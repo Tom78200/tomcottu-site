@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     siteName: "Tom Cottu",
     title: "Développeur IA freelance, agents IA sur mesure pour PME",
     description:
-      "Des agents IA qui font le travail, pas la démo. Conception sur mesure, automatisation de workflows et assistants auto-hébergés pour PME.",
+      "Des agents IA sur-mesure pour vous faire gagner du temps. Conception sur mesure, automatisation de workflows et assistants souverains pour PME.",
     images: [
       {
         url: "/hero-image/character.webp",
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Développeur IA freelance, agents IA sur mesure pour PME",
     description:
-      "Des agents IA qui font le travail, pas la démo. Conception sur mesure et automatisation pour PME.",
+      "Des agents IA sur-mesure pour vous faire gagner du temps. Conception sur mesure et automatisation pour PME.",
     images: ["/hero-image/character.webp"],
   },
   robots: {

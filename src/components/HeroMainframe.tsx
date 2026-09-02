@@ -8,7 +8,7 @@ import styles from "./HeroMainframe.module.css";
 
 const IMAGE_URL = "/hero-image/tom.png";
 const CTA_LABEL = "Cadrer mon diagnostic";
-const HERO_TITLE = "Des agents IA qui font le travail, pas la démo.";
+const HERO_TITLE = "Des agents IA sur-mesure pour vous faire gagner du temps.";
 
 const secondaryLinks = [
   { href: "#services", label: "Services" },
