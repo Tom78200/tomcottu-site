@@ -52,129 +52,81 @@ function ShieldCheckIcon() {
   );
 }
 
-/* ── MODÈLE 3D ISOMÉTRIQUE EN LÉVITATION (PROCESSEUR SILICIUM 3D RÉEL) ── */
+/* ── MODÈLE 3D PROCESSEUR VU DE FACE (STYLE APPLE M4 3D SILICON) ── */
 function Model3DAgentCore({ reduce }: { reduce: boolean | null }) {
   return (
-    <div className="relative flex flex-col items-center justify-center py-4">
-      {/* Espace Scène 3D avec Perspective */}
+    <div className="relative flex flex-col items-center justify-center py-2">
+      {/* Espace Scène 3D */}
       <div
-        className="relative flex h-52 w-52 sm:h-64 sm:w-64 items-center justify-center"
+        className="relative flex h-56 w-56 sm:h-64 sm:w-64 items-center justify-center"
         style={{ perspective: "1000px" }}
       >
-        {/* 1. Ombre portée 3D au sol qui respire avec la hauteur */}
+        {/* 1. Anneau orbital extérieur en rotation continue douce */}
         <motion.div
-          animate={
-            reduce
-              ? {}
-              : {
-                  scale: [0.85, 1.1, 0.85],
-                  opacity: [0.35, 0.15, 0.35],
-                }
-          }
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-4 h-8 w-36 rounded-full bg-black/15 blur-md"
+          animate={reduce ? {} : { rotate: 360 }}
+          transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
+          className="pointer-events-none absolute h-52 w-52 sm:h-56 sm:w-56 rounded-full border border-dashed border-accent/25"
         />
 
-        {/* 2. Anneaux Orbitaux 3D Gyroscopiques en rotation spatiale */}
+        {/* 2. Anneau orbital intérieur en contre-rotation */}
         <motion.div
-          animate={reduce ? {} : { rotateZ: 360 }}
-          transition={{ duration: 26, repeat: Infinity, ease: "linear" }}
-          className="pointer-events-none absolute h-52 w-52 rounded-full border border-dashed border-accent/30"
-          style={{
-            transformStyle: "preserve-3d",
-            transform: "rotateX(68deg) rotateY(15deg)",
-          }}
-        />
-
-        <motion.div
-          animate={reduce ? {} : { rotateZ: -360 }}
+          animate={reduce ? {} : { rotate: -360 }}
           transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-          className="pointer-events-none absolute h-40 w-40 rounded-full border border-dotted border-accent/40"
-          style={{
-            transformStyle: "preserve-3d",
-            transform: "rotateX(68deg) rotateY(-15deg)",
-          }}
+          className="pointer-events-none absolute h-40 w-40 sm:h-44 sm:w-44 rounded-full border border-dotted border-accent/35"
         />
 
-        {/* 3. Processeur Silicium 3D en Lévitation */}
+        {/* 3. Boîtier Processeur 3D Vu de Face avec Lévitation & Micro-Tilt */}
         <motion.div
           animate={
             reduce
               ? {}
               : {
-                  y: [-8, 8, -8],
-                  rotateX: [54, 50, 54],
-                  rotateZ: [-38, -32, -38],
+                  y: [-6, 6, -6],
+                  rotateY: [-6, 6, -6],
+                  rotateX: [4, -4, 4],
                 }
           }
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          className="relative h-32 w-32 sm:h-36 sm:w-36 cursor-pointer"
+          className="relative flex h-36 w-36 sm:h-40 sm:w-40 items-center justify-center rounded-3xl border-2 border-accent/80 bg-white p-4 text-center shadow-2xl"
           style={{
             transformStyle: "preserve-3d",
-            transform: "rotateX(54deg) rotateZ(-36deg)",
+            boxShadow: "0 20px 40px -15px rgba(0, 119, 205, 0.25), 0 0 0 1px rgba(0, 119, 205, 0.1)",
           }}
         >
-          {/* FACE SUPÉRIEURE (Top Face Puce de Silicium) */}
+          {/* Onde de respiration interne */}
+          {!reduce && (
+            <motion.div
+              animate={{ scale: [1, 1.15, 1], opacity: [0.2, 0.05, 0.2] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute inset-2 rounded-2xl bg-accent"
+            />
+          )}
+
+          {/* Cœur Silicium de Face */}
           <div
-            className="absolute inset-0 flex flex-col items-center justify-center rounded-2xl border-2 border-accent bg-gradient-to-br from-[#ffffff] via-[#f7f7f6] to-[#ebeae7] p-3 shadow-xl"
-            style={{
-              transform: "translateZ(14px)",
-              backfaceVisibility: "hidden",
-            }}
+            className="relative z-10 flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-2xl bg-gradient-to-br from-[#0088ea] via-[#0077cd] to-[#005fa6] text-white shadow-accent"
+            style={{ transform: "translateZ(12px)" }}
           >
-            {/* Piste de micro-circuits gravés */}
-            <div className="relative flex h-16 w-16 items-center justify-center rounded-xl bg-accent text-accent-foreground shadow-accent">
-              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect width="16" height="16" x="4" y="4" rx="3" />
-                <rect width="6" height="6" x="9" y="9" rx="1" fill="currentColor" fillOpacity="0.2" />
-                <path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2" />
-              </svg>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <rect width="16" height="16" x="4" y="4" rx="3" />
+              <rect width="6" height="6" x="9" y="9" rx="1" fill="currentColor" fillOpacity="0.2" />
+              <path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2" />
+            </svg>
 
-              {/* Reflet spéculaire lumineux qui traverse la puce */}
-              {!reduce && (
-                <motion.div
-                  animate={{ x: [-40, 60] }}
-                  transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut", repeatDelay: 1 }}
-                  className="pointer-events-none absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/40 to-transparent"
-                />
-              )}
-            </div>
-
-            <span className="mt-2 text-[12px] font-bold text-foreground uppercase tracking-wider" style={{ fontFamily: "var(--font-heading)" }}>
-              Agent IA
-            </span>
-          </div>
-
-          {/* TRANCHE AVANT 3D (Front Extrusion) */}
-          <div
-            className="absolute inset-x-0 bottom-0 h-[14px] origin-bottom rounded-b-2xl border-x border-b border-[#005fa6] bg-gradient-to-b from-[#0077cd] to-[#004e8a]"
-            style={{
-              transform: "rotateX(-90deg) translateZ(0px)",
-            }}
-          />
-
-          {/* TRANCHE DROITE 3D (Right Extrusion) */}
-          <div
-            className="absolute inset-y-0 right-0 w-[14px] origin-right rounded-r-2xl border-y border-r border-[#005fa6] bg-gradient-to-r from-[#0077cd] to-[#004e8a]"
-            style={{
-              transform: "rotateY(90deg) translateZ(0px)",
-            }}
-          />
-
-          {/* Micro-pins de connexion dorés */}
-          <div
-            className="absolute -left-1.5 inset-y-3 flex flex-col justify-between"
-            style={{ transform: "translateZ(6px)" }}
-          >
-            {[0, 1, 2, 3].map((p) => (
-              <span key={p} className="h-1.5 w-1.5 rounded-full bg-accent" />
-            ))}
+            {/* Reflet spéculaire qui glisse sur la face avant */}
+            {!reduce && (
+              <motion.div
+                animate={{ x: [-40, 70] }}
+                transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut", repeatDelay: 1 }}
+                className="pointer-events-none absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/35 to-transparent"
+              />
+            )}
           </div>
         </motion.div>
       </div>
 
-      {/* Titre sobre sous le modèle 3D */}
-      <span className="mt-1 text-[15px] font-semibold text-foreground tracking-tight">
+      {/* Titre sobre sous la puce 3D */}
+      <span className="mt-2 text-[15px] font-semibold text-foreground tracking-tight">
         Agent IA Métier
       </span>
     </div>
@@ -214,7 +166,7 @@ export function HowItWorks() {
         </h2>
       </div>
 
-      {/* ── GRAND WORKFLOW PANORAMIQUE VIVANT AVEC MODÈLE 3D CENTRAL ── */}
+      {/* ── GRAND WORKFLOW PANORAMIQUE VIVANT AVEC MODÈLE 3D VU DE FACE ── */}
       <div className="relative mx-auto w-full max-w-6xl py-4 sm:py-8">
         {/* Câbles de connexion */}
         <div className="pointer-events-none absolute inset-0 hidden lg:block h-full w-full">
@@ -327,7 +279,7 @@ export function HowItWorks() {
             ))}
           </div>
 
-          {/* ── 2. COLONNE CENTRALE : Modèle 3D Isométrique en Lévitation (Agent IA) ── */}
+          {/* ── 2. COLONNE CENTRALE : Modèle 3D Vu de Face (Agent IA) ── */}
           <div className="lg:col-span-6 flex flex-col items-center justify-center py-6 lg:py-0 px-2 sm:px-6">
             <Model3DAgentCore reduce={reduce} />
           </div>
