@@ -1,354 +1,227 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import {
-  AnimatePresence,
-  motion,
-  useInView,
-  useReducedMotion,
-} from "motion/react";
-
-/* ── ANIMATION 01 : Radar de scan & Flux d'outils ── */
-function AnimationStage1() {
-  return (
-    <div className="relative flex h-full min-h-[320px] sm:min-h-[380px] w-full items-center justify-center overflow-visible">
-      {/* Cercles radar concentriques épurés */}
-      <div className="absolute flex items-center justify-center">
-        <div className="h-[260px] w-[260px] sm:h-[360px] sm:w-[360px] rounded-full border border-accent/15" />
-        <div className="absolute h-[160px] w-[160px] sm:h-[230px] sm:w-[230px] rounded-full border border-accent/25" />
-        <div className="absolute h-[80px] w-[80px] sm:h-[110px] sm:w-[110px] rounded-full border border-accent/35" />
-
-        {/* Faisceau de scan rotatif continu */}
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 6, ease: "linear", repeat: Infinity }}
-          className="absolute h-[260px] w-[260px] sm:h-[360px] sm:w-[360px] rounded-full"
-          style={{
-            background: "conic-gradient(from 0deg, transparent 70%, var(--color-accent-soft) 95%, var(--color-accent) 100%)",
-            opacity: 0.35,
-          }}
-        />
-      </div>
-
-      {/* 4 Nœuds d'outils en orbite avec pulsations */}
-      {[
-        { name: "Gmail / Outlook", top: "10%", left: "12%", delay: 0 },
-        { name: "CRM / Devis", top: "12%", right: "12%", delay: 1.5 },
-        { name: "Notion / ERP", bottom: "10%", left: "14%", delay: 3 },
-        { name: "Slack / WhatsApp", bottom: "12%", right: "14%", delay: 4.5 },
-      ].map((node) => (
-        <motion.div
-          key={node.name}
-          animate={{ scale: [1, 1.05, 1], opacity: [0.85, 1, 0.85] }}
-          transition={{ duration: 3, repeat: Infinity, delay: node.delay, ease: "easeInOut" }}
-          style={{ position: "absolute", top: node.top, bottom: node.bottom, left: node.left, right: node.right }}
-          className="z-10 flex items-center gap-2 rounded-xl border border-border-soft bg-white/90 px-3.5 py-2 shadow-xs backdrop-blur-md"
-        >
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
-          </span>
-          <span className="text-xs font-semibold text-foreground">{node.name}</span>
-        </motion.div>
-      ))}
-
-      {/* Cœur Central : Audit */}
-      <div className="relative z-20 flex flex-col items-center rounded-2xl border-2 border-accent bg-white p-5 text-center shadow-lg">
-        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent text-accent-foreground shadow-accent">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="11" cy="11" r="8" />
-            <path d="m21 21-4.3-4.3" />
-          </svg>
-        </div>
-        <span className="mt-2 text-[15px] font-bold text-foreground">Audit 48h</span>
-        <span className="text-[11px] font-semibold text-accent">Tâche ciblée</span>
-      </div>
-    </div>
-  );
-}
-
-/* ── ANIMATION 02 : Processeur & Flux sécurisés (Conception) ── */
-function AnimationStage2() {
-  return (
-    <div className="relative flex h-full min-h-[320px] sm:min-h-[380px] w-full items-center justify-center overflow-visible">
-      <div className="relative z-10 flex w-full max-w-2xl items-center justify-between gap-3 sm:gap-6 px-4">
-        {/* Entrée */}
-        <div className="flex flex-col items-center rounded-2xl border border-border-soft bg-white p-4 shadow-xs text-center">
-          <span className="text-[10px] font-bold text-muted-soft uppercase tracking-wider">Entrée</span>
-          <span className="mt-1 text-xs font-bold text-foreground">Demande Client</span>
-          <span className="mt-0.5 text-[10px] text-accent font-semibold">24h / 24</span>
-        </div>
-
-        {/* Flèche animée vers processeur */}
-        <div className="relative flex flex-1 items-center justify-center">
-          <svg className="w-full h-12 overflow-visible" viewBox="0 0 80 40" fill="none">
-            <path d="M0,20 H70" stroke="var(--color-accent)" strokeWidth="2.5" strokeLinecap="round" />
-            <motion.circle
-              cx="0"
-              cy="20"
-              r="3.5"
-              fill="var(--color-accent)"
-              animate={{ cx: [0, 70] }}
-              transition={{ duration: 1.2, repeat: Infinity, ease: "linear" }}
-            />
-          </svg>
-        </div>
-
-        {/* Processeur Central */}
-        <div className="relative flex flex-col items-center rounded-2xl border-2 border-accent bg-white p-5 shadow-lg">
-          <div className="relative flex h-12 w-12 items-center justify-center rounded-xl bg-accent text-accent-foreground shadow-accent">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <rect width="18" height="18" x="3" y="3" rx="2" />
-              <path d="M9 8h6M9 12h6M9 16h4" />
-            </svg>
-          </div>
-          <span className="mt-2 text-[14px] font-bold text-foreground">Agent Sur-mesure</span>
-          <span className="text-[10px] font-semibold text-emerald-600">Règles métier</span>
-        </div>
-
-        {/* Flèches de sortie */}
-        <div className="relative flex flex-1 items-center justify-center">
-          <svg className="w-full h-16 overflow-visible" viewBox="0 0 80 40" fill="none">
-            <path d="M0,20 C30,20 40,8 80,8" stroke="#10b981" strokeWidth="2" strokeLinecap="round" />
-            <path d="M0,20 C30,20 40,32 80,32" stroke="var(--color-accent)" strokeWidth="2" strokeLinecap="round" />
-          </svg>
-        </div>
-
-        {/* Sorties */}
-        <div className="flex flex-col gap-2">
-          <div className="rounded-xl border border-emerald-200 bg-emerald-50/90 px-3.5 py-2 text-left">
-            <span className="text-[11px] font-bold text-emerald-800 block">Exécution auto</span>
-            <span className="text-[9px] text-emerald-600">Tâches standard</span>
-          </div>
-          <div className="rounded-xl border border-accent/30 bg-accent/5 px-3.5 py-2 text-left">
-            <span className="text-[11px] font-bold text-accent block">Avis humain</span>
-            <span className="text-[9px] text-muted-soft">Cas critiques</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ── ANIMATION 03 : Rodage & Certification (Déploiement) ── */
-function AnimationStage3() {
-  return (
-    <div className="relative flex h-full min-h-[320px] sm:min-h-[380px] w-full items-center justify-center overflow-visible">
-      <div className="relative z-10 flex w-full max-w-2xl items-center justify-around gap-6 px-4">
-        {/* Flux de tickets traités */}
-        <div className="flex flex-col gap-2.5">
-          {[
-            { id: "1", text: "Email trié & traité", time: "0.4s" },
-            { id: "2", text: "Devis généré & prêt", time: "0.8s" },
-            { id: "3", text: "Ressaisie validée", time: "0.3s" },
-          ].map((ticket, i) => (
-            <motion.div
-              key={ticket.id}
-              initial={{ opacity: 0, x: -12 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.4, delay: i * 0.15 }}
-              className="flex items-center justify-between gap-4 rounded-xl border border-border-soft bg-white px-3.5 py-2 shadow-xs"
-            >
-              <div className="flex items-center gap-2">
-                <span className="text-emerald-500 font-bold text-xs">✓</span>
-                <span className="text-xs font-semibold text-foreground">{ticket.text}</span>
-              </div>
-              <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-700">
-                {ticket.time}
-              </span>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Jauge 100% */}
-        <div className="flex flex-col items-center">
-          <div className="relative flex h-24 w-24 items-center justify-center">
-            <svg className="h-24 w-24 -rotate-90" viewBox="0 0 36 36">
-              <path
-                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                fill="none"
-                stroke="var(--border-soft)"
-                strokeWidth="2.5"
-              />
-              <motion.path
-                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                fill="none"
-                stroke="var(--color-accent)"
-                strokeWidth="3"
-                strokeDasharray="100, 100"
-                strokeLinecap="round"
-                initial={{ strokeDashoffset: 100 }}
-                animate={{ strokeDashoffset: 0 }}
-                transition={{ duration: 1.5, ease: "easeOut" }}
-              />
-            </svg>
-            <div className="absolute flex flex-col items-center">
-              <span className="text-lg font-extrabold text-foreground leading-none">100%</span>
-              <span className="text-[9px] font-semibold text-accent uppercase">Précision</span>
-            </div>
-          </div>
-          <span className="mt-2 text-xs font-semibold text-muted-soft">Sur vos données</span>
-        </div>
-
-        {/* Garantie 14j */}
-        <div className="flex flex-col items-center rounded-2xl border-2 border-accent bg-white p-5 text-center shadow-lg">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent/10 text-accent">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
-              <path d="m9 12 2 2 4-4" />
-            </svg>
-          </div>
-          <span className="mt-2 text-[15px] font-bold text-foreground">Garantie 14j</span>
-          <span className="text-[10px] font-medium text-muted-soft">Sans engagement</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-const STAGES = [
-  {
-    step: "01",
-    tag: "Audit 48h",
-    title: "Diagnostic & Cartographie",
-    description: "Scan de vos outils pour isoler la tâche qui vous coûte le plus de temps.",
-    animation: <AnimationStage1 />,
-  },
-  {
-    step: "02",
-    tag: "Semaine 1",
-    title: "Construction sur-mesure",
-    description: "Développement d'un agent taillé pour vos logiciels avec garde-fous stricts.",
-    animation: <AnimationStage2 />,
-  },
-  {
-    step: "03",
-    tag: "Suivi continu",
-    title: "Mise en service & Rodage",
-    description: "Calibrage en conditions réelles et garantie 14 jours satisfait ou remboursé.",
-    animation: <AnimationStage3 />,
-  },
-];
+import { motion, useReducedMotion } from "motion/react";
 
 export function HowItWorks() {
   const reduce = useReducedMotion();
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(sectionRef, { once: false, amount: 0.2 });
-
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % STAGES.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentIndex((prev) => (prev - 1 + STAGES.length) % STAGES.length);
-  };
-
-  const current = STAGES[currentIndex];
 
   return (
     <section
       id="methode"
-      ref={sectionRef}
       aria-labelledby="methode-heading"
-      className="w-full px-5 pb-28 sm:px-10 md:pb-36 lg:px-16"
+      className="w-full px-5 pb-32 sm:px-10 md:pb-44 lg:px-16 overflow-hidden"
     >
-      {/* ── En-tête de section ── */}
-      <div className="mb-8 border-t border-border-soft pt-16 md:mb-12 md:pt-24 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
-        <div>
-          <div
-            className="mb-3 text-base font-semibold text-foreground md:text-lg"
-            style={{ fontFamily: "var(--font-heading)" }}
-          >
-            Comment ça marche
-          </div>
-          <h2
-            id="methode-heading"
-            className="max-w-2xl font-medium text-foreground"
-            style={{
-              fontSize: "clamp(34px, 5vw, 60px)",
-              lineHeight: 1.08,
-              letterSpacing: "-0.03em",
-              textWrap: "balance",
-            } as React.CSSProperties}
-          >
-            Trois étapes, pas de blabla.
-          </h2>
+      {/* ── En-tête de section sobre ── */}
+      <div className="mb-12 border-t border-border-soft pt-16 md:mb-16 md:pt-24">
+        <div
+          className="mb-3 text-base font-semibold text-foreground md:text-lg"
+          style={{ fontFamily: "var(--font-heading)" }}
+        >
+          Comment ça marche
         </div>
+        <h2
+          id="methode-heading"
+          className="max-w-3xl font-medium text-foreground"
+          style={{
+            fontSize: "clamp(34px, 5vw, 60px)",
+            lineHeight: 1.08,
+            letterSpacing: "-0.03em",
+            textWrap: "balance",
+          } as React.CSSProperties}
+        >
+          Vos outils connectés. Vos tâches automatisées.
+        </h2>
+      </div>
 
-        {/* Contrôles de défilement sobres */}
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1.5 mr-2">
-            {STAGES.map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                onClick={() => setCurrentIndex(i)}
-                aria-label={`Aller à l'étape ${i + 1}`}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  currentIndex === i ? "w-8 bg-accent" : "w-2 bg-border-soft hover:bg-muted-soft"
-                }`}
-              />
+      {/* ── Grand Schéma Panoramique Vivant (End-to-End Workflow) ── */}
+      <div className="relative mx-auto w-full max-w-6xl py-8 sm:py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-8 lg:gap-4">
+          {/* ── COLONNE GAUCHE : Sources & Canaux d'entrée ── */}
+          <div className="lg:col-span-3 flex flex-col gap-3.5">
+            <div className="mb-1 text-[11px] font-bold tracking-wider text-muted-soft uppercase">
+              1. Vos outils existants
+            </div>
+
+            {[
+              { label: "Emails & Demandes", sub: "Gmail / Outlook", icon: "✉️" },
+              { label: "Ressaisie & Devis", sub: "CRM / ERP", icon: "📊" },
+              { label: "Messages & SAV", sub: "Slack / WhatsApp", icon: "💬" },
+              { label: "Bases internes", sub: "Notion / Drive", icon: "📁" },
+            ].map((item, i) => (
+              <motion.div
+                key={item.label}
+                initial={reduce ? false : { opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="group relative flex items-center justify-between rounded-2xl border border-border-soft bg-white p-3.5 shadow-xs transition-all duration-300 hover:border-accent/40 hover:shadow-md"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-background text-base border border-border-soft/60 shadow-xs">
+                    {item.icon}
+                  </span>
+                  <div>
+                    <span className="text-xs font-bold text-foreground block">{item.label}</span>
+                    <span className="text-[11px] font-medium text-muted-soft">{item.sub}</span>
+                  </div>
+                </div>
+
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+                </span>
+              </motion.div>
             ))}
           </div>
 
-          <button
-            type="button"
-            onClick={prevSlide}
-            aria-label="Étape précédente"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-border-soft bg-white/80 text-foreground shadow-xs transition-all hover:border-accent/40 hover:bg-accent-soft hover:text-accent active:scale-95"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="m15 18-6-6 6-6" />
-            </svg>
-          </button>
+          {/* ── COLONNE CENTRALE : L'Agent Sur-Mesure & Circuits Connectés ── */}
+          <div className="lg:col-span-5 flex flex-col items-center justify-center py-6 lg:py-0 px-2 sm:px-6">
+            <div className="relative flex w-full flex-col items-center justify-center">
+              {/* Lignes de circuit vectorielles gauche */}
+              <div className="hidden lg:block absolute -left-12 inset-y-0 w-24 pointer-events-none">
+                <svg className="w-full h-full overflow-visible" viewBox="0 0 100 200" fill="none">
+                  <path d="M0 30 C 50 30, 50 100, 100 100" stroke="var(--color-accent)" strokeWidth="2" strokeDasharray="4 4" />
+                  <path d="M0 70 C 50 70, 50 100, 100 100" stroke="var(--color-accent)" strokeWidth="2.5" />
+                  <path d="M0 130 C 50 130, 50 100, 100 100" stroke="var(--color-accent)" strokeWidth="2.5" />
+                  <path d="M0 170 C 50 170, 50 100, 100 100" stroke="var(--color-accent)" strokeWidth="2" strokeDasharray="4 4" />
+                  {!reduce && (
+                    <motion.circle
+                      cx="0"
+                      cy="70"
+                      r="4"
+                      fill="var(--color-accent)"
+                      animate={{ cx: [0, 100], cy: [70, 100] }}
+                      transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+                    />
+                  )}
+                </svg>
+              </div>
 
-          <button
-            type="button"
-            onClick={nextSlide}
-            aria-label="Étape suivante"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-border-soft bg-white/80 text-foreground shadow-xs transition-all hover:border-accent/40 hover:bg-accent-soft hover:text-accent active:scale-95"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="m9 18 6-6-6-6" />
-            </svg>
-          </button>
-        </div>
-      </div>
+              {/* Processeur / Cœur Central Agent */}
+              <motion.div
+                initial={reduce ? false : { scale: 0.9, opacity: 0 }}
+                whileInView={{ scale: 1, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                className="relative z-10 flex flex-col items-center rounded-3xl border-2 border-accent bg-white p-7 sm:p-8 text-center shadow-xl w-full max-w-[280px]"
+              >
+                {/* Anneau d'onde pulsante */}
+                <div className="relative flex h-20 w-20 items-center justify-center">
+                  {!reduce && (
+                    <motion.div
+                      animate={{ scale: [1, 1.35, 1], opacity: [0.35, 0, 0.35] }}
+                      transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                      className="absolute inset-0 rounded-2xl bg-accent"
+                    />
+                  )}
+                  <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl bg-accent text-accent-foreground shadow-accent">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect width="18" height="18" x="3" y="3" rx="2" />
+                      <path d="M9 8h6M9 12h6M9 16h4" />
+                    </svg>
+                  </div>
+                </div>
 
-      {/* ── Animation Intégrée Directement dans la Section (Sans Boîte ni Bloc) ── */}
-      <div className="relative py-6 sm:py-10">
-        {/* Scène animée interactive */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={current.step}
-            initial={reduce ? false : { opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={reduce ? undefined : { opacity: 0, x: -20 }}
-            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="my-auto flex items-center justify-center w-full"
-          >
-            {current.animation}
-          </motion.div>
-        </AnimatePresence>
+                <span className="mt-4 text-[17px] font-bold text-foreground">
+                  Agent IA Métier
+                </span>
+                <span className="mt-1 inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-0.5 text-[11px] font-bold text-emerald-700">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                  Règles & Garde-fous actifs
+                </span>
 
-        {/* Titre & Description en bas, directement dans la page */}
-        <div className="mt-8 pt-6 border-t border-border-soft flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <span
-              className="rounded-full bg-accent/10 px-3 py-1 text-xs font-bold text-accent"
-              style={{ fontFamily: "var(--font-heading)" }}
-            >
-              Étape {current.step}
-            </span>
-            <h3 className="text-[19px] sm:text-[22px] font-bold text-foreground">
-              {current.title}
-            </h3>
+                <div className="mt-5 w-full border-t border-border-soft/70 pt-3 flex items-center justify-between text-[11px] text-muted-soft">
+                  <span>Temps de réponse</span>
+                  <span className="font-bold text-foreground">&lt; 1 seconde</span>
+                </div>
+              </motion.div>
+
+              {/* Lignes de circuit vectorielles droite */}
+              <div className="hidden lg:block absolute -right-12 inset-y-0 w-24 pointer-events-none">
+                <svg className="w-full h-full overflow-visible" viewBox="0 0 100 200" fill="none">
+                  <path d="M0 100 C 50 100, 50 45, 100 45" stroke="#10b981" strokeWidth="2.5" />
+                  <path d="M0 100 C 50 100, 50 155, 100 155" stroke="var(--color-accent)" strokeWidth="2.5" />
+                  {!reduce && (
+                    <motion.circle
+                      cx="0"
+                      cy="100"
+                      r="4"
+                      fill="#10b981"
+                      animate={{ cx: [0, 100], cy: [100, 45] }}
+                      transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+                    />
+                  )}
+                </svg>
+              </div>
+            </div>
           </div>
-          <p className="text-sm sm:text-[15px] text-muted font-normal max-w-lg">
-            {current.description}
-          </p>
+
+          {/* ── COLONNE DROITE : Résultats & Actions Réelles ── */}
+          <div className="lg:col-span-4 flex flex-col gap-3.5">
+            <div className="mb-1 text-[11px] font-bold tracking-wider text-emerald-700 uppercase">
+              2. Actions traitées sans friction
+            </div>
+
+            {/* Voie 1 : Exécution Automatique */}
+            <motion.div
+              initial={reduce ? false : { opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4 shadow-xs"
+            >
+              <div className="flex items-center justify-between pb-2 border-b border-emerald-200/60">
+                <div className="flex items-center gap-2">
+                  <span className="flex h-2 w-2 rounded-full bg-emerald-500" />
+                  <span className="text-xs font-bold text-emerald-900 uppercase tracking-wider">
+                    Autonome (90%)
+                  </span>
+                </div>
+                <span className="text-[11px] font-bold text-emerald-700">Immédiat</span>
+              </div>
+
+              <ul className="mt-3 space-y-2">
+                {[
+                  "Réponse SAV rédigée & personnalisée",
+                  "Devis généré & synchronisé dans l'ERP",
+                  "Emails triés et classés sans ressaisie",
+                ].map((act) => (
+                  <li key={act} className="flex items-center gap-2 text-xs font-medium text-emerald-950">
+                    <span className="text-emerald-600 font-bold">✓</span>
+                    <span>{act}</span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+
+            {/* Voie 2 : Validation Humaine Sécurisée */}
+            <motion.div
+              initial={reduce ? false : { opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.25 }}
+              className="rounded-2xl border border-accent/25 bg-accent/5 p-4 shadow-xs"
+            >
+              <div className="flex items-center justify-between pb-2 border-b border-accent/20">
+                <div className="flex items-center gap-2">
+                  <span className="flex h-2 w-2 rounded-full bg-accent" />
+                  <span className="text-xs font-bold text-accent uppercase tracking-wider">
+                    Validation Humaine (10%)
+                  </span>
+                </div>
+                <span className="text-[11px] font-bold text-accent">Sécurisé</span>
+              </div>
+
+              <div className="mt-3 flex items-center justify-between gap-3">
+                <p className="text-xs text-foreground/80 font-medium">
+                  Notification 1-clic sur Slack/Email pour les cas sensibles
+                </p>
+                <span className="shrink-0 rounded-lg bg-accent px-2.5 py-1 text-[11px] font-bold text-white shadow-xs">
+                  Valider
+                </span>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>
