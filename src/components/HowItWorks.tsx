@@ -51,51 +51,42 @@ function ShieldCheckIcon() {
   );
 }
 
-/* ── NOYAU AGENT IA HIGH-TECH MINIMALISTE (PUCE PROCESSEUR IA) ── */
+/* ── CŒUR AGENT IA RUNTIME (STYLE LINEAR / STRIPE AGENTS) ── */
 function Model3DAgentCore({ reduce }: { reduce: boolean | null }) {
   return (
-    <div className="relative flex flex-col items-center justify-center py-2">
-      {/* Cœur Agent IA en lévitation sobre et high-tech */}
-      <motion.div
-        animate={
-          reduce
-            ? {}
-            : {
-                y: [-4, 4, -4],
-              }
-        }
-        transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-        className="relative flex h-24 w-24 sm:h-28 sm:w-28 items-center justify-center rounded-3xl border border-accent/40 bg-white p-2.5 shadow-card"
-      >
-        {/* Processeur IA Central Bleu Profond */}
-        <div className="relative z-10 flex h-full w-full items-center justify-center rounded-2xl bg-gradient-to-br from-[#0088ea] to-[#005fa6] text-white shadow-accent">
-          {/* Puce Microprocesseur AI */}
-          <svg
-            width="32"
-            height="32"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <rect x="4" y="4" width="16" height="16" rx="3" />
-            <rect x="8.5" y="8.5" width="7" height="7" rx="1.5" />
-            <path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3" />
-          </svg>
-
-          {/* Micro-lueur interne */}
-          <span className="pointer-events-none absolute inset-0 rounded-2xl bg-white/10" />
+    <motion.div
+      animate={reduce ? {} : { y: [-3, 3, -3] }}
+      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+      className="relative flex w-full max-w-[240px] flex-col rounded-2xl border border-border-soft bg-white p-4 shadow-soft transition-all duration-300 hover:border-accent/40 hover:shadow-card"
+    >
+      {/* Statut Runtime de l'Agent */}
+      <div className="flex items-center justify-between border-b border-border-soft/70 pb-3">
+        <div className="flex items-center gap-2">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+          </span>
+          <span className="text-xs font-semibold text-foreground" style={{ fontFamily: "var(--font-heading)" }}>
+            Agent IA Métier
+          </span>
         </div>
-      </motion.div>
+        <span className="rounded-md bg-accent/10 px-1.5 py-0.5 text-[10px] font-bold text-accent">
+          v2.4
+        </span>
+      </div>
 
-      {/* Titre sous le cœur IA */}
-      <span className="mt-2 text-xs sm:text-[14px] font-semibold text-foreground tracking-tight">
-        Agent IA Métier
-      </span>
-    </div>
+      {/* Traitement en direct */}
+      <div className="mt-3 flex items-center justify-between gap-2 rounded-xl border border-border-soft bg-background/60 px-3 py-2">
+        <div className="flex items-center gap-2">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-accent">
+            <rect width="18" height="18" x="3" y="3" rx="2" />
+            <path d="m9 12 2 2 4-4" />
+          </svg>
+          <span className="text-[11px] font-medium text-foreground">Inférence & Règles</span>
+        </div>
+        <span className="font-mono text-[10px] text-muted">0.2s</span>
+      </div>
+    </motion.div>
   );
 }
 
@@ -139,7 +130,7 @@ export function HowItWorks() {
       id="methode"
       ref={sectionRef}
       aria-labelledby="methode-heading"
-      className="relative w-full px-5 pb-32 sm:px-10 md:pb-44 lg:px-16 overflow-hidden"
+      className="relative w-full px-5 pb-32 sm:px-10 md:pb-44 lg:px-16"
     >
       {/* ── En-tête de section ── */}
       <div className="mb-12 border-t border-border-soft pt-16 md:mb-16 md:pt-24">
@@ -162,17 +153,6 @@ export function HowItWorks() {
           Vos outils connectés. Vos tâches automatisées.
         </h2>
       </div>
-
-      {/* ── Halo dégradé bleu doux d'ambiance (Style Hero) ── */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 -z-10 h-[550px] w-full"
-        style={{
-          background:
-            "radial-gradient(ellipse 75% 65% at 50% 50%, var(--accent-soft) 0%, transparent 75%)",
-          opacity: 0.9,
-        }}
-      />
 
       {/* ═════════════════════════════════════════════════════════════════════ */}
       {/* ── 1. VERSION MOBILE DÉDIÉE (< lg) : 4 OUTILS RELIÉS 100% AU CŒUR ── */}
@@ -203,134 +183,134 @@ export function HowItWorks() {
         </div>
 
         {/* ── 4 CÂBLES LASER QUI PARTENT DIRECTEMENT DE CHAQUE OUTIL VERS L'ORBE ── */}
-        <div className="w-full my-[-4px] overflow-visible">
-          <svg className="w-full h-20 overflow-visible" viewBox="0 0 360 80" fill="none" preserveAspectRatio="none">
+        <div className="w-full my-[-2px] overflow-visible">
+          <svg className="w-full h-16 overflow-visible" viewBox="0 0 360 64" fill="none" preserveAspectRatio="none">
             <defs>
               <linearGradient id="mCablePulseRed" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stopColor="#ea4335" stopOpacity="0" />
-                <stop offset="50%" stopColor="#ea4335" stopOpacity="0.9" />
+                <stop offset="50%" stopColor="#ea4335" stopOpacity="0.8" />
                 <stop offset="100%" stopColor="#ea4335" stopOpacity="0" />
               </linearGradient>
               <linearGradient id="mCablePulseAmber" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stopColor="#f59e0b" stopOpacity="0" />
-                <stop offset="50%" stopColor="#f59e0b" stopOpacity="0.9" />
+                <stop offset="50%" stopColor="#f59e0b" stopOpacity="0.8" />
                 <stop offset="100%" stopColor="#f59e0b" stopOpacity="0" />
               </linearGradient>
               <linearGradient id="mCablePulseEmerald" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stopColor="#10b981" stopOpacity="0" />
-                <stop offset="50%" stopColor="#10b981" stopOpacity="0.9" />
+                <stop offset="50%" stopColor="#10b981" stopOpacity="0.8" />
                 <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
               </linearGradient>
               <linearGradient id="mCablePulseViolet" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0" />
-                <stop offset="50%" stopColor="#8b5cf6" stopOpacity="0.9" />
+                <stop offset="50%" stopColor="#8b5cf6" stopOpacity="0.8" />
                 <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0" />
               </linearGradient>
             </defs>
 
-            {/* Câble 1 : Directement sous Outil 1 (Emails) -> x=45 */}
-            <path d="M 45 0 C 45 45, 180 35, 180 80" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
+            {/* Câble 1 : Emails */}
+            <path d="M 45 0 C 45 35, 180 25, 180 64" stroke="var(--border-soft)" strokeWidth="1.2" strokeLinecap="round" />
             {!reduce && (
               <motion.path
-                d="M 45 0 C 45 45, 180 35, 180 80"
+                d="M 45 0 C 45 35, 180 25, 180 64"
                 stroke="url(#mCablePulseRed)"
-                strokeWidth="2.5"
+                strokeWidth="2"
                 strokeLinecap="round"
-                strokeDasharray="45 100"
-                animate={{ strokeDashoffset: [0, -145] }}
+                strokeDasharray="35 80"
+                animate={{ strokeDashoffset: [0, -115] }}
                 transition={{ duration: 2.2, repeat: Infinity, ease: "linear" }}
               />
             )}
 
-            {/* Câble 2 : Directement sous Outil 2 (Devis) -> x=135 */}
-            <path d="M 135 0 C 135 40, 180 40, 180 80" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
+            {/* Câble 2 : Devis */}
+            <path d="M 135 0 C 135 30, 180 30, 180 64" stroke="var(--border-soft)" strokeWidth="1.2" strokeLinecap="round" />
             {!reduce && (
               <motion.path
-                d="M 135 0 C 135 40, 180 40, 180 80"
+                d="M 135 0 C 135 30, 180 30, 180 64"
                 stroke="url(#mCablePulseAmber)"
-                strokeWidth="2.5"
+                strokeWidth="2"
                 strokeLinecap="round"
-                strokeDasharray="45 100"
-                animate={{ strokeDashoffset: [0, -145] }}
+                strokeDasharray="35 80"
+                animate={{ strokeDashoffset: [0, -115] }}
                 transition={{ duration: 2.4, repeat: Infinity, ease: "linear", delay: 0.5 }}
               />
             )}
 
-            {/* Câble 3 : Directement sous Outil 3 (Messages) -> x=225 */}
-            <path d="M 225 0 C 225 40, 180 40, 180 80" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
+            {/* Câble 3 : Messages */}
+            <path d="M 225 0 C 225 30, 180 30, 180 64" stroke="var(--border-soft)" strokeWidth="1.2" strokeLinecap="round" />
             {!reduce && (
               <motion.path
-                d="M 225 0 C 225 40, 180 40, 180 80"
+                d="M 225 0 C 225 30, 180 30, 180 64"
                 stroke="url(#mCablePulseEmerald)"
-                strokeWidth="2.5"
+                strokeWidth="2"
                 strokeLinecap="round"
-                strokeDasharray="45 100"
-                animate={{ strokeDashoffset: [0, -145] }}
+                strokeDasharray="35 80"
+                animate={{ strokeDashoffset: [0, -115] }}
                 transition={{ duration: 2.3, repeat: Infinity, ease: "linear", delay: 1.1 }}
               />
             )}
 
-            {/* Câble 4 : Directement sous Outil 4 (Bases) -> x=315 */}
-            <path d="M 315 0 C 315 45, 180 35, 180 80" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
+            {/* Câble 4 : Bases */}
+            <path d="M 315 0 C 315 35, 180 25, 180 64" stroke="var(--border-soft)" strokeWidth="1.2" strokeLinecap="round" />
             {!reduce && (
               <motion.path
-                d="M 315 0 C 315 45, 180 35, 180 80"
+                d="M 315 0 C 315 35, 180 25, 180 64"
                 stroke="url(#mCablePulseViolet)"
-                strokeWidth="2.5"
+                strokeWidth="2"
                 strokeLinecap="round"
-                strokeDasharray="45 100"
-                animate={{ strokeDashoffset: [0, -145] }}
+                strokeDasharray="35 80"
+                animate={{ strokeDashoffset: [0, -115] }}
                 transition={{ duration: 2.5, repeat: Infinity, ease: "linear", delay: 1.6 }}
               />
             )}
           </svg>
         </div>
 
-        {/* Étape 2 : Cœur Agent IA en Lévitation */}
-        <div className="flex flex-col items-center justify-center">
+        {/* Étape 2 : Cœur Agent IA */}
+        <div className="flex justify-center py-1">
           <Model3DAgentCore reduce={reduce} />
         </div>
 
         {/* ── 2 CÂBLES LASER COURBES DE DIVERGENCE VERS LES ACTIONS ── */}
-        <div className="w-full my-[-4px] overflow-visible">
-          <svg className="w-full h-18 overflow-visible" viewBox="0 0 360 72" fill="none" preserveAspectRatio="none">
+        <div className="w-full my-[-2px] overflow-visible">
+          <svg className="w-full h-16 overflow-visible" viewBox="0 0 360 64" fill="none" preserveAspectRatio="none">
             <defs>
               <linearGradient id="mCablePulseRightEmerald" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stopColor="#10b981" stopOpacity="0" />
-                <stop offset="50%" stopColor="#10b981" stopOpacity="0.9" />
+                <stop offset="50%" stopColor="#10b981" stopOpacity="0.8" />
                 <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
               </linearGradient>
               <linearGradient id="mCablePulseRightBlue" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stopColor="var(--accent)" stopOpacity="0" />
-                <stop offset="50%" stopColor="var(--accent)" stopOpacity="0.9" />
+                <stop offset="50%" stopColor="var(--accent)" stopOpacity="0.8" />
                 <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
               </linearGradient>
             </defs>
 
-            {/* Sortie 1 : Vers Carte Autonome (Gauche) */}
-            <path d="M 180 0 C 180 35, 90 35, 90 72" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
+            {/* Sortie 1 : Autonome */}
+            <path d="M 180 0 C 180 30, 90 30, 90 64" stroke="var(--border-soft)" strokeWidth="1.2" strokeLinecap="round" />
             {!reduce && (
               <motion.path
-                d="M 180 0 C 180 35, 90 35, 90 72"
+                d="M 180 0 C 180 30, 90 30, 90 64"
                 stroke="url(#mCablePulseRightEmerald)"
-                strokeWidth="2.5"
+                strokeWidth="2"
                 strokeLinecap="round"
-                strokeDasharray="45 100"
-                animate={{ strokeDashoffset: [0, -145] }}
+                strokeDasharray="35 80"
+                animate={{ strokeDashoffset: [0, -115] }}
                 transition={{ duration: 2.2, repeat: Infinity, ease: "linear", delay: 0.3 }}
               />
             )}
 
-            {/* Sortie 2 : Vers Carte Validation (Droite) */}
-            <path d="M 180 0 C 180 35, 270 35, 270 72" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
+            {/* Sortie 2 : Validation */}
+            <path d="M 180 0 C 180 30, 270 30, 270 64" stroke="var(--border-soft)" strokeWidth="1.2" strokeLinecap="round" />
             {!reduce && (
               <motion.path
-                d="M 180 0 C 180 35, 270 35, 270 72"
+                d="M 180 0 C 180 30, 270 30, 270 64"
                 stroke="url(#mCablePulseRightBlue)"
-                strokeWidth="2.5"
+                strokeWidth="2"
                 strokeLinecap="round"
-                strokeDasharray="45 100"
-                animate={{ strokeDashoffset: [0, -145] }}
+                strokeDasharray="35 80"
+                animate={{ strokeDashoffset: [0, -115] }}
                 transition={{ duration: 2.3, repeat: Infinity, ease: "linear", delay: 0.8 }}
               />
             )}
@@ -411,96 +391,96 @@ export function HowItWorks() {
 
               <linearGradient id="cablePulseRightEmerald" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stopColor="#10b981" stopOpacity="0" />
-                <stop offset="50%" stopColor="#10b981" stopOpacity="0.9" />
+                <stop offset="50%" stopColor="#10b981" stopOpacity="0.8" />
                 <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
               </linearGradient>
 
               <linearGradient id="cablePulseRightBlue" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stopColor="var(--accent)" stopOpacity="0" />
-                <stop offset="50%" stopColor="var(--accent)" stopOpacity="0.9" />
+                <stop offset="50%" stopColor="var(--accent)" stopOpacity="0.8" />
                 <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
               </linearGradient>
             </defs>
 
             {/* Câble 1 : Rouge */}
-            <path d="M 230 65 C 360 65, 380 200, 500 200" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M 230 65 C 360 65, 380 200, 500 200" stroke="var(--border-soft)" strokeWidth="1.2" strokeLinecap="round" />
             {!reduce && (
               <motion.path
                 d="M 230 65 C 360 65, 380 200, 500 200"
                 stroke="url(#cablePulseRed)"
-                strokeWidth="2.5"
+                strokeWidth="2"
                 strokeLinecap="round"
-                strokeDasharray="90 220"
-                animate={{ strokeDashoffset: [0, -310] }}
+                strokeDasharray="80 200"
+                animate={{ strokeDashoffset: [0, -280] }}
                 transition={{ duration: 2.8, repeat: Infinity, ease: "linear" }}
               />
             )}
 
             {/* Câble 2 : Ambre */}
-            <path d="M 230 155 C 360 155, 380 200, 500 200" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M 230 155 C 360 155, 380 200, 500 200" stroke="var(--border-soft)" strokeWidth="1.2" strokeLinecap="round" />
             {!reduce && (
               <motion.path
                 d="M 230 155 C 360 155, 380 200, 500 200"
                 stroke="url(#cablePulseAmber)"
-                strokeWidth="2.5"
+                strokeWidth="2"
                 strokeLinecap="round"
-                strokeDasharray="90 220"
-                animate={{ strokeDashoffset: [0, -310] }}
+                strokeDasharray="80 200"
+                animate={{ strokeDashoffset: [0, -280] }}
                 transition={{ duration: 3.1, repeat: Infinity, ease: "linear", delay: 0.7 }}
               />
             )}
 
             {/* Câble 3 : Émeraude */}
-            <path d="M 230 245 C 360 245, 380 200, 500 200" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M 230 245 C 360 245, 380 200, 500 200" stroke="var(--border-soft)" strokeWidth="1.2" strokeLinecap="round" />
             {!reduce && (
               <motion.path
                 d="M 230 245 C 360 245, 380 200, 500 200"
                 stroke="url(#cablePulseEmerald)"
-                strokeWidth="2.5"
+                strokeWidth="2"
                 strokeLinecap="round"
-                strokeDasharray="90 220"
-                animate={{ strokeDashoffset: [0, -310] }}
+                strokeDasharray="80 200"
+                animate={{ strokeDashoffset: [0, -280] }}
                 transition={{ duration: 2.9, repeat: Infinity, ease: "linear", delay: 1.4 }}
               />
             )}
 
             {/* Câble 4 : Violet */}
-            <path d="M 230 335 C 360 335, 380 200, 500 200" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M 230 335 C 360 335, 380 200, 500 200" stroke="var(--border-soft)" strokeWidth="1.2" strokeLinecap="round" />
             {!reduce && (
               <motion.path
                 d="M 230 335 C 360 335, 380 200, 500 200"
                 stroke="url(#cablePulseViolet)"
-                strokeWidth="2.5"
+                strokeWidth="2"
                 strokeLinecap="round"
-                strokeDasharray="90 220"
-                animate={{ strokeDashoffset: [0, -310] }}
+                strokeDasharray="80 200"
+                animate={{ strokeDashoffset: [0, -280] }}
                 transition={{ duration: 3.3, repeat: Infinity, ease: "linear", delay: 2.1 }}
               />
             )}
 
             {/* Câbles de sortie */}
-            <path d="M 500 200 C 620 200, 640 135, 770 135" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M 500 200 C 620 200, 640 135, 770 135" stroke="var(--border-soft)" strokeWidth="1.2" strokeLinecap="round" />
             {!reduce && (
               <motion.path
                 d="M 500 200 C 620 200, 640 135, 770 135"
                 stroke="url(#cablePulseRightEmerald)"
-                strokeWidth="2.5"
+                strokeWidth="2"
                 strokeLinecap="round"
-                strokeDasharray="90 220"
-                animate={{ strokeDashoffset: [0, -310] }}
+                strokeDasharray="80 200"
+                animate={{ strokeDashoffset: [0, -280] }}
                 transition={{ duration: 2.4, repeat: Infinity, ease: "linear", delay: 0.3 }}
               />
             )}
 
-            <path d="M 500 200 C 620 200, 640 265, 770 265" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M 500 200 C 620 200, 640 265, 770 265" stroke="var(--border-soft)" strokeWidth="1.2" strokeLinecap="round" />
             {!reduce && (
               <motion.path
                 d="M 500 200 C 620 200, 640 265, 770 265"
                 stroke="url(#cablePulseRightBlue)"
-                strokeWidth="2.5"
+                strokeWidth="2"
                 strokeLinecap="round"
-                strokeDasharray="90 220"
-                animate={{ strokeDashoffset: [0, -310] }}
+                strokeDasharray="80 200"
+                animate={{ strokeDashoffset: [0, -280] }}
                 transition={{ duration: 2.6, repeat: Infinity, ease: "linear", delay: 0.9 }}
               />
             )}
@@ -537,7 +517,7 @@ export function HowItWorks() {
             ))}
           </div>
 
-          {/* 2. Orbe 3D Agent IA */}
+          {/* 2. Cœur Agent IA Runtime */}
           <div className="col-span-6 flex flex-col items-center justify-center py-0 px-6">
             <Model3DAgentCore reduce={reduce} />
           </div>
