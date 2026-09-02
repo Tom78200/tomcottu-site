@@ -198,22 +198,22 @@ export function HowItWorks() {
       />
 
       {/* ═════════════════════════════════════════════════════════════════════ */}
-      {/* ── 1. VERSION MOBILE DÉDIÉE (< lg) : FLUX VERTICAL ANIMÉ CONTINU ── */}
+      {/* ── 1. VERSION MOBILE DÉDIÉE (< lg) : FLUX VERTICAL LASER ANIMÉ ──── */}
       {/* ═════════════════════════════════════════════════════════════════════ */}
       <div className="block lg:hidden w-full max-w-md mx-auto">
-        {/* Étape 1 : Vos outils existants */}
-        <div className="flex items-center gap-2 mb-3">
+        {/* Étape 1 : Les 4 outils d'entrée */}
+        <div className="flex items-center gap-2 mb-2">
           <span className="h-1.5 w-1.5 rounded-full bg-accent" />
           <span className="text-[11px] font-bold tracking-wider text-muted uppercase" style={{ fontFamily: "var(--font-heading)" }}>
-            1. Vos outils sources
+            Vos outils existants
           </span>
         </div>
 
-        <div className="grid grid-cols-2 gap-2.5">
+        <div className="grid grid-cols-2 gap-2">
           {inputTools.map((item) => (
             <div
               key={item.label}
-              className="flex items-center gap-2.5 rounded-xl border border-border-soft bg-white p-2.5 shadow-xs"
+              className="flex items-center gap-2 rounded-xl border border-border-soft bg-white p-2.5 shadow-xs"
             >
               <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border ${item.colorStyle}`}>
                 {item.icon}
@@ -225,61 +225,147 @@ export function HowItWorks() {
           ))}
         </div>
 
-        {/* Câble vertical animé 1 (Des outils vers le Cœur IA) */}
-        <div className="flex justify-center my-3">
-          <svg width="24" height="44" viewBox="0 0 24 44" fill="none" className="overflow-visible">
-            <line x1="12" y1="0" x2="12" y2="44" stroke="var(--border-soft)" strokeWidth="2" strokeDasharray="3 3" />
+        {/* ── 4 CÂBLES LASER COURBES DE CONVERGENCE VERTICALE ── */}
+        <div className="w-full my-[-2px] overflow-visible">
+          <svg className="w-full h-16 overflow-visible" viewBox="0 0 360 64" fill="none" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="mCablePulseRed" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#ea4335" stopOpacity="0" />
+                <stop offset="50%" stopColor="#ea4335" stopOpacity="0.9" />
+                <stop offset="100%" stopColor="#ea4335" stopOpacity="0" />
+              </linearGradient>
+              <linearGradient id="mCablePulseAmber" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#f59e0b" stopOpacity="0" />
+                <stop offset="50%" stopColor="#f59e0b" stopOpacity="0.9" />
+                <stop offset="100%" stopColor="#f59e0b" stopOpacity="0" />
+              </linearGradient>
+              <linearGradient id="mCablePulseEmerald" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#10b981" stopOpacity="0" />
+                <stop offset="50%" stopColor="#10b981" stopOpacity="0.9" />
+                <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
+              </linearGradient>
+              <linearGradient id="mCablePulseViolet" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0" />
+                <stop offset="50%" stopColor="#8b5cf6" stopOpacity="0.9" />
+                <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+
+            {/* Tracé 1 : Rouge */}
+            <path d="M 45 0 C 45 35, 180 25, 180 64" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
             {!reduce && (
-              <motion.line
-                x1="12"
-                y1="0"
-                x2="12"
-                y2="44"
-                stroke="var(--accent)"
-                strokeWidth="3"
+              <motion.path
+                d="M 45 0 C 45 35, 180 25, 180 64"
+                stroke="url(#mCablePulseRed)"
+                strokeWidth="2.5"
                 strokeLinecap="round"
-                strokeDasharray="14 30"
-                animate={{ strokeDashoffset: [0, -44] }}
-                transition={{ duration: 1.4, repeat: Infinity, ease: "linear" }}
+                strokeDasharray="40 90"
+                animate={{ strokeDashoffset: [0, -130] }}
+                transition={{ duration: 2.2, repeat: Infinity, ease: "linear" }}
               />
             )}
-            <polygon points="8,38 12,44 16,38" fill="var(--accent)" />
+
+            {/* Tracé 2 : Ambre */}
+            <path d="M 135 0 C 135 30, 180 30, 180 64" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
+            {!reduce && (
+              <motion.path
+                d="M 135 0 C 135 30, 180 30, 180 64"
+                stroke="url(#mCablePulseAmber)"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeDasharray="40 90"
+                animate={{ strokeDashoffset: [0, -130] }}
+                transition={{ duration: 2.4, repeat: Infinity, ease: "linear", delay: 0.5 }}
+              />
+            )}
+
+            {/* Tracé 3 : Émeraude */}
+            <path d="M 225 0 C 225 30, 180 30, 180 64" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
+            {!reduce && (
+              <motion.path
+                d="M 225 0 C 225 30, 180 30, 180 64"
+                stroke="url(#mCablePulseEmerald)"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeDasharray="40 90"
+                animate={{ strokeDashoffset: [0, -130] }}
+                transition={{ duration: 2.3, repeat: Infinity, ease: "linear", delay: 1.1 }}
+              />
+            )}
+
+            {/* Tracé 4 : Violet */}
+            <path d="M 315 0 C 315 35, 180 25, 180 64" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
+            {!reduce && (
+              <motion.path
+                d="M 315 0 C 315 35, 180 25, 180 64"
+                stroke="url(#mCablePulseViolet)"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeDasharray="40 90"
+                animate={{ strokeDashoffset: [0, -130] }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: "linear", delay: 1.6 }}
+              />
+            )}
           </svg>
         </div>
 
-        {/* Étape 2 : Cœur Agent IA */}
-        <div className="rounded-2xl border border-accent/20 bg-white/80 p-4 shadow-soft backdrop-blur-sm">
+        {/* Étape 2 : Cœur Agent IA en Lévitation */}
+        <div className="flex flex-col items-center justify-center py-1">
           <Model3DAgentCore reduce={reduce} />
         </div>
 
-        {/* Câble vertical animé 2 (Du Cœur IA vers les Actions) */}
-        <div className="flex justify-center my-3">
-          <svg width="24" height="44" viewBox="0 0 24 44" fill="none" className="overflow-visible">
-            <line x1="12" y1="0" x2="12" y2="44" stroke="var(--border-soft)" strokeWidth="2" strokeDasharray="3 3" />
+        {/* ── 2 CÂBLES LASER COURBES DE DIVERGENCE VERTICALE ── */}
+        <div className="w-full my-[-2px] overflow-visible">
+          <svg className="w-full h-16 overflow-visible" viewBox="0 0 360 64" fill="none" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="mCablePulseRightEmerald" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#10b981" stopOpacity="0" />
+                <stop offset="50%" stopColor="#10b981" stopOpacity="0.9" />
+                <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
+              </linearGradient>
+              <linearGradient id="mCablePulseRightBlue" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="var(--accent)" stopOpacity="0" />
+                <stop offset="50%" stopColor="var(--accent)" stopOpacity="0.9" />
+                <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+
+            {/* Sortie 1 : Vers Carte Autonome (Gauche) */}
+            <path d="M 180 0 C 180 30, 90 30, 90 64" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
             {!reduce && (
-              <motion.line
-                x1="12"
-                y1="0"
-                x2="12"
-                y2="44"
-                stroke="#10b981"
-                strokeWidth="3"
+              <motion.path
+                d="M 180 0 C 180 30, 90 30, 90 64"
+                stroke="url(#mCablePulseRightEmerald)"
+                strokeWidth="2.5"
                 strokeLinecap="round"
-                strokeDasharray="14 30"
-                animate={{ strokeDashoffset: [0, -44] }}
-                transition={{ duration: 1.4, repeat: Infinity, ease: "linear", delay: 0.4 }}
+                strokeDasharray="40 90"
+                animate={{ strokeDashoffset: [0, -130] }}
+                transition={{ duration: 2.2, repeat: Infinity, ease: "linear", delay: 0.3 }}
               />
             )}
-            <polygon points="8,38 12,44 16,38" fill="#10b981" />
+
+            {/* Sortie 2 : Vers Carte Validation (Droite) */}
+            <path d="M 180 0 C 180 30, 270 30, 270 64" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
+            {!reduce && (
+              <motion.path
+                d="M 180 0 C 180 30, 270 30, 270 64"
+                stroke="url(#mCablePulseRightBlue)"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeDasharray="40 90"
+                animate={{ strokeDashoffset: [0, -130] }}
+                transition={{ duration: 2.3, repeat: Infinity, ease: "linear", delay: 0.8 }}
+              />
+            )}
           </svg>
         </div>
 
         {/* Étape 3 : Actions Délivrées */}
-        <div className="flex flex-col gap-3">
-          <div className="flex items-center gap-2">
+        <div className="flex flex-col gap-2.5">
+          <div className="flex items-center gap-2 mb-0.5">
             <span className="h-1.5 w-1.5 rounded-full bg-accent" />
             <span className="text-[11px] font-bold tracking-wider text-muted uppercase" style={{ fontFamily: "var(--font-heading)" }}>
-              2. Actions délivrées
+              Actions délivrées
             </span>
           </div>
 
