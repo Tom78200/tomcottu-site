@@ -5,7 +5,6 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import styles from "./UseCases.module.css";
 import {
   ActivityLogVisual,
-  AdviceVisual,
   KnowledgeBaseVisual,
   SelfHostedVisual,
   WorkflowVisual,
