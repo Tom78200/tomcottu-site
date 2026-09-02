@@ -17,7 +17,7 @@ export function VideoSection() {
   const [isMuted, setIsMuted] = useState(false);
   const [progress, setProgress] = useState(0);
   const [currentTime, setCurrentTime] = useState("00:00");
-  const [duration, setDuration] = useState("00:00");
+  const [duration, setDuration] = useState("00:34");
 
   // Animation 3D fluide au scroll style Apple Studio / Linear
   const { scrollYProgress } = useScroll({
@@ -30,10 +30,18 @@ export function VideoSection() {
   const opacity = useTransform(scrollYProgress, [0, 0.4, 1], [0.4, 0.9, 1]);
 
   const formatTime = (timeInSeconds: number) => {
+    if (isNaN(timeInSeconds) || timeInSeconds <= 0) return "00:00";
     const mins = Math.floor(timeInSeconds / 60);
     const secs = Math.floor(timeInSeconds % 60);
     return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
   };
+
+  useEffect(() => {
+    const v = videoRef.current;
+    if (v && !isNaN(v.duration) && v.duration > 0) {
+      setDuration(formatTime(v.duration));
+    }
+  }, []);
 
   const togglePlay = () => {
     const v = videoRef.current;
@@ -66,14 +74,17 @@ export function VideoSection() {
 
   const handleTimeUpdate = () => {
     const v = videoRef.current;
-    if (!v || isNaN(v.duration)) return;
+    if (!v || isNaN(v.duration) || v.duration <= 0) return;
     setProgress((v.currentTime / v.duration) * 100);
     setCurrentTime(formatTime(v.currentTime));
+    if (duration === "00:34" || duration === "00:00") {
+      setDuration(formatTime(v.duration));
+    }
   };
 
   const handleLoadedMetadata = () => {
     const v = videoRef.current;
-    if (!v || isNaN(v.duration)) return;
+    if (!v || isNaN(v.duration) || v.duration <= 0) return;
     setDuration(formatTime(v.duration));
   };
 
@@ -145,18 +156,18 @@ export function VideoSection() {
             </div>
 
             {/* Titre central onglet */}
-            <div className="flex items-center gap-2 rounded-md bg-background/60 px-3 py-1 text-xs text-muted font-medium border border-border-soft/50">
+            <div className="flex items-center gap-2 rounded-md bg-background/60 px-3 py-1 text-xs text-foreground font-medium border border-border-soft/50">
               <svg width="12" height="12" viewBox="0 0 14 14" fill="none" className="text-accent">
-                <rect x="2" y="2" width="10" height="10" rx="2" stroke="currentColor" strokeWidth="1.5" />
-                <path d="M5 7h4M7 5v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                <circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="1.5" />
+                <polygon points="6 5 10 7 6 9 6 5" fill="currentColor" />
               </svg>
-              <span>agent-session-live.mp4</span>
+              <span>Démo en direct — Traitement autonome d&apos;une demande</span>
             </div>
 
             {/* Badge statut */}
-            <div className="flex items-center gap-1.5 text-[11px] text-muted-soft font-mono">
-              <span className="hidden sm:inline">1080p</span>
-              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+            <div className="flex items-center gap-1.5 text-[11px] text-muted font-mono">
+              <span className="hidden sm:inline">1080p HD</span>
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
             </div>
           </div>
 
@@ -168,12 +179,15 @@ export function VideoSection() {
               className="block w-full object-cover"
               style={{ aspectRatio: "16 / 9" }}
               src="/agent-presentation.mp4"
+              preload="metadata"
               loop
               playsInline
               onPlay={() => setPlaying(true)}
               onPause={() => setPlaying(false)}
               onTimeUpdate={handleTimeUpdate}
               onLoadedMetadata={handleLoadedMetadata}
+              onCanPlay={handleLoadedMetadata}
+              onDurationChange={handleLoadedMetadata}
             />
 
             {/* Bouton Play Glassmorphism Central (quand la vidéo est en pause) */}
@@ -253,7 +267,7 @@ export function VideoSection() {
                     )}
                   </button>
 
-                  <span className="font-mono text-white/80 tabular-nums">
+                  <span className="font-mono text-white/90 tabular-nums font-semibold">
                     {currentTime} / {duration}
                   </span>
                 </div>
