@@ -52,11 +52,11 @@ function ShieldCheckIcon() {
   );
 }
 
-/* ── MODÈLE 3D PROCESSEUR VU DE FACE (STYLE APPLE M4 3D SILICON) ── */
+/* ── NOYAU ORBE CIRCULAIRE 3D VIVANT (100% ROND, ZÉRO CARRÉ) ── */
 function Model3DAgentCore({ reduce }: { reduce: boolean | null }) {
   return (
     <div className="relative flex flex-col items-center justify-center py-2">
-      {/* Espace Scène 3D */}
+      {/* Espace Scène Circulaire 3D */}
       <div
         className="relative flex h-56 w-56 sm:h-64 sm:w-64 items-center justify-center"
         style={{ perspective: "1000px" }}
@@ -75,57 +75,58 @@ function Model3DAgentCore({ reduce }: { reduce: boolean | null }) {
           className="pointer-events-none absolute h-40 w-40 sm:h-44 sm:w-44 rounded-full border border-dotted border-accent/35"
         />
 
-        {/* 3. Boîtier Processeur 3D Vu de Face avec Lévitation & Micro-Tilt */}
+        {/* 3. L'Orbe / Disque 3D Circulaire en Lévitation */}
         <motion.div
           animate={
             reduce
               ? {}
               : {
                   y: [-6, 6, -6],
-                  rotateY: [-6, 6, -6],
-                  rotateX: [4, -4, 4],
+                  rotateY: [-5, 5, -5],
+                  rotateX: [3, -3, 3],
                 }
           }
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          className="relative flex h-36 w-36 sm:h-40 sm:w-40 items-center justify-center rounded-3xl border-2 border-accent/80 bg-white p-4 text-center shadow-2xl"
+          className="relative flex h-36 w-36 sm:h-40 sm:w-40 items-center justify-center rounded-full border-2 border-accent/80 bg-white p-3 shadow-2xl"
           style={{
             transformStyle: "preserve-3d",
-            boxShadow: "0 20px 40px -15px rgba(0, 119, 205, 0.25), 0 0 0 1px rgba(0, 119, 205, 0.1)",
+            boxShadow: "0 20px 40px -12px rgba(0, 119, 205, 0.25), 0 0 0 1px rgba(0, 119, 205, 0.1)",
           }}
         >
-          {/* Onde de respiration interne */}
+          {/* Onde de respiration circulaire */}
           {!reduce && (
             <motion.div
-              animate={{ scale: [1, 1.15, 1], opacity: [0.2, 0.05, 0.2] }}
+              animate={{ scale: [1, 1.18, 1], opacity: [0.25, 0.05, 0.25] }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute inset-2 rounded-2xl bg-accent"
+              className="absolute inset-1.5 rounded-full bg-accent"
             />
           )}
 
-          {/* Cœur Silicium de Face */}
+          {/* Cœur Sphérique Bleu avec Puce Vectorielle */}
           <div
-            className="relative z-10 flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-2xl bg-gradient-to-br from-[#0088ea] via-[#0077cd] to-[#005fa6] text-white shadow-accent"
+            className="relative z-10 flex h-24 w-24 sm:h-28 sm:w-28 items-center justify-center rounded-full bg-gradient-to-br from-[#0088ea] via-[#0077cd] to-[#005fa6] text-white shadow-accent"
             style={{ transform: "translateZ(12px)" }}
           >
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <rect width="16" height="16" x="4" y="4" rx="3" />
-              <rect width="6" height="6" x="9" y="9" rx="1" fill="currentColor" fillOpacity="0.2" />
-              <path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2" />
+            {/* Symbole IA Métier Vectoriel */}
+            <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="3" />
+              <path d="M12 2v3M12 19v3M2 12h3M19 12h3" />
+              <path d="m4.93 4.93 2.12 2.12M16.95 16.95l2.12 2.12M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12" />
             </svg>
 
-            {/* Reflet spéculaire qui glisse sur la face avant */}
+            {/* Reflet spéculaire lumineux courbé */}
             {!reduce && (
               <motion.div
-                animate={{ x: [-40, 70] }}
+                animate={{ x: [-45, 65] }}
                 transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut", repeatDelay: 1 }}
-                className="pointer-events-none absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/35 to-transparent"
+                className="pointer-events-none absolute inset-0 rounded-full -skew-x-12 bg-gradient-to-r from-transparent via-white/35 to-transparent"
               />
             )}
           </div>
         </motion.div>
       </div>
 
-      {/* Titre sobre sous la puce 3D */}
+      {/* Titre sobre sous l'orbe 3D */}
       <span className="mt-2 text-[15px] font-semibold text-foreground tracking-tight">
         Agent IA Métier
       </span>
@@ -166,7 +167,7 @@ export function HowItWorks() {
         </h2>
       </div>
 
-      {/* ── GRAND WORKFLOW PANORAMIQUE VIVANT AVEC MODÈLE 3D VU DE FACE ── */}
+      {/* ── GRAND WORKFLOW PANORAMIQUE VIVANT AVEC ORBE 3D CENTRAL (100% ROND) ── */}
       <div className="relative mx-auto w-full max-w-6xl py-4 sm:py-8">
         {/* Câbles de connexion */}
         <div className="pointer-events-none absolute inset-0 hidden lg:block h-full w-full">
@@ -279,7 +280,7 @@ export function HowItWorks() {
             ))}
           </div>
 
-          {/* ── 2. COLONNE CENTRALE : Modèle 3D Vu de Face (Agent IA) ── */}
+          {/* ── 2. COLONNE CENTRALE : Orbe 3D Circulaire (Agent IA) ── */}
           <div className="lg:col-span-6 flex flex-col items-center justify-center py-6 lg:py-0 px-2 sm:px-6">
             <Model3DAgentCore reduce={reduce} />
           </div>
