@@ -51,74 +51,81 @@ function ShieldCheckIcon() {
   );
 }
 
-function AgentBotIcon() {
-  return (
-    <svg width="42" height="42" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M24 4V10" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-      <circle cx="24" cy="4" r="2.5" fill="#60a5fa" />
-      <rect x="8" y="10" width="32" height="28" rx="14" fill="url(#agentBotGrad)" stroke="white" strokeWidth="1.5" />
-      <rect x="13" y="16" width="22" height="10" rx="5" fill="#0f172a" />
-      <ellipse cx="19" cy="21" rx="2.5" ry="3" fill="#60a5fa" />
-      <circle cx="20" cy="20" r="0.8" fill="white" />
-      <ellipse cx="29" cy="21" rx="2.5" ry="3" fill="#60a5fa" />
-      <circle cx="30" cy="20" r="0.8" fill="white" />
-      <path d="M20 31C21.2 32.2 22.5 32.8 24 32.8C25.5 32.8 26.8 32.2 28 31" stroke="white" strokeWidth="2" strokeLinecap="round" />
-      <rect x="5" y="19" width="3" height="8" rx="1.5" fill="#93c5fd" />
-      <rect x="40" y="19" width="3" height="8" rx="1.5" fill="#93c5fd" />
-      <defs>
-        <linearGradient id="agentBotGrad" x1="8" y1="10" x2="40" y2="38" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#2563eb" />
-          <stop offset="1" stopColor="#1d4ed8" />
-        </linearGradient>
-      </defs>
-    </svg>
-  );
-}
-
+/* ── NOYAU ORBE CIRCULAIRE 3D VIVANT (100% ROND, DESIGN ORIGINAL) ── */
 function Model3DAgentCore({ reduce }: { reduce: boolean | null }) {
   return (
-    <div className="relative flex flex-col items-center justify-center">
-      <div className="relative flex h-36 w-36 sm:h-44 sm:w-44 items-center justify-center">
-        {/* Anneaux Orbitaux */}
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <motion.div
-            animate={reduce ? {} : { rotate: 360 }}
-            transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-            className="absolute h-32 w-32 sm:h-40 sm:w-40 rounded-full border border-accent/35 border-dashed"
-          />
-          <motion.div
-            animate={reduce ? {} : { rotate: -360 }}
-            transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-            className="absolute h-28 w-28 sm:h-34 sm:w-34 rounded-full border border-blue-400/25"
-          />
-        </div>
-
-        {/* Lévitation 3D */}
+    <div className="relative flex flex-col items-center justify-center py-2">
+      {/* Espace Scène Circulaire 3D */}
+      <div
+        className="relative flex h-48 w-48 sm:h-60 sm:w-60 items-center justify-center"
+        style={{ perspective: "1000px" }}
+      >
+        {/* 1. Anneau orbital extérieur en rotation continue douce */}
         <motion.div
-          animate={reduce ? {} : { y: [-5, 5, -5] }}
-          transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-          className="relative flex items-center justify-center"
+          animate={reduce ? {} : { rotate: 360 }}
+          transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
+          className="pointer-events-none absolute h-44 w-44 sm:h-54 sm:w-54 rounded-full border border-dashed border-accent/30"
+        />
+
+        {/* 2. Anneau orbital intérieur en contre-rotation */}
+        <motion.div
+          animate={reduce ? {} : { rotate: -360 }}
+          transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+          className="pointer-events-none absolute h-34 w-34 sm:h-42 sm:w-42 rounded-full border border-dotted border-accent/40"
+        />
+
+        {/* 3. L'Orbe / Disque 3D Circulaire en Lévitation */}
+        <motion.div
+          animate={
+            reduce
+              ? {}
+              : {
+                  y: [-6, 6, -6],
+                  rotateY: [-5, 5, -5],
+                  rotateX: [3, -3, 3],
+                }
+          }
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          className="relative flex h-32 w-32 sm:h-38 sm:w-38 items-center justify-center rounded-full border-2 border-accent/80 bg-white p-2.5 sm:p-3 shadow-2xl"
+          style={{
+            transformStyle: "preserve-3d",
+            boxShadow: "0 20px 40px -12px rgba(0, 119, 205, 0.25), 0 0 0 1px rgba(0, 119, 205, 0.1)",
+          }}
         >
-          <div
-            className="relative flex h-24 w-24 sm:h-28 sm:w-28 items-center justify-center rounded-full shadow-2xl transition-all"
-            style={{
-              background: "radial-gradient(circle at 35% 25%, #3b82f6 0%, #1d4ed8 45%, #0f172a 100%)",
-              boxShadow: "0 16px 36px -8px rgba(37, 99, 235, 0.45), inset 0 2px 5px rgba(255, 255, 255, 0.5)",
-            }}
-          >
-            <span
-              className="pointer-events-none absolute inset-1.5 rounded-full"
-              style={{
-                background: "radial-gradient(circle at 40% 15%, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 60%)",
-              }}
+          {/* Onde de respiration circulaire */}
+          {!reduce && (
+            <motion.div
+              animate={{ scale: [1, 1.18, 1], opacity: [0.25, 0.05, 0.25] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute inset-1.5 rounded-full bg-accent"
             />
-            <div className="relative z-10 scale-90 sm:scale-100">
-              <AgentBotIcon />
-            </div>
+          )}
+
+          {/* Cœur Sphérique Bleu avec Puce Vectorielle */}
+          <div
+            className="relative z-10 flex h-22 w-22 sm:h-26 sm:w-26 items-center justify-center rounded-full bg-gradient-to-br from-[#0088ea] via-[#0077cd] to-[#005fa6] text-white shadow-accent overflow-hidden"
+            style={{ transform: "translateZ(12px)" }}
+          >
+            {/* Symbole IA Métier Vectoriel */}
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="sm:w-9 sm:h-9">
+              <circle cx="12" cy="12" r="3" />
+              <path d="M12 2v3M12 19v3M2 12h3M19 12h3" />
+              <path d="m4.93 4.93 2.12 2.12M16.95 16.95l2.12 2.12M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12" />
+            </svg>
+
+            {/* Reflet spéculaire lumineux courbé */}
+            {!reduce && (
+              <motion.div
+                animate={{ x: [-45, 65] }}
+                transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut", repeatDelay: 1 }}
+                className="pointer-events-none absolute inset-0 rounded-full -skew-x-12 bg-gradient-to-r from-transparent via-white/40 to-transparent"
+              />
+            )}
           </div>
         </motion.div>
       </div>
 
+      {/* Titre sous l'orbe 3D */}
       <span className="mt-1 text-sm sm:text-[15px] font-semibold text-foreground tracking-tight">
         Agent IA Métier
       </span>
