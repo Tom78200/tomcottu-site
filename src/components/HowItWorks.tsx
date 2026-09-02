@@ -188,38 +188,67 @@ export function HowItWorks() {
         </h2>
       </div>
 
-      {/* ── GRAND WORKFLOW PANORAMIQUE VIVANT AVEC ORBE AGENT IA ── */}
+      {/* ── GRAND WORKFLOW PANORAMIQUE VIVANT (4 OUTILS EN COULEURS DISTINCTES) ── */}
       <div className="relative mx-auto w-full max-w-6xl py-4 sm:py-8">
-        {/* Câbles de connexion */}
+        {/* Câbles de connexion avec couleur dédiée par outil */}
         <div className="pointer-events-none absolute inset-0 hidden lg:block h-full w-full">
           <svg className="h-full w-full overflow-visible" viewBox="0 0 1000 400" fill="none" preserveAspectRatio="none">
             <defs>
-              <linearGradient id="cablePulseLeft" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#0077cd" stopOpacity="0" />
-                <stop offset="50%" stopColor="#0077cd" stopOpacity="0.75" />
-                <stop offset="100%" stopColor="#0077cd" stopOpacity="0" />
+              {/* Câble 1 : Rouge Gmail / Outlook */}
+              <linearGradient id="cablePulseRed" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#ea4335" stopOpacity="0" />
+                <stop offset="50%" stopColor="#ea4335" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="#ea4335" stopOpacity="0" />
               </linearGradient>
 
-              <linearGradient id="cablePulseRight" x1="0%" y1="0%" x2="100%" y2="0%">
+              {/* Câble 2 : Ambre / Doré CRM */}
+              <linearGradient id="cablePulseAmber" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#f59e0b" stopOpacity="0" />
+                <stop offset="50%" stopColor="#f59e0b" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="#f59e0b" stopOpacity="0" />
+              </linearGradient>
+
+              {/* Câble 3 : Émeraude / Vert WhatsApp / Slack */}
+              <linearGradient id="cablePulseEmerald" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#10b981" stopOpacity="0" />
+                <stop offset="50%" stopColor="#10b981" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
+              </linearGradient>
+
+              {/* Câble 4 : Violet Notion / Drive */}
+              <linearGradient id="cablePulseViolet" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0" />
+                <stop offset="50%" stopColor="#8b5cf6" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0" />
+              </linearGradient>
+
+              {/* Dégradés sortants */}
+              <linearGradient id="cablePulseRightGreen" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#10b981" stopOpacity="0" />
+                <stop offset="50%" stopColor="#10b981" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
+              </linearGradient>
+
+              <linearGradient id="cablePulseRightBlue" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stopColor="#0077cd" stopOpacity="0" />
-                <stop offset="50%" stopColor="#0077cd" stopOpacity="0.75" />
+                <stop offset="50%" stopColor="#0077cd" stopOpacity="0.8" />
                 <stop offset="100%" stopColor="#0077cd" stopOpacity="0" />
               </linearGradient>
             </defs>
 
-            {/* 4 Câbles de gauche */}
+            {/* 4 Câbles de gauche avec leur couleur respective */}
             {[
-              { d: "M 230 75 C 370 75, 390 200, 500 200", delay: 0 },
-              { d: "M 230 155 C 370 155, 390 200, 500 200", delay: 0.7 },
-              { d: "M 230 245 C 370 245, 390 200, 500 200", delay: 1.4 },
-              { d: "M 230 325 C 370 325, 390 200, 500 200", delay: 2.1 },
+              { d: "M 230 75 C 370 75, 390 200, 500 200", delay: 0, grad: "url(#cablePulseRed)" },
+              { d: "M 230 155 C 370 155, 390 200, 500 200", delay: 0.7, grad: "url(#cablePulseAmber)" },
+              { d: "M 230 245 C 370 245, 390 200, 500 200", delay: 1.4, grad: "url(#cablePulseEmerald)" },
+              { d: "M 230 325 C 370 325, 390 200, 500 200", delay: 2.1, grad: "url(#cablePulseViolet)" },
             ].map((c, i) => (
               <g key={i}>
                 <path d={c.d} stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
                 {!reduce && (
                   <motion.path
                     d={c.d}
-                    stroke="url(#cablePulseLeft)"
+                    stroke={c.grad}
                     strokeWidth="2.5"
                     strokeLinecap="round"
                     strokeDasharray="90 260"
@@ -240,7 +269,7 @@ export function HowItWorks() {
             {!reduce && (
               <motion.path
                 d="M 500 200 C 620 200, 640 135, 770 135"
-                stroke="url(#cablePulseRight)"
+                stroke="url(#cablePulseRightGreen)"
                 strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeDasharray="90 220"
@@ -253,7 +282,7 @@ export function HowItWorks() {
             {!reduce && (
               <motion.path
                 d="M 500 200 C 620 200, 640 265, 770 265"
-                stroke="url(#cablePulseRight)"
+                stroke="url(#cablePulseRightBlue)"
                 strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeDasharray="90 220"
@@ -265,7 +294,7 @@ export function HowItWorks() {
         </div>
 
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 items-center gap-8 lg:gap-4">
-          {/* ── 1. COLONNE GAUCHE : Outils Sources ── */}
+          {/* ── 1. COLONNE GAUCHE : Outils Sources (4 Couleurs Distinctes) ── */}
           <div className="lg:col-span-3 flex flex-col gap-3">
             <div className="flex items-center gap-2 mb-1">
               <span className="h-1.5 w-1.5 rounded-full bg-accent" />
@@ -275,10 +304,38 @@ export function HowItWorks() {
             </div>
 
             {[
-              { label: "Emails & Demandes", sub: "Gmail / Outlook", icon: <MailIcon /> },
-              { label: "Ressaisie & Devis", sub: "CRM / Facturation", icon: <FileTextIcon /> },
-              { label: "Messages & SAV", sub: "Slack / WhatsApp", icon: <MessageSquareIcon /> },
-              { label: "Bases documentaires", sub: "Notion / Drive", icon: <DatabaseIcon /> },
+              {
+                label: "Emails & Demandes",
+                sub: "Gmail / Outlook",
+                icon: <MailIcon />,
+                badge: "Synchronisé",
+                colorStyle: "bg-rose-50 text-rose-600 border-rose-200/80",
+                dot: "bg-rose-500",
+              },
+              {
+                label: "Ressaisie & Devis",
+                sub: "CRM / Facturation",
+                icon: <FileTextIcon />,
+                badge: "Automatique",
+                colorStyle: "bg-amber-50 text-amber-600 border-amber-200/80",
+                dot: "bg-amber-500",
+              },
+              {
+                label: "Messages & SAV",
+                sub: "Slack / WhatsApp",
+                icon: <MessageSquareIcon />,
+                badge: "Temps réel",
+                colorStyle: "bg-emerald-50 text-emerald-600 border-emerald-200/80",
+                dot: "bg-emerald-500",
+              },
+              {
+                label: "Bases documentaires",
+                sub: "Notion / Drive",
+                icon: <DatabaseIcon />,
+                badge: "Connecté",
+                colorStyle: "bg-violet-50 text-violet-600 border-violet-200/80",
+                dot: "bg-violet-500",
+              },
             ].map((item, i) => (
               <motion.div
                 key={item.label}
@@ -289,7 +346,7 @@ export function HowItWorks() {
                 className="group flex items-center justify-between rounded-2xl border border-border-soft bg-white p-3.5 shadow-xs transition-all duration-200 hover:border-accent/30 hover:shadow-soft"
               >
                 <div className="flex items-center gap-3">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-accent/5 text-accent border border-accent/15">
+                  <span className={`flex h-8 w-8 items-center justify-center rounded-xl border ${item.colorStyle}`}>
                     {item.icon}
                   </span>
                   <div>
@@ -297,6 +354,8 @@ export function HowItWorks() {
                     <span className="text-[11px] text-muted">{item.sub}</span>
                   </div>
                 </div>
+
+                <span className={`h-2 w-2 rounded-full ${item.dot} opacity-80`} />
               </motion.div>
             ))}
           </div>
@@ -339,7 +398,7 @@ export function HowItWorks() {
                   "Ressaisies supprimées à 100%",
                 ].map((act) => (
                   <li key={act} className="flex items-center gap-2 text-xs font-medium text-foreground/85">
-                    <span className="text-accent font-bold">✓</span>
+                    <span className="text-emerald-600 font-bold">✓</span>
                     <span>{act}</span>
                   </li>
                 ))}
