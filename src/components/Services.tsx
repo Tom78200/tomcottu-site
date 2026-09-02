@@ -89,7 +89,7 @@ function ModalList({
                 </svg>
               </span>
             ) : (
-              <span className="mt-[8px] h-[5px] w-[5px] shrink-0 rounded-full bg-accent/35" />
+              <span className="mt-[8px] h-[5px] w-[5px] shrink-0 rounded-full bg-accent" />
             )}
             <span>{item}</span>
           </li>
@@ -101,78 +101,75 @@ function ModalList({
 
 const services = [
   {
-    title: "Agents IA sur-mesure",
-    body: "Des assistants intelligents connectés à vos outils, qui prennent les décisions simples à votre place. Construits et testés sur vos vraies données.",
+    title: "Agent IA sur-mesure",
+    body: "Un assistant intelligent qui traite vos emails, devis et tâches répétitives à votre place, selon vos règles métier précises.",
     visual: ActivityLogVisual,
     intro:
-      "Un agent est construit pour une tâche précise, pas pour tout faire. On choisit ensemble celle qui vous coûte le plus de temps chaque semaine, et je construis autour.",
+      "Un agent construit pour votre quotidien : on cible la tâche qui vous coûte le plus de temps chaque semaine pour l'automatiser de A à Z.",
     livre: [
-      "Un agent branché sur vos outils existants, sans changer votre façon de travailler",
-      "Les règles métier et les garde-fous : ce qu'il traite seul, ce qu'il vous soumet",
-      "Un historique consultable de ce qu'il a fait, et sur quelles informations",
-      "La documentation pour que votre équipe comprenne ce qui tourne",
+      "Un agent branché sur vos outils habituels (Gmail, Outlook, CRM…)",
+      "Des règles claires : ce qu'il traite seul et ce qu'il vous soumet",
+      "Un suivi en direct de chaque action réalisée",
+      "Une prise en main facile pour toute votre équipe",
     ],
     deroule: [
-      "On part d'un cas réel et de vos vraies données, jamais d'un jeu de démonstration",
-      "Vous le testez en conditions réelles avant toute mise en service",
-      "J'ajuste tant que son comportement ne colle pas à votre usage",
+      "Testé directement sur vos vraies demandes et vos logiciels",
+      "Validé par vos soins avant toute mise en service",
+      "Ajustements garantis jusqu'à satisfaction totale",
     ],
   },
   {
-    title: "Automatisation de workflows",
-    body: "Connecter vos systèmes entre eux pour supprimer les ressaisies et les tâches répétitives. Chaque automatisation est cadrée et mesurable.",
+    title: "Connexion & Automatisation",
+    body: "Synchronisez vos logiciels entre eux pour supprimer définitivement les copier-coller et les doubles saisies manuelles.",
     visual: WorkflowVisual,
     intro:
-      "Quand deux outils ne se parlent pas, c'est quelqu'un qui fait le pont à la main. C'est ce pont que j'automatise, et lui seul.",
+      "Fini de recopier les données d'un outil à l'autre à la main. Je crée des passerelles automatiques et fluides entre vos applications.",
     livre: [
-      "Les connexions entre vos outils, dans les deux sens quand c'est utile",
-      "Le traitement des erreurs : ce qui se passe quand un outil ne répond pas",
-      "Un suivi de ce qui a été synchronisé, pour pouvoir vérifier",
-      "Une exécution sans coût à l'usage, l'automatisation tourne sur votre infrastructure",
+      "Connexion directe entre vos outils (devis, facturation, CRM, planning)",
+      "Gestion automatique des cas d'erreur sans blocage",
+      "Historique de synchronisation transparent et vérifiable",
+      "Fonctionnement autonome sans coût caché d'abonnement",
     ],
     deroule: [
-      "On liste les ressaisies qui reviennent chaque semaine",
-      "On automatise la plus coûteuse en premier, et on mesure le temps gagné",
-      "On étend seulement une fois que la première tourne sans surveillance",
+      "Identification des ressaisies les plus lourdes",
+      "Mise en place immédiate et mesure du temps gagné",
+      "Extension progressive sans perturber votre activité",
     ],
   },
   {
-    title: "Assistant IA auto-hébergé",
-    body: "J'installe Hermes, l'agent open-source de Nous Research, sur une machine qui vous appartient. Je branche vos outils et j'assure la maintenance.",
+    title: "Assistant IA Privé (Sur votre matériel)",
+    body: "Installation d'une IA 100% confidentielle sur votre propre équipement. Aucune de vos données sensibles ne part à l'extérieur.",
     visual: SelfHostedVisual,
     intro:
-      "Hermes est gratuit et sous licence MIT. Ce que vous payez, c'est de ne pas avoir à l'installer, le sécuriser et le maintenir vous-même.",
+      "Pour les entreprises exigeantes sur la confidentialité : un modèle d'IA puissant hébergé chez vous, sous votre contrôle exclusif.",
     livre: [
-      "L'installation sur votre serveur, avec le modèle adapté à votre usage et à votre budget",
-      "Le branchement à votre messagerie et à vos outils métier",
-      "Les accès et les permissions : qui peut lui demander quoi",
-      "Un guide de prise en main écrit pour votre équipe, pas pour un développeur",
+      "Installation et réglage complet sur votre serveur ou machine",
+      "Connexion sécurisée à vos outils de travail",
+      "Gestion stricte des permissions et accès par collaborateur",
+      "Maintenance, sécurité et mises à jour assurées",
     ],
     deroule: [
-      "Vos données ne transitent par aucun service tiers",
-      "Le projet étant open source, rien ne vous enferme : vous pouvez reprendre la main",
-      "Je reste responsable des mises à jour et du maintien en condition",
+      "Zéro fuite : vos données ne transitent par aucun service tiers",
+      "Indépendance totale : aucun abonnement récurrent imposé",
+      "Assistance continue et suivi technique inclus",
     ],
   },
   {
-    title: "Bases de connaissances IA",
-    body: "Transformez vos documents internes en une source de réponses instantanées pour vos équipes. Je crée des assistants IA capables de comprendre vos documents, procédures, contrats, bases clients et données internes pour répondre avec précision.",
+    title: "Recherche documentaire IA",
+    body: "Interrogez tous vos contrats, PDF et procédures internes en français simple pour obtenir la réponse exacte en 2 secondes.",
     visual: KnowledgeBaseVisual,
     intro:
-      "Vos documents sont une mine de réponses que personne n'a le temps de chercher. Un assistant RAG les rend interrogables en langage naturel, sans que vos équipes ne fassent défiler des dizaines de fichiers.",
+      "Transformez vos dossiers et classeurs en un assistant interne capable de répondre instantanément à n'importe quelle question.",
     livre: [
-      "Connexion à vos sources de données (Drive, Notion, SharePoint, PDF, bases internes)",
-      "Système de recherche intelligente (RAG)",
-      "Assistant IA accessible par vos équipes",
-      "Gestion des droits d'accès et de la confidentialité",
-      "Tests de qualité et amélioration continue",
+      "Connexion à vos dossiers (Drive, Notion, SharePoint, PDF, contrats)",
+      "Moteur de recherche intelligent en langage naturel",
+      "Accès rapide et intuitif pour tous vos collaborateurs",
+      "Respect strict de la confidentialité de vos documents",
     ],
     deroule: [
-      "Assistant juridique interne",
-      "Support client augmenté",
-      "Recherche documentaire instantanée",
-      "Assistant commercial connecté au CRM",
-      "Base de connaissances entreprise",
+      "Indexation de vos documents clés",
+      "Tests de précision sur vos questions types",
+      "Mise à disposition immédiate pour vos équipes",
     ],
   },
 ];
@@ -184,9 +181,10 @@ export function Services() {
   useEffect(() => {
     if (activeIndex === null) return;
 
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setActiveIndex(null);
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setActiveIndex(null);
     };
+
     document.body.style.overflow = "hidden";
     window.addEventListener("keydown", onKeyDown);
 
@@ -299,51 +297,49 @@ export function Services() {
             >
               <motion.div
                 layoutId={`service-card-${activeIndex}`}
-                className="relative my-auto w-full max-w-2xl rounded-3xl bg-white p-8 shadow-2xl sm:p-12"
-                transition={{ duration: reduce ? 0 : 0.5, ease: [0.16, 1, 0.3, 1] }}
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="dialog-title"
+                className="relative my-auto flex w-full max-w-2xl flex-col rounded-3xl bg-white p-8 shadow-2xl sm:p-10 md:p-12"
+                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
               >
-                <button
-                  type="button"
-                  onClick={() => setActiveIndex(null)}
-                  aria-label="Fermer"
-                  className="absolute top-6 right-6 flex h-9 w-9 items-center justify-center rounded-full border border-accent/10 text-accent/60 transition-colors hover:bg-accent/5 sm:top-8 sm:right-8"
-                >
-                  <CloseIcon />
-                </button>
-
-                <div
-                  className="mb-4 text-sm font-semibold text-accent/40"
-                  style={{ fontFamily: "var(--font-heading)" }}
-                >
-                  0{activeIndex + 1}
+                <div className="flex items-start justify-between gap-6 border-b border-border-soft pb-6">
+                  <div>
+                    <div
+                      className="mb-2 text-xs font-semibold text-accent"
+                      style={{ fontFamily: "var(--font-heading)" }}
+                    >
+                      DÉTAIL DU SERVICE 0{activeIndex + 1}
+                    </div>
+                    <motion.h3
+                      id="dialog-title"
+                      layoutId={`service-title-${activeIndex}`}
+                      className="font-medium text-foreground"
+                      style={{
+                        fontSize: "clamp(24px, 2.8vw, 32px)",
+                        lineHeight: 1.15,
+                        letterSpacing: "-0.025em",
+                      }}
+                    >
+                      {services[activeIndex].title}
+                    </motion.h3>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setActiveIndex(null)}
+                    aria-label="Fermer le dialogue"
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border-soft bg-background text-foreground/60 transition-colors hover:border-foreground/30 hover:text-foreground"
+                  >
+                    <CloseIcon />
+                  </button>
                 </div>
 
-                <motion.h3
-                  layoutId={`service-title-${activeIndex}`}
-                  className="max-w-lg font-medium text-foreground"
-                  style={{
-                    fontSize: "clamp(26px, 3.2vw, 36px)",
-                    lineHeight: 1.15,
-                    letterSpacing: "-0.025em",
-                    textWrap: "balance",
-                  }}
-                >
-                  {services[activeIndex].title}
-                </motion.h3>
-
-                <motion.div
-                  initial={reduce ? false : { opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: reduce ? 0 : 0.15 }}
-                >
-                  <p
-                    className="mt-5 max-w-lg text-[17px] text-foreground/80"
-                    style={{ lineHeight: 1.6, textWrap: "pretty" }}
-                  >
+                <div className="flex flex-col gap-8 pt-6">
+                  <p className="text-[16px] text-foreground" style={{ lineHeight: 1.6 }}>
                     {services[activeIndex].intro}
                   </p>
 
-                  <div className="mt-8 grid gap-8 sm:grid-cols-2">
+                  <div className="grid gap-6 sm:grid-cols-2">
                     <ModalList
                       label="Ce qui est livré"
                       items={services[activeIndex].livre}
@@ -355,19 +351,20 @@ export function Services() {
                       marker="dot"
                     />
                   </div>
-                </motion.div>
 
-                <motion.a
-                  href="/contact"
-                  onClick={() => setActiveIndex(null)}
-                  initial={reduce ? false : { opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: reduce ? 0 : 0.22 }}
-                  className="mt-8 inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-[15px] font-medium text-accent-foreground shadow-accent transition-all duration-200 hover:bg-accent-hover hover:shadow-lg"
-                >
-                  En discuter
-                  <ArrowIcon />
-                </motion.a>
+                  <div className="flex flex-col items-start justify-between gap-4 border-t border-border-soft pt-6 sm:flex-row sm:items-center">
+                    <a
+                      href="/contact"
+                      className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-[15px] font-medium text-accent-foreground shadow-accent transition-all duration-200 hover:bg-accent-hover hover:shadow-lg"
+                    >
+                      Discuter de ce service
+                      <ArrowIcon />
+                    </a>
+                    <span className="text-xs text-muted">
+                      Premier échange de 30 min, sans engagement
+                    </span>
+                  </div>
+                </div>
               </motion.div>
             </div>
           </>
