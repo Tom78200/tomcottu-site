@@ -306,33 +306,25 @@ export function HowItWorks() {
             {[
               {
                 label: "Emails & Demandes",
-                sub: "Gmail / Outlook",
                 icon: <MailIcon />,
-                badge: "Synchronisé",
                 colorStyle: "bg-rose-50 text-rose-600 border-rose-200/80",
                 dot: "bg-rose-500",
               },
               {
                 label: "Ressaisie & Devis",
-                sub: "CRM / Facturation",
                 icon: <FileTextIcon />,
-                badge: "Automatique",
                 colorStyle: "bg-amber-50 text-amber-600 border-amber-200/80",
                 dot: "bg-amber-500",
               },
               {
                 label: "Messages & SAV",
-                sub: "Slack / WhatsApp",
                 icon: <MessageSquareIcon />,
-                badge: "Temps réel",
                 colorStyle: "bg-emerald-50 text-emerald-600 border-emerald-200/80",
                 dot: "bg-emerald-500",
               },
               {
                 label: "Bases documentaires",
-                sub: "Notion / Drive",
                 icon: <DatabaseIcon />,
-                badge: "Connecté",
                 colorStyle: "bg-violet-50 text-violet-600 border-violet-200/80",
                 dot: "bg-violet-500",
               },
@@ -349,10 +341,7 @@ export function HowItWorks() {
                   <span className={`flex h-8 w-8 items-center justify-center rounded-xl border ${item.colorStyle}`}>
                     {item.icon}
                   </span>
-                  <div>
-                    <span className="text-xs font-semibold text-foreground block">{item.label}</span>
-                    <span className="text-[11px] text-muted">{item.sub}</span>
-                  </div>
+                  <span className="text-xs font-semibold text-foreground">{item.label}</span>
                 </div>
 
                 <span className={`h-2 w-2 rounded-full ${item.dot} opacity-80`} />
