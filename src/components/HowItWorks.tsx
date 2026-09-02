@@ -141,7 +141,7 @@ export function HowItWorks() {
                 {/* Rail de câble statique fin */}
                 <path d={c.d} stroke="var(--border-soft)" strokeWidth="2.5" strokeLinecap="round" />
 
-                {/* Impulsion d'énergie fluide continue qui fait pulser et grossir le câble */}
+                {/* Impulsion d'énergie fluide continue qui avance de gauche vers la droite */}
                 {!reduce && (
                   <motion.path
                     d={c.d}
@@ -149,7 +149,7 @@ export function HowItWorks() {
                     strokeWidth="4"
                     strokeLinecap="round"
                     strokeDasharray="120 280"
-                    animate={{ strokeDashoffset: [-400, 0] }}
+                    animate={{ strokeDashoffset: [0, -400] }}
                     transition={{
                       duration: 2.8,
                       repeat: Infinity,
@@ -161,7 +161,7 @@ export function HowItWorks() {
               </g>
             ))}
 
-            {/* ── 2 CÂBLES DE DROITE : Centre vers les sorties ── */}
+            {/* ── 2 CÂBLES DE DROITE : Centre vers les sorties (Avance vers la droite) ── */}
             {/* Câble 1 (Sortie Émeraude Autonome) */}
             <path d="M 500 200 C 620 200, 640 140, 770 140" stroke="var(--border-soft)" strokeWidth="2.5" strokeLinecap="round" />
             {!reduce && (
@@ -171,7 +171,7 @@ export function HowItWorks() {
                 strokeWidth="4"
                 strokeLinecap="round"
                 strokeDasharray="100 220"
-                animate={{ strokeDashoffset: [-320, 0] }}
+                animate={{ strokeDashoffset: [0, -320] }}
                 transition={{ duration: 2.4, repeat: Infinity, ease: "linear" }}
               />
             )}
@@ -185,7 +185,7 @@ export function HowItWorks() {
                 strokeWidth="4"
                 strokeLinecap="round"
                 strokeDasharray="100 220"
-                animate={{ strokeDashoffset: [-320, 0] }}
+                animate={{ strokeDashoffset: [0, -320] }}
                 transition={{ duration: 2.4, repeat: Infinity, ease: "linear", delay: 0.8 }}
               />
             )}
