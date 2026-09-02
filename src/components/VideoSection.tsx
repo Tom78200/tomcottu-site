@@ -39,9 +39,20 @@ export function VideoSection() {
     const v = videoRef.current;
     if (!v) return;
     if (v.paused) {
-      void v.play();
+      const playPromise = v.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => setPlaying(true))
+          .catch(() => {
+            // Si le navigateur bloque l'audio lors du premier clic, on mute et on joue
+            v.muted = true;
+            setIsMuted(true);
+            void v.play().then(() => setPlaying(true));
+          });
+      }
     } else {
       v.pause();
+      setPlaying(false);
     }
   };
 
@@ -167,11 +178,20 @@ export function VideoSection() {
 
             {/* Bouton Play Glassmorphism Central (quand la vidéo est en pause) */}
             {!playing && (
-              <div className="absolute inset-0 flex items-center justify-center bg-black/15 backdrop-blur-[2px] transition-all">
+              <div
+                className="absolute inset-0 flex items-center justify-center bg-black/15 backdrop-blur-[2px] transition-all"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  togglePlay();
+                }}
+              >
                 <motion.button
                   type="button"
                   aria-label="Lancer la démonstration"
-                  onClick={togglePlay}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    togglePlay();
+                  }}
                   whileHover={{ scale: 1.08 }}
                   whileTap={{ scale: 0.95 }}
                   className="relative flex h-20 w-20 items-center justify-center rounded-full bg-white text-foreground shadow-2xl ring-1 ring-black/10 transition-shadow hover:shadow-accent/20 sm:h-24 sm:w-24"
