@@ -51,83 +51,48 @@ function ShieldCheckIcon() {
   );
 }
 
-/* ── NOYAU ORBE CIRCULAIRE 3D VIVANT (PUCE MICROPROCESSEUR IA) ── */
+/* ── NOYAU AGENT IA HIGH-TECH MINIMALISTE (PUCE PROCESSEUR IA) ── */
 function Model3DAgentCore({ reduce }: { reduce: boolean | null }) {
   return (
-    <div className="relative flex flex-col items-center justify-center py-1">
-      {/* Espace Scène Circulaire 3D */}
-      <div
-        className="relative flex h-44 w-44 sm:h-56 sm:w-56 items-center justify-center"
-        style={{ perspective: "1000px" }}
+    <div className="relative flex flex-col items-center justify-center py-2">
+      {/* Cœur Agent IA en lévitation sobre et high-tech */}
+      <motion.div
+        animate={
+          reduce
+            ? {}
+            : {
+                y: [-4, 4, -4],
+              }
+        }
+        transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+        className="relative flex h-24 w-24 sm:h-28 sm:w-28 items-center justify-center rounded-3xl border border-accent/40 bg-white p-2.5 shadow-card"
       >
-        {/* 1. Anneau orbital extérieur en rotation continue douce */}
-        <motion.div
-          animate={reduce ? {} : { rotate: 360 }}
-          transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
-          className="pointer-events-none absolute h-40 w-40 sm:h-52 sm:w-52 rounded-full border border-dashed border-accent/30"
-        />
-
-        {/* 2. Anneau orbital intérieur en contre-rotation */}
-        <motion.div
-          animate={reduce ? {} : { rotate: -360 }}
-          transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-          className="pointer-events-none absolute h-32 w-32 sm:h-40 sm:w-40 rounded-full border border-dotted border-accent/40"
-        />
-
-        {/* 3. L'Orbe / Disque 3D Circulaire en Lévitation */}
-        <motion.div
-          animate={
-            reduce
-              ? {}
-              : {
-                  y: [-5, 5, -5],
-                  rotateY: [-4, 4, -4],
-                  rotateX: [3, -3, 3],
-                }
-          }
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          className="relative flex h-28 w-28 sm:h-36 sm:w-36 items-center justify-center rounded-full border-2 border-accent/80 bg-white p-2.5 sm:p-3 shadow-2xl"
-          style={{
-            transformStyle: "preserve-3d",
-            boxShadow: "0 20px 40px -12px rgba(0, 119, 205, 0.25), 0 0 0 1px rgba(0, 119, 205, 0.1)",
-          }}
-        >
-          {/* Onde de respiration circulaire */}
-          {!reduce && (
-            <motion.div
-              animate={{ scale: [1, 1.18, 1], opacity: [0.25, 0.05, 0.25] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute inset-1.5 rounded-full bg-accent"
-            />
-          )}
-
-          {/* Cœur Sphérique Bleu avec Puce Processeur IA */}
-          <div
-            className="relative z-10 flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-full bg-gradient-to-br from-[#0088ea] via-[#0077cd] to-[#005fa6] text-white shadow-accent overflow-hidden"
-            style={{ transform: "translateZ(12px)" }}
+        {/* Processeur IA Central Bleu Profond */}
+        <div className="relative z-10 flex h-full w-full items-center justify-center rounded-2xl bg-gradient-to-br from-[#0088ea] to-[#005fa6] text-white shadow-accent">
+          {/* Puce Microprocesseur AI */}
+          <svg
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
           >
-            {/* Puce Microprocesseur Neural IA */}
-            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="sm:w-8 sm:h-8">
-              <rect x="4" y="4" width="16" height="16" rx="3" />
-              <rect x="8.5" y="8.5" width="7" height="7" rx="1.5" />
-              <path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3" />
-              <circle cx="12" cy="12" r="1.2" fill="currentColor" />
-            </svg>
+            <rect x="4" y="4" width="16" height="16" rx="3" />
+            <rect x="8.5" y="8.5" width="7" height="7" rx="1.5" />
+            <path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3" />
+          </svg>
 
-            {/* Reflet spéculaire lumineux courbé */}
-            {!reduce && (
-              <motion.div
-                animate={{ x: [-45, 65] }}
-                transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut", repeatDelay: 1 }}
-                className="pointer-events-none absolute inset-0 rounded-full -skew-x-12 bg-gradient-to-r from-transparent via-white/40 to-transparent"
-              />
-            )}
-          </div>
-        </motion.div>
-      </div>
+          {/* Micro-lueur interne */}
+          <span className="pointer-events-none absolute inset-0 rounded-2xl bg-white/10" />
+        </div>
+      </motion.div>
 
-      {/* Titre sous l'orbe 3D */}
-      <span className="mt-1 text-xs sm:text-[14px] font-semibold text-foreground tracking-tight">
+      {/* Titre sous le cœur IA */}
+      <span className="mt-2 text-xs sm:text-[14px] font-semibold text-foreground tracking-tight">
         Agent IA Métier
       </span>
     </div>
