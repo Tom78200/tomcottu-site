@@ -43,29 +43,76 @@ function DatabaseIcon() {
   );
 }
 
-function CpuIcon() {
-  return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <rect width="16" height="16" x="4" y="4" rx="3" />
-      <rect width="6" height="6" x="9" y="9" rx="1" />
-      <path d="M15 2v2" />
-      <path d="M15 20v2" />
-      <path d="M2 15h2" />
-      <path d="M2 9h2" />
-      <path d="M20 15h2" />
-      <path d="M20 9h2" />
-      <path d="M9 2v2" />
-      <path d="M9 20v2" />
-    </svg>
-  );
-}
-
 function ShieldCheckIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
       <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
       <path d="m9 12 2 2 4-4" />
     </svg>
+  );
+}
+
+/* ── CŒUR PROCESSEUR SILICIUM VIVANT (ANIMATION CINÉTIQUE DU BLOC AGENT) ── */
+function AnimatedAgentCore({ reduce }: { reduce: boolean | null }) {
+  return (
+    <div className="relative flex flex-col items-center justify-center">
+      {/* 1. Anneau orbital extérieur en rotation continue douce */}
+      <motion.div
+        animate={reduce ? {} : { rotate: 360 }}
+        transition={{ duration: 32, repeat: Infinity, ease: "linear" }}
+        className="absolute h-60 w-60 sm:h-64 sm:w-64 rounded-full border border-dashed border-accent/25 pointer-events-none"
+      />
+
+      {/* 2. Anneau orbital intérieur en contre-rotation */}
+      <motion.div
+        animate={reduce ? {} : { rotate: -360 }}
+        transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
+        className="absolute h-48 w-48 sm:h-52 sm:w-52 rounded-full border border-dotted border-accent/35 pointer-events-none"
+      />
+
+      {/* 3. Boîtier Processeur Haute Précision */}
+      <motion.div
+        initial={reduce ? false : { scale: 0.94, opacity: 0 }}
+        whileInView={{ scale: 1, opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        className="relative z-20 flex flex-col items-center rounded-3xl border border-border-soft bg-white p-6 sm:p-7 text-center shadow-card max-w-[260px]"
+      >
+        {/* Puce Processeur avec Respiration & Circuits Vivants */}
+        <div className="relative flex h-20 w-20 items-center justify-center">
+          {/* Onde de respiration douce */}
+          {!reduce && (
+            <motion.div
+              animate={{ scale: [1, 1.25, 1], opacity: [0.25, 0.05, 0.25] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute inset-0 rounded-2xl bg-accent"
+            />
+          )}
+
+          {/* Cœur Silicium avec micro-circuits animés */}
+          <motion.div
+            animate={reduce ? {} : { scale: [1, 1.03, 1] }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            className="relative flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-b from-[#0088ea] to-[#0066be] text-white shadow-accent"
+          >
+            {/* SVG Puce Silicium aux connecteurs lumineux */}
+            <svg width="34" height="34" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="6" width="20" height="20" rx="4" stroke="white" strokeWidth="1.8" />
+              <rect x="11" y="11" width="10" height="10" rx="2" fill="white" fillOpacity="0.25" stroke="white" strokeWidth="1.4" />
+              
+              {/* Connecteurs micro-circuits */}
+              <path d="M16 2V6M16 26V30M2 16H6M26 16H30" stroke="white" strokeWidth="1.8" strokeLinecap="round" />
+              <path d="M10 2V4M22 2V4M10 28V30M22 28V30M2 10H4M2 22H4M28 10H30M28 22H30" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeOpacity="0.6" />
+            </svg>
+          </motion.div>
+        </div>
+
+        {/* Label épuré unique sans texte superflu */}
+        <span className="mt-3 text-[16px] font-semibold text-foreground tracking-tight">
+          Agent IA Métier
+        </span>
+      </motion.div>
+    </div>
   );
 }
 
@@ -80,7 +127,7 @@ export function HowItWorks() {
       aria-labelledby="methode-heading"
       className="relative w-full px-5 pb-32 sm:px-10 md:pb-44 lg:px-16 overflow-hidden"
     >
-      {/* ── En-tête de section sobre ── */}
+      {/* ── En-tête de section ── */}
       <div className="mb-12 border-t border-border-soft pt-16 md:mb-16 md:pt-24">
         <div
           className="mb-3 text-base font-semibold text-foreground md:text-lg"
@@ -102,20 +149,18 @@ export function HowItWorks() {
         </h2>
       </div>
 
-      {/* ── GRAND WORKFLOW PANORAMIQUE HAUT DE GAMME (STYLE APPLE / LINEAR PUR) ── */}
+      {/* ── GRAND WORKFLOW PANORAMIQUE VIVANT (TEXTE ÉPURÉ, CÂBLES LUMINEUX) ── */}
       <div className="relative mx-auto w-full max-w-6xl py-4 sm:py-8">
-        {/* Câbles de connexion de haute précision (Traits fins et flux doux) */}
+        {/* Câbles de connexion de haute précision */}
         <div className="pointer-events-none absolute inset-0 hidden lg:block h-full w-full">
           <svg className="h-full w-full overflow-visible" viewBox="0 0 1000 400" fill="none" preserveAspectRatio="none">
             <defs>
-              {/* Dégradé doux sans néon pour les flux entrants */}
               <linearGradient id="cablePulseLeft" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stopColor="#0077cd" stopOpacity="0" />
                 <stop offset="50%" stopColor="#0077cd" stopOpacity="0.75" />
                 <stop offset="100%" stopColor="#0077cd" stopOpacity="0" />
               </linearGradient>
 
-              {/* Dégradé doux pour les flux sortants */}
               <linearGradient id="cablePulseRight" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stopColor="#0077cd" stopOpacity="0" />
                 <stop offset="50%" stopColor="#0077cd" stopOpacity="0.75" />
@@ -131,10 +176,7 @@ export function HowItWorks() {
               { d: "M 230 325 C 370 325, 390 200, 500 200", delay: 2.1 },
             ].map((c, i) => (
               <g key={i}>
-                {/* Ligne de base fine et discrète */}
                 <path d={c.d} stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
-
-                {/* Impulsion lumineuse douce et sobre */}
                 {!reduce && (
                   <motion.path
                     d={c.d}
@@ -155,7 +197,6 @@ export function HowItWorks() {
             ))}
 
             {/* 2 Câbles de droite */}
-            {/* Sortie 1 */}
             <path d="M 500 200 C 620 200, 640 135, 770 135" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
             {!reduce && (
               <motion.path
@@ -169,7 +210,6 @@ export function HowItWorks() {
               />
             )}
 
-            {/* Sortie 2 */}
             <path d="M 500 200 C 620 200, 640 265, 770 265" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
             {!reduce && (
               <motion.path
@@ -186,7 +226,7 @@ export function HowItWorks() {
         </div>
 
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 items-center gap-8 lg:gap-4">
-          {/* ── 1. COLONNE GAUCHE : Les Outils Sources ── */}
+          {/* ── 1. COLONNE GAUCHE : Outils Sources ── */}
           <div className="lg:col-span-3 flex flex-col gap-3">
             <div className="flex items-center gap-2 mb-1">
               <span className="h-1.5 w-1.5 rounded-full bg-accent" />
@@ -196,10 +236,10 @@ export function HowItWorks() {
             </div>
 
             {[
-              { label: "Emails & Demandes", sub: "Gmail / Outlook", icon: <MailIcon />, badge: "Synchronisé" },
-              { label: "Ressaisie & Devis", sub: "CRM / Facturation", icon: <FileTextIcon />, badge: "Automatique" },
-              { label: "Messages & SAV", sub: "Slack / WhatsApp", icon: <MessageSquareIcon />, badge: "Temps réel" },
-              { label: "Bases documentaires", sub: "Notion / Drive", icon: <DatabaseIcon />, badge: "Connecté" },
+              { label: "Emails & Demandes", sub: "Gmail / Outlook", icon: <MailIcon /> },
+              { label: "Ressaisie & Devis", sub: "CRM / Facturation", icon: <FileTextIcon /> },
+              { label: "Messages & SAV", sub: "Slack / WhatsApp", icon: <MessageSquareIcon /> },
+              { label: "Bases documentaires", sub: "Notion / Drive", icon: <DatabaseIcon /> },
             ].map((item, i) => (
               <motion.div
                 key={item.label}
@@ -218,49 +258,16 @@ export function HowItWorks() {
                     <span className="text-[11px] text-muted">{item.sub}</span>
                   </div>
                 </div>
-
-                <span className="rounded-full bg-background/80 px-2.5 py-0.5 text-[10px] font-medium text-muted border border-border-soft/60">
-                  {item.badge}
-                </span>
               </motion.div>
             ))}
           </div>
 
-          {/* ── 2. COLONNE CENTRALE : L'Agent IA Métier (Boîtier Studio Épuré) ── */}
+          {/* ── 2. COLONNE CENTRALE : L'Agent IA Métier (Cœur Silicium Vivant) ── */}
           <div className="lg:col-span-6 flex flex-col items-center justify-center py-6 lg:py-0 px-2 sm:px-6">
-            <div className="relative flex flex-col items-center justify-center">
-              {/* Anneau de structure discret */}
-              <div className="absolute h-56 w-56 rounded-full border border-border-soft/80 pointer-events-none" />
-
-              {/* Boîtier Central Minimaliste & Luxueux */}
-              <motion.div
-                initial={reduce ? false : { scale: 0.94, opacity: 0 }}
-                whileInView={{ scale: 1, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="relative z-20 flex flex-col items-center rounded-3xl border border-border-soft bg-white p-7 sm:p-8 text-center shadow-card max-w-[280px]"
-              >
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-accent text-accent-foreground shadow-accent">
-                  <CpuIcon />
-                </div>
-
-                <span className="mt-4 text-[17px] font-semibold text-foreground tracking-tight">
-                  Agent IA Métier
-                </span>
-                <span className="mt-1 inline-flex items-center gap-1.5 rounded-full bg-accent/5 px-2.5 py-0.5 text-[11px] font-semibold text-accent border border-accent/15">
-                  <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                  Règles & Garde-fous actifs
-                </span>
-
-                <div className="mt-5 w-full border-t border-border-soft pt-3 flex items-center justify-between text-[11px]">
-                  <span className="text-muted">Temps de réponse</span>
-                  <span className="font-semibold text-foreground">&lt; 0.4 seconde</span>
-                </div>
-              </motion.div>
-            </div>
+            <AnimatedAgentCore reduce={reduce} />
           </div>
 
-          {/* ── 3. COLONNE DROITE : Les Actions Délivrées ── */}
+          {/* ── 3. COLONNE DROITE : Actions Délivrées ── */}
           <div className="lg:col-span-3 flex flex-col gap-3">
             <div className="flex items-center gap-2 mb-1">
               <span className="h-1.5 w-1.5 rounded-full bg-accent" />
@@ -284,9 +291,6 @@ export function HowItWorks() {
                     Autonome (90%)
                   </span>
                 </div>
-                <span className="rounded-full bg-background px-2 py-0.5 text-[10px] font-medium text-muted border border-border-soft">
-                  Immédiat
-                </span>
               </div>
 
               <ul className="mt-3 space-y-2">
@@ -318,14 +322,11 @@ export function HowItWorks() {
                     Validation Humaine (10%)
                   </span>
                 </div>
-                <span className="text-[10px] font-medium text-muted bg-background px-2 py-0.5 rounded-full border border-border-soft">
-                  Garde-fous
-                </span>
               </div>
 
               <div className="mt-3 flex items-center justify-between gap-3">
                 <p className="text-xs text-muted font-normal leading-tight">
-                  Notification 1-clic pour les cas sensibles
+                  Notification pour les cas sensibles
                 </p>
                 <span className="shrink-0 rounded-full bg-accent px-3 py-1 text-xs font-medium text-accent-foreground shadow-accent transition-all duration-200">
                   Valider
