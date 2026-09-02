@@ -193,17 +193,6 @@ export function HowItWorks() {
         </h2>
       </div>
 
-      {/* ── Halo dégradé bleu doux d'ambiance (Style Hero) ── */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 -z-10 h-[550px] w-full"
-        style={{
-          background:
-            "radial-gradient(ellipse 75% 65% at 50% 50%, var(--accent-soft) 0%, transparent 75%)",
-          opacity: 0.9,
-        }}
-      />
-
       {/* ═════════════════════════════════════════════════════════════════════ */}
       {/* ── 1. VERSION MOBILE DÉDIÉE (< lg) : FLUX VERTICAL LASER ANIMÉ ──── */}
       {/* ═════════════════════════════════════════════════════════════════════ */}
@@ -562,7 +551,6 @@ export function HowItWorks() {
                   </span>
                   <span className="text-xs font-semibold text-foreground">{item.label}</span>
                 </div>
-                <span className={`h-2 w-2 rounded-full ${item.dot} opacity-80`} />
               </motion.div>
             ))}
           </div>
