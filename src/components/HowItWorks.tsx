@@ -188,6 +188,17 @@ export function HowItWorks() {
         </h2>
       </div>
 
+      {/* ── Halo dégradé bleu doux d'ambiance (Style Hero) ── */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 -z-10 h-[550px] w-full"
+        style={{
+          background:
+            "radial-gradient(ellipse 75% 65% at 50% 50%, var(--accent-soft) 0%, transparent 75%)",
+          opacity: 0.9,
+        }}
+      />
+
       {/* ── GRAND WORKFLOW PANORAMIQUE VIVANT (4 OUTILS EN COULEURS DISTINCTES) ── */}
       <div className="relative mx-auto w-full max-w-6xl py-4 sm:py-8">
         {/* Câbles de connexion avec couleur dédiée par outil */}
