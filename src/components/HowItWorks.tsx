@@ -1,284 +1,294 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
+  AnimatePresence,
   motion,
   useInView,
   useReducedMotion,
 } from "motion/react";
 
-/* ── MOCKUP ANIMÉ ÉTAPE 01 : Scanner & Flux d'outils ── */
-function MockupStep1() {
-  return (
-    <div className="relative h-48 w-full overflow-hidden rounded-2xl border border-border-soft/80 bg-background/50 p-4 backdrop-blur-sm">
-      {/* Header macOS épuré */}
-      <div className="flex items-center justify-between pb-3 border-b border-border-soft/60">
-        <div className="flex items-center gap-1.5">
-          <span className="h-2.5 w-2.5 rounded-full bg-border" />
-          <span className="h-2.5 w-2.5 rounded-full bg-border" />
-          <span className="h-2.5 w-2.5 rounded-full bg-border" />
-        </div>
-        <span className="text-[10px] font-semibold tracking-wider text-accent uppercase">
-          Scan des flux en cours
-        </span>
-      </div>
-
-      {/* Visualisation animée */}
-      <div className="mt-4 flex flex-col gap-2.5">
-        {[
-          { name: "Gmail & Outlook", tag: "Emails répétitifs", gain: "4h/sem" },
-          { name: "CRM & Facturation", tag: "Ressaisie devis", gain: "5h/sem" },
-          { name: "Notion & Slack", tag: "Tri & synthèses", gain: "3h/sem" },
-        ].map((item, i) => (
-          <motion.div
-            key={item.name}
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: i * 0.15 }}
-            className="group flex items-center justify-between rounded-xl border border-border-soft/70 bg-white px-3 py-2 shadow-xs transition-colors hover:border-accent/30"
-          >
-            <div className="flex items-center gap-2">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent/40 opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
-              </span>
-              <span className="text-xs font-semibold text-foreground">{item.name}</span>
-              <span className="hidden sm:inline text-[11px] text-muted-soft">({item.tag})</span>
-            </div>
-            <span className="rounded-full bg-accent/10 px-2 py-0.5 text-[10px] font-semibold text-accent">
-              +{item.gain}
-            </span>
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  );
+interface Particle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  originX: number;
+  originY: number;
+  targetX: number;
+  targetY: number;
+  radius: number;
+  baseRadius: number;
+  color: string;
+  alpha: number;
+  angle: number;
+  speed: number;
+  orbitRadius: number;
+  layer: number;
 }
 
-/* ── MOCKUP ANIMÉ ÉTAPE 02 : Architecture & Garde-fous ── */
-function MockupStep2() {
-  return (
-    <div className="relative h-48 w-full overflow-hidden rounded-2xl border border-border-soft/80 bg-background/50 p-4 backdrop-blur-sm">
-      {/* Header macOS */}
-      <div className="flex items-center justify-between pb-3 border-b border-border-soft/60">
-        <div className="flex items-center gap-1.5">
-          <span className="h-2.5 w-2.5 rounded-full bg-border" />
-          <span className="h-2.5 w-2.5 rounded-full bg-border" />
-          <span className="h-2.5 w-2.5 rounded-full bg-border" />
-        </div>
-        <span className="text-[10px] font-semibold tracking-wider text-emerald-600 uppercase">
-          Garde-fous 100% actifs
-        </span>
-      </div>
-
-      {/* Schéma de flux sécurisé */}
-      <div className="mt-4 flex h-28 items-center justify-between gap-2">
-        {/* Nœud Central Agent */}
-        <div className="relative flex flex-1 flex-col items-center justify-center rounded-xl border border-accent/30 bg-white p-3 shadow-xs">
-          <div className="relative flex h-7 w-7 items-center justify-center rounded-lg bg-accent text-accent-foreground shadow-accent">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <rect width="18" height="18" x="3" y="3" rx="2" />
-              <path d="M9 8h6M9 12h6M9 16h4" />
-            </svg>
-          </div>
-          <span className="mt-1 text-[11px] font-semibold text-foreground">Agent Métier</span>
-          <span className="text-[9px] text-muted-soft">Sur-mesure</span>
-        </div>
-
-        {/* Flèches */}
-        <div className="flex flex-col gap-3 py-1">
-          <svg width="24" height="16" viewBox="0 0 24 16" fill="none" className="text-emerald-500">
-            <path d="M2 8h16M14 3l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          <svg width="24" height="16" viewBox="0 0 24 16" fill="none" className="text-accent">
-            <path d="M2 8h16M14 3l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </div>
-
-        {/* 2 Règles */}
-        <div className="flex flex-1 flex-col gap-2">
-          <div className="rounded-lg border border-emerald-200 bg-emerald-50/70 p-2 text-left">
-            <span className="text-[10px] font-bold text-emerald-700 block">Exécution auto</span>
-            <span className="text-[9px] text-emerald-600/80">Tâches récurrentes</span>
-          </div>
-          <div className="rounded-lg border border-accent/20 bg-accent/5 p-2 text-left">
-            <span className="text-[10px] font-bold text-accent block">Validation humaine</span>
-            <span className="text-[9px] text-muted-soft">Cas sensibles</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ── MOCKUP ANIMÉ ÉTAPE 03 : Rodage & Certification ── */
-function MockupStep3() {
-  return (
-    <div className="relative h-48 w-full overflow-hidden rounded-2xl border border-border-soft/80 bg-background/50 p-4 backdrop-blur-sm">
-      {/* Header macOS */}
-      <div className="flex items-center justify-between pb-3 border-b border-border-soft/60">
-        <div className="flex items-center gap-1.5">
-          <span className="h-2.5 w-2.5 rounded-full bg-border" />
-          <span className="h-2.5 w-2.5 rounded-full bg-border" />
-          <span className="h-2.5 w-2.5 rounded-full bg-border" />
-        </div>
-        <span className="text-[10px] font-semibold tracking-wider text-accent uppercase">
-          Mise en production
-        </span>
-      </div>
-
-      {/* Jauge de précision & Garantie */}
-      <div className="mt-4 flex items-center justify-around gap-3 pt-1">
-        {/* Anneau Circulaire */}
-        <div className="flex flex-col items-center">
-          <div className="relative flex h-16 w-16 items-center justify-center">
-            <svg className="h-16 w-16 -rotate-90" viewBox="0 0 36 36">
-              <path
-                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                fill="none"
-                stroke="var(--border-soft)"
-                strokeWidth="3"
-              />
-              <motion.path
-                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                fill="none"
-                stroke="var(--color-accent)"
-                strokeWidth="3.2"
-                strokeDasharray="100, 100"
-                strokeDashoffset="1"
-                strokeLinecap="round"
-                initial={{ strokeDashoffset: 100 }}
-                animate={{ strokeDashoffset: 1 }}
-                transition={{ duration: 1.4, ease: "easeOut" }}
-              />
-            </svg>
-            <span className="absolute text-xs font-bold text-foreground">99.4%</span>
-          </div>
-          <span className="mt-1 text-[10px] font-semibold text-muted-soft">Précision validée</span>
-        </div>
-
-        {/* Badge Garantie */}
-        <div className="flex flex-col items-center rounded-xl border border-accent/25 bg-white p-3 shadow-xs">
-          <span className="text-[18px] font-extrabold text-accent leading-none">14j</span>
-          <span className="mt-1 text-[11px] font-semibold text-foreground text-center">Garantie complète</span>
-          <span className="text-[9px] text-muted-soft">Satisfait ou remboursé</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-const steps = [
+const STAGES = [
   {
     step: "01",
-    tag: "Jour 1 — 48h",
-    title: "Analyse de votre activité",
-    summary: "Audit de vos outils pour isoler la tâche qui vous coûte le plus de temps.",
-    mockup: <MockupStep1 />,
+    tag: "Audit 48h",
+    title: "Diagnostic & Cartographie",
+    headline: "Identifier la tâche unique qui vous coûte le plus de temps.",
+    caption: "Scan de vos flux réels et détection du goulot d'étranglement.",
+    mode: "radar" as const,
   },
   {
     step: "02",
     tag: "Semaine 1",
-    title: "Construction de l'agent",
-    summary: "Développement sur-mesure branché directement à vos logiciels métier.",
-    mockup: <MockupStep2 />,
+    title: "Conception sur-mesure",
+    headline: "Un agent taillé pour vos process avec garde-fous stricts.",
+    caption: "Connexion sécurisée à vos outils et codage des règles métier.",
+    mode: "neural" as const,
   },
   {
     step: "03",
     tag: "Suivi continu",
-    title: "Affinage en conditions réelles",
-    summary: "Rodage en double commande et garantie 14 jours satisfait ou remboursé.",
-    mockup: <MockupStep3 />,
+    title: "Mise en service & Rodage",
+    headline: "Calibrage en conditions réelles jusqu'à perfection.",
+    caption: "Accompagnement en double commande et garantie 14 jours.",
+    mode: "flow" as const,
   },
 ];
-
-/* ── CARTE AVEC MICRO-INTERACTIONS 3D & GLOW ── */
-function StepCard({
-  item,
-  index,
-  reduce,
-}: {
-  item: (typeof steps)[number];
-  index: number;
-  reduce: boolean | null;
-}) {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setMousePos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  };
-
-  return (
-    <motion.div
-      initial={reduce ? false : { opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{
-        type: "spring",
-        stiffness: 220,
-        damping: 24,
-        delay: reduce ? 0 : index * 0.12,
-      }}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-border-soft bg-white p-6 sm:p-7 shadow-card transition-all duration-300 hover:border-accent/40 hover:shadow-xl"
-    >
-      {/* Lueur subtile qui suit la souris */}
-      <div
-        className="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        style={{
-          background: `radial-gradient(400px circle at ${mousePos.x}px ${mousePos.y}px, var(--color-accent-soft), transparent 80%)`,
-        }}
-      />
-
-      {/* Contenu supérieur : Numéro & En-tête */}
-      <div className="relative z-10">
-        <div className="flex items-center justify-between">
-          <span
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-accent/10 text-sm font-bold text-accent"
-            style={{ fontFamily: "var(--font-heading)" }}
-          >
-            {item.step}
-          </span>
-          <span className="rounded-full bg-background px-3 py-1 text-[11px] font-semibold text-muted-soft border border-border-soft/60">
-            {item.tag}
-          </span>
-        </div>
-
-        <h3 className="mt-4 text-[20px] font-semibold tracking-[-0.02em] text-foreground">
-          {item.title}
-        </h3>
-        <p className="mt-1.5 text-[13px] text-muted leading-relaxed" style={{ textWrap: "pretty" }}>
-          {item.summary}
-        </p>
-      </div>
-
-      {/* Mockup interactif en bas de carte */}
-      <div className="relative z-10 mt-6">
-        {item.mockup}
-      </div>
-    </motion.div>
-  );
-}
 
 export function HowItWorks() {
   const reduce = useReducedMotion();
   const sectionRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const inView = useInView(sectionRef, { once: false, amount: 0.2 });
+
+  const [activeStage, setActiveStage] = useState(0);
+  const [isManual, setIsManual] = useState(false);
+  const mouseRef = useRef<{ x: number; y: number; active: boolean }>({
+    x: -1000,
+    y: -1000,
+    active: false,
+  });
+
+  // Défilement automatique calme (8s) si l'utilisateur n'a pas pris la main
+  useEffect(() => {
+    if (!inView || reduce || isManual) return;
+    const timer = setInterval(() => {
+      setActiveStage((prev) => (prev + 1) % STAGES.length);
+    }, 8000);
+    return () => clearInterval(timer);
+  }, [inView, reduce, isManual]);
+
+  const handleSelect = (idx: number) => {
+    setActiveStage(idx);
+    setIsManual(true);
+  };
+
+  /* ── MOTEUR CINÉMATIQUE PARTICULES CANVAS 2D ── */
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d", { alpha: true });
+    if (!ctx) return;
+
+    let animId: number;
+    let width = (canvas.width = canvas.offsetWidth * window.devicePixelRatio || 800);
+    let height = (canvas.height = canvas.offsetHeight * window.devicePixelRatio || 450);
+
+    const handleResize = () => {
+      if (!canvas) return;
+      width = canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+      height = canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+    };
+    window.addEventListener("resize", handleResize);
+
+    const PARTICLE_COUNT = 90;
+    const particles: Particle[] = [];
+
+    const ACCENT_COLOR = "#0077cd";
+    const CYAN_COLOR = "#00a3ff";
+    const WHITE_COLOR = "#162330";
+
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      const angle = (i / PARTICLE_COUNT) * Math.PI * 2;
+      const orbitRadius = 40 + (i % 5) * 45;
+      const layer = i % 3;
+      particles.push({
+        x: width / 2 + Math.cos(angle) * orbitRadius,
+        y: height / 2 + Math.sin(angle) * orbitRadius,
+        vx: 0,
+        vy: 0,
+        originX: width / 2,
+        originY: height / 2,
+        targetX: width / 2,
+        targetY: height / 2,
+        radius: 2 + Math.random() * 2.5,
+        baseRadius: 2 + Math.random() * 2.5,
+        color: i % 3 === 0 ? ACCENT_COLOR : i % 3 === 1 ? CYAN_COLOR : WHITE_COLOR,
+        alpha: 0.3 + Math.random() * 0.7,
+        angle: angle,
+        speed: 0.008 + (i % 4) * 0.004,
+        orbitRadius: orbitRadius,
+        layer: layer,
+      });
+    }
+
+    let time = 0;
+
+    const render = () => {
+      time += 0.02;
+      ctx.clearRect(0, 0, width, height);
+
+      const cx = width / 2;
+      const cy = height / 2;
+      const mode = STAGES[activeStage].mode;
+      const mouse = mouseRef.current;
+
+      // ── MISE À JOUR DES POSITIONS SELON LE MODE ──
+      particles.forEach((p, i) => {
+        let tx = cx;
+        let ty = cy;
+
+        if (mode === "radar") {
+          // Mode 01 : Cercles de scan orbitaux concentriques avec faisceau
+          p.angle += p.speed;
+          const currentRadius = p.orbitRadius * (width < 600 ? 0.7 : 1);
+          tx = cx + Math.cos(p.angle) * currentRadius;
+          ty = cy + Math.sin(p.angle) * currentRadius * 0.55; // Vue en perspective elliptique
+        } else if (mode === "neural") {
+          // Mode 02 : Constellation neuronale / maillage géométrique 3D
+          const col = i % 9;
+          const row = Math.floor(i / 9);
+          const spacingX = (width * 0.7) / 9;
+          const spacingY = (height * 0.6) / 10;
+          const offsetX = (row % 2) * (spacingX / 2);
+          const wave = Math.sin(time * 2 + col * 0.5 + row * 0.5) * 12;
+          tx = cx - (width * 0.35) + col * spacingX + offsetX;
+          ty = cy - (height * 0.3) + row * spacingY + wave;
+        } else if (mode === "flow") {
+          // Mode 03 : Onde de flux sinusoïdale fluide infinie
+          const stepX = (width * 0.8) / PARTICLE_COUNT;
+          const px = cx - (width * 0.4) + i * stepX;
+          const wave1 = Math.sin(time * 3 + i * 0.15) * (height * 0.18);
+          const wave2 = Math.cos(time * 2 + i * 0.1) * (height * 0.08);
+          tx = px;
+          ty = cy + (p.layer === 0 ? wave1 : p.layer === 1 ? -wave1 * 0.8 : wave2);
+        }
+
+        // Physique douce (Spring damping vers la cible)
+        p.vx += (tx - p.x) * 0.05;
+        p.vy += (ty - p.y) * 0.05;
+
+        // Interaction fluide avec le curseur de souris
+        if (mouse.active) {
+          const dx = p.x - mouse.x;
+          const dy = p.y - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const maxDist = 120 * window.devicePixelRatio;
+          if (dist < maxDist && dist > 0) {
+            const force = (1 - dist / maxDist) * 18;
+            p.vx += (dx / dist) * force;
+            p.vy += (dy / dist) * force;
+          }
+        }
+
+        p.vx *= 0.82;
+        p.vy *= 0.82;
+        p.x += p.vx;
+        p.y += p.vy;
+      });
+
+      // ── DESSIN DES CONNEXIONS ET FILAMENTS LUMINEUX ──
+      if (mode === "neural" || mode === "radar") {
+        ctx.lineWidth = 1 * window.devicePixelRatio;
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const p1 = particles[i];
+            const p2 = particles[j];
+            const dx = p1.x - p2.x;
+            const dy = p1.y - p2.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            const connectDist = mode === "neural" ? 70 * window.devicePixelRatio : 55 * window.devicePixelRatio;
+
+            if (dist < connectDist) {
+              const alpha = (1 - dist / connectDist) * 0.35;
+              ctx.strokeStyle = `rgba(0, 119, 205, ${alpha})`;
+              ctx.beginPath();
+              ctx.moveTo(p1.x, p1.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.stroke();
+            }
+          }
+        }
+      } else if (mode === "flow") {
+        // En mode flow : relier les particules adjacentes par couche
+        ctx.lineWidth = 1.5 * window.devicePixelRatio;
+        ctx.strokeStyle = "rgba(0, 119, 205, 0.25)";
+        ctx.beginPath();
+        particles.forEach((p, idx) => {
+          if (idx === 0) ctx.moveTo(p.x, p.y);
+          else ctx.lineTo(p.x, p.y);
+        });
+        ctx.stroke();
+      }
+
+      // ── DESSIN DES PARTICULES & GLOWS ──
+      particles.forEach((p) => {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius * window.devicePixelRatio, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = p.alpha;
+        ctx.shadowColor = "#0077cd";
+        ctx.shadowBlur = 10 * window.devicePixelRatio;
+        ctx.fill();
+        ctx.restore();
+      });
+
+      // ── LUEUR CENTRALE AMBIANTE DOUCE ──
+      const glowGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 180 * window.devicePixelRatio);
+      glowGrad.addColorStop(0, "rgba(0, 119, 205, 0.08)");
+      glowGrad.addColorStop(1, "rgba(0, 119, 205, 0)");
+      ctx.fillStyle = glowGrad;
+      ctx.beginPath();
+      ctx.arc(cx, cy, 180 * window.devicePixelRatio, 0, Math.PI * 2);
+      ctx.fill();
+
+      animId = requestAnimationFrame(render);
+    };
+
+    render();
+
+    return () => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [activeStage]);
+
+  /* ── GESTIONNAIRE SOURIS POUR INTERACTION CURSEUR ── */
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    mouseRef.current = {
+      x: (e.clientX - rect.left) * window.devicePixelRatio,
+      y: (e.clientY - rect.top) * window.devicePixelRatio,
+      active: true,
+    };
+  };
+
+  const handleMouseLeave = () => {
+    mouseRef.current.active = false;
+  };
+
+  const current = STAGES[activeStage];
 
   return (
     <section
       id="methode"
       ref={sectionRef}
       aria-labelledby="methode-heading"
-      className="w-full px-5 pb-32 sm:px-10 md:pb-40 lg:px-16"
+      className="w-full px-5 pb-32 sm:px-10 md:pb-44 lg:px-16"
     >
-      {/* ── En-tête de section sobre & affirmé ── */}
+      {/* ── En-tête de section ── */}
       <div className="mb-12 border-t border-border-soft pt-16 md:mb-16 md:pt-24">
         <div
           className="mb-3 text-base font-semibold text-foreground md:text-lg"
@@ -300,16 +310,112 @@ export function HowItWorks() {
         </h2>
       </div>
 
-      {/* ── 3 Cartes Bento Interactives (Style Linear / Stripe) ── */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-3 lg:gap-8">
-        {steps.map((item, index) => (
-          <StepCard
-            key={item.step}
-            item={item}
-            index={index}
-            reduce={reduce}
+      <div className="space-y-6">
+        {/* ── Sélecteur / 3 Onglets Épurés & Haut de Gamme ── */}
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4">
+          {STAGES.map((st, idx) => {
+            const isActive = activeStage === idx;
+            return (
+              <button
+                key={st.step}
+                type="button"
+                onClick={() => handleSelect(idx)}
+                className={`group relative flex flex-col rounded-2xl p-5 text-left transition-all duration-300 border ${
+                  isActive
+                    ? "border-accent/50 bg-white shadow-soft"
+                    : "border-border-soft/70 bg-background/50 hover:bg-white/60 hover:border-border"
+                }`}
+              >
+                {isActive && (
+                  <motion.div
+                    layoutId="active-stage-line"
+                    className="absolute top-0 inset-x-6 h-[2.5px] rounded-full bg-accent"
+                    transition={{ type: "spring", stiffness: 300, damping: 28 }}
+                  />
+                )}
+
+                <div className="flex items-center justify-between">
+                  <span
+                    className={`text-sm font-bold transition-colors duration-200 ${
+                      isActive ? "text-accent" : "text-muted-soft"
+                    }`}
+                    style={{ fontFamily: "var(--font-heading)" }}
+                  >
+                    {st.step}
+                  </span>
+                  <span className="rounded-full bg-background/80 px-2.5 py-0.5 text-[10px] font-semibold text-muted-soft border border-border-soft/60">
+                    {st.tag}
+                  </span>
+                </div>
+
+                <h3
+                  className={`mt-2.5 text-[16px] font-semibold tracking-[-0.01em] transition-colors duration-200 ${
+                    isActive ? "text-foreground" : "text-foreground/75"
+                  }`}
+                >
+                  {st.title}
+                </h3>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* ── Grand Écran Cinématique Interactif (Canvas Réactif + Typo Pure) ── */}
+        <div
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          className="group relative h-[380px] sm:h-[440px] md:h-[480px] w-full overflow-hidden rounded-3xl border border-border-soft bg-white p-8 shadow-card flex flex-col justify-between"
+        >
+          {/* Canvas WebGL/2D interactif en arrière-plan */}
+          <canvas
+            ref={canvasRef}
+            className="absolute inset-0 h-full w-full cursor-crosshair transition-opacity duration-500"
           />
-        ))}
+
+          {/* Calque de profondeur & vignette douce */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-white via-transparent to-white/40 opacity-70" />
+
+          {/* Badge haut gauche */}
+          <div className="relative z-10 flex items-center justify-between">
+            <div className="flex items-center gap-2 rounded-full border border-border-soft/80 bg-white/80 px-3.5 py-1.5 backdrop-blur-md shadow-xs">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent/60 opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+              </span>
+              <span className="text-[11px] font-semibold tracking-wider text-accent uppercase">
+                {current.tag}
+              </span>
+            </div>
+
+            <span className="hidden sm:inline-block text-[11px] text-muted-soft">
+              Survolez les particules pour interagir
+            </span>
+          </div>
+
+          {/* Texte épuré & percutant au centre/bas */}
+          <div className="relative z-10 max-w-2xl">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={current.step}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                className="space-y-2"
+              >
+                <h3
+                  className="text-[22px] sm:text-[28px] md:text-[34px] font-semibold text-foreground tracking-tight"
+                  style={{ lineHeight: 1.15 }}
+                >
+                  {current.headline}
+                </h3>
+                <p className="text-[14px] sm:text-[16px] text-muted font-normal max-w-lg leading-relaxed">
+                  {current.caption}
+                </p>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
       </div>
     </section>
   );
