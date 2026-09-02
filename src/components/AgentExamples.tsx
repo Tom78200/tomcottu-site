@@ -270,14 +270,14 @@ export function AgentExamples() {
             >
               {scenario.title}
             </h3>
-            <div className="relative mt-6 aspect-[3/4] w-full max-w-[260px] self-center overflow-hidden rounded-2xl shadow-soft" style={{ background: "linear-gradient(160deg, var(--accent-soft), var(--background))" }}>
+            <div className="relative mt-6 aspect-[3/4] w-full max-w-[260px] self-center overflow-hidden rounded-2xl bg-white border border-border-soft shadow-xs">
               <Image
                 src={scenario.image}
                 alt={`Agent IA pour ${scenario.sector.toLowerCase()}`}
                 fill
                 quality={95}
                 sizes="260px"
-                className="object-contain object-bottom"
+                className="object-cover object-top"
               />
             </div>
             <span className="mt-4 flex h-9 w-9 items-center justify-center rounded-full border border-accent/10 text-accent/45">
