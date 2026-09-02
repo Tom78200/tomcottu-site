@@ -1,17 +1,186 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { useEffect, useRef, useState } from "react";
+import { motion, useInView, useReducedMotion } from "motion/react";
+
+/* ── MOTEUR CANVAS DE PARTICULES & COMÈTES DE LUMIÈRE (MOTION DESIGN VIDÉO) ── */
+function PhotonStreamCanvas() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d", { alpha: true });
+    if (!ctx) return;
+
+    let animId: number;
+    let w = (canvas.width = canvas.offsetWidth * window.devicePixelRatio || 1000);
+    let h = (canvas.height = canvas.offsetHeight * window.devicePixelRatio || 400);
+
+    const onResize = () => {
+      if (!canvas) return;
+      w = canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+      h = canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+    };
+    window.addEventListener("resize", onResize);
+
+    // Définition des rails de trajectoire de gauche vers le centre, puis du centre vers la droite
+    interface Comet {
+      progress: number;
+      speed: number;
+      pathIndex: number;
+      color: string;
+      trailLength: number;
+      size: number;
+    }
+
+    const comets: Comet[] = [];
+    const COMET_COUNT = 16;
+    const colors = ["#0077cd", "#00b4d8", "#10b981", "#3b82f6"];
+
+    for (let i = 0; i < COMET_COUNT; i++) {
+      comets.push({
+        progress: Math.random(),
+        speed: 0.004 + Math.random() * 0.005,
+        pathIndex: i % 6, // 4 entrées gauches, 2 sorties droites
+        color: colors[i % colors.length],
+        trailLength: 12 + Math.random() * 16,
+        size: 2.5 + Math.random() * 1.5,
+      });
+    }
+
+    const getBezierPoint = (
+      t: number,
+      p0: [number, number],
+      p1: [number, number],
+      p2: [number, number],
+      p3: [number, number]
+    ): [number, number] => {
+      const u = 1 - t;
+      const tt = t * t;
+      const uu = u * u;
+      const uuu = uu * u;
+      const ttt = tt * t;
+      const x = uuu * p0[0] + 3 * uu * t * p1[0] + 3 * u * tt * p2[0] + ttt * p3[0];
+      const y = uuu * p0[1] + 3 * uu * t * p1[1] + 3 * u * tt * p2[1] + ttt * p3[1];
+      return [x, y];
+    };
+
+    let time = 0;
+
+    const render = () => {
+      time += 0.02;
+      ctx.clearRect(0, 0, w, h);
+
+      const cx = w * 0.5;
+      const cy = h * 0.5;
+
+      // 4 points d'entrée à gauche
+      const leftInputs: [number, number][] = [
+        [w * 0.22, h * 0.2],
+        [w * 0.22, h * 0.4],
+        [w * 0.22, h * 0.6],
+        [w * 0.22, h * 0.8],
+      ];
+
+      // 2 points de sortie à droite
+      const rightOutputs: [number, number][] = [
+        [w * 0.78, h * 0.35],
+        [w * 0.78, h * 0.65],
+      ];
+
+      // ── DESSIN DES RAILS DE GUIDAGE LUMINEUX DE FOND ──
+      ctx.lineWidth = 1.5 * window.devicePixelRatio;
+      ctx.strokeStyle = "rgba(0, 119, 205, 0.12)";
+
+      // Rails de gauche -> centre
+      leftInputs.forEach(([lx, ly]) => {
+        ctx.beginPath();
+        ctx.moveTo(lx, ly);
+        ctx.bezierCurveTo(lx + (cx - lx) * 0.5, ly, cx - (cx - lx) * 0.4, cy, cx, cy);
+        ctx.stroke();
+      });
+
+      // Rails de centre -> droite
+      rightOutputs.forEach(([rx, ry]) => {
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.bezierCurveTo(cx + (rx - cx) * 0.4, cy, rx - (rx - cx) * 0.5, ry, rx, ry);
+        ctx.stroke();
+      });
+
+      // ── DESSIN DES COMÈTES & TRAÎNÉES DE PARTICULES ──
+      comets.forEach((c) => {
+        c.progress += c.speed;
+        if (c.progress > 1) c.progress = 0;
+
+        let pt: [number, number];
+
+        if (c.pathIndex < 4) {
+          // Entrée vers Centre
+          const [lx, ly] = leftInputs[c.pathIndex];
+          pt = getBezierPoint(
+            c.progress,
+            [lx, ly],
+            [lx + (cx - lx) * 0.5, ly],
+            [cx - (cx - lx) * 0.4, cy],
+            [cx, cy]
+          );
+        } else {
+          // Centre vers Sortie
+          const [rx, ry] = rightOutputs[c.pathIndex - 4];
+          pt = getBezierPoint(
+            c.progress,
+            [cx, cy],
+            [cx + (rx - cx) * 0.4, cy],
+            [rx - (rx - cx) * 0.5, ry],
+            [rx, ry]
+          );
+        }
+
+        // Dessin de la tête de comète avec lueur
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(pt[0], pt[1], c.size * window.devicePixelRatio, 0, Math.PI * 2);
+        ctx.fillStyle = c.color;
+        ctx.shadowColor = c.color;
+        ctx.shadowBlur = 12 * window.devicePixelRatio;
+        ctx.fill();
+        ctx.restore();
+      });
+
+      animId = requestAnimationFrame(render);
+    };
+
+    render();
+
+    return () => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener("resize", onResize);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="pointer-events-none absolute inset-0 hidden lg:block h-full w-full"
+    />
+  );
+}
 
 export function HowItWorks() {
   const reduce = useReducedMotion();
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(sectionRef, { once: true, amount: 0.15 });
 
   return (
     <section
       id="methode"
+      ref={sectionRef}
       aria-labelledby="methode-heading"
-      className="w-full px-5 pb-32 sm:px-10 md:pb-44 lg:px-16 overflow-hidden"
+      className="relative w-full px-5 pb-32 sm:px-10 md:pb-44 lg:px-16 overflow-hidden"
     >
-      {/* ── En-tête de section sobre ── */}
+      {/* ── En-tête de section ── */}
       <div className="mb-12 border-t border-border-soft pt-16 md:mb-16 md:pt-24">
         <div
           className="mb-3 text-base font-semibold text-foreground md:text-lg"
@@ -33,30 +202,39 @@ export function HowItWorks() {
         </h2>
       </div>
 
-      {/* ── Grand Schéma Panoramique Vivant (End-to-End Workflow) ── */}
-      <div className="relative mx-auto w-full max-w-6xl py-8 sm:py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-8 lg:gap-4">
-          {/* ── COLONNE GAUCHE : Sources & Canaux d'entrée ── */}
+      {/* ── GRAND STUDIO CINÉMATIQUE (MOTION DESIGN VIDÉO EN TEMPS RÉEL) ── */}
+      <div className="relative mx-auto w-full max-w-6xl py-6 sm:py-12">
+        {/* Canvas des flux de comètes laser lumineuses en arrière-plan */}
+        <PhotonStreamCanvas />
+
+        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 items-center gap-8 lg:gap-4">
+          {/* ── 1. COLONNE GAUCHE : Canaux Sources avec impulsions néon ── */}
           <div className="lg:col-span-3 flex flex-col gap-3.5">
-            <div className="mb-1 text-[11px] font-bold tracking-wider text-muted-soft uppercase">
-              1. Vos outils existants
+            <div className="flex items-center gap-2 mb-1">
+              <span className="h-2 w-2 rounded-full bg-accent animate-pulse" />
+              <span className="text-[11px] font-bold tracking-wider text-muted-soft uppercase">
+                1. Vos flux quotidiens
+              </span>
             </div>
 
             {[
-              { label: "Emails & Demandes", sub: "Gmail / Outlook", icon: "✉️" },
-              { label: "Ressaisie & Devis", sub: "CRM / ERP", icon: "📊" },
-              { label: "Messages & SAV", sub: "Slack / WhatsApp", icon: "💬" },
-              { label: "Bases internes", sub: "Notion / Drive", icon: "📁" },
+              { label: "Emails & Demandes", sub: "Gmail / Outlook", icon: "✉️", badge: "Live sync" },
+              { label: "Ressaisie & Devis", sub: "CRM / ERP", icon: "📊", badge: "Auto-fetch" },
+              { label: "Messages & SAV", sub: "Slack / WhatsApp", icon: "💬", badge: "Instantané" },
+              { label: "Bases documentaires", sub: "Notion / Drive", icon: "📁", badge: "Indexé" },
             ].map((item, i) => (
               <motion.div
                 key={item.label}
-                initial={reduce ? false : { opacity: 0, x: -20 }}
+                initial={reduce ? false : { opacity: 0, x: -24 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="group relative flex items-center justify-between rounded-2xl border border-border-soft bg-white p-3.5 shadow-xs transition-all duration-300 hover:border-accent/40 hover:shadow-md"
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+                className="group relative flex items-center justify-between overflow-hidden rounded-2xl border border-border-soft bg-white/95 p-3.5 shadow-xs backdrop-blur-md transition-all duration-300 hover:border-accent/40 hover:shadow-md"
               >
-                <div className="flex items-center gap-3">
+                {/* Lueur subtile de bordure au survol */}
+                <div className="absolute inset-0 bg-gradient-to-r from-accent/5 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+                <div className="relative flex items-center gap-3">
                   <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-background text-base border border-border-soft/60 shadow-xs">
                     {item.icon}
                   </span>
@@ -66,52 +244,48 @@ export function HowItWorks() {
                   </div>
                 </div>
 
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+                <span className="relative z-10 rounded-full bg-accent/10 px-2.5 py-0.5 text-[10px] font-semibold text-accent border border-accent/20">
+                  {item.badge}
                 </span>
               </motion.div>
             ))}
           </div>
 
-          {/* ── COLONNE CENTRALE : L'Agent Sur-Mesure & Circuits Connectés ── */}
-          <div className="lg:col-span-5 flex flex-col items-center justify-center py-6 lg:py-0 px-2 sm:px-6">
-            <div className="relative flex w-full flex-col items-center justify-center">
-              {/* Lignes de circuit vectorielles gauche */}
-              <div className="hidden lg:block absolute -left-12 inset-y-0 w-24 pointer-events-none">
-                <svg className="w-full h-full overflow-visible" viewBox="0 0 100 200" fill="none">
-                  <path d="M0 30 C 50 30, 50 100, 100 100" stroke="var(--color-accent)" strokeWidth="2" strokeDasharray="4 4" />
-                  <path d="M0 70 C 50 70, 50 100, 100 100" stroke="var(--color-accent)" strokeWidth="2.5" />
-                  <path d="M0 130 C 50 130, 50 100, 100 100" stroke="var(--color-accent)" strokeWidth="2.5" />
-                  <path d="M0 170 C 50 170, 50 100, 100 100" stroke="var(--color-accent)" strokeWidth="2" strokeDasharray="4 4" />
-                  {!reduce && (
-                    <motion.circle
-                      cx="0"
-                      cy="70"
-                      r="4"
-                      fill="var(--color-accent)"
-                      animate={{ cx: [0, 100], cy: [70, 100] }}
-                      transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-                    />
-                  )}
-                </svg>
-              </div>
+          {/* ── 2. COLONNE CENTRALE : Cœur Réacteur 3D Gyroscopique (L'Agent Sur-Mesure) ── */}
+          <div className="lg:col-span-6 flex flex-col items-center justify-center py-8 lg:py-0 px-2 sm:px-6">
+            <div className="relative flex flex-col items-center justify-center">
+              {/* Halos de lumière volumétrique d'arrière-plan */}
+              <div className="absolute -inset-10 bg-accent/10 rounded-full blur-3xl pointer-events-none" />
 
-              {/* Processeur / Cœur Central Agent */}
+              {/* Gyroscope Rotatif Vectoriel Extérieur */}
+              <motion.div
+                animate={reduce ? {} : { rotate: 360 }}
+                transition={{ duration: 24, repeat: Infinity, ease: "linear" }}
+                className="absolute h-64 w-64 rounded-full border border-dashed border-accent/30 pointer-events-none"
+              />
+
+              {/* Gyroscope Intérieur Inversé */}
+              <motion.div
+                animate={reduce ? {} : { rotate: -360 }}
+                transition={{ duration: 16, repeat: Infinity, ease: "linear" }}
+                className="absolute h-52 w-52 rounded-full border border-dotted border-accent/40 pointer-events-none"
+              />
+
+              {/* Boîtier Principal du Réacteur */}
               <motion.div
                 initial={reduce ? false : { scale: 0.9, opacity: 0 }}
                 whileInView={{ scale: 1, opacity: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className="relative z-10 flex flex-col items-center rounded-3xl border-2 border-accent bg-white p-7 sm:p-8 text-center shadow-xl w-full max-w-[280px]"
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                className="relative z-20 flex flex-col items-center rounded-3xl border-2 border-accent bg-white/95 p-7 sm:p-9 text-center shadow-2xl backdrop-blur-xl max-w-[300px]"
               >
-                {/* Anneau d'onde pulsante */}
+                {/* Onde de choc pulsante */}
                 <div className="relative flex h-20 w-20 items-center justify-center">
                   {!reduce && (
                     <motion.div
-                      animate={{ scale: [1, 1.35, 1], opacity: [0.35, 0, 0.35] }}
-                      transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                      className="absolute inset-0 rounded-2xl bg-accent"
+                      animate={{ scale: [1, 1.45, 1], opacity: [0.4, 0, 0.4] }}
+                      transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+                      className="absolute inset-0 rounded-2xl bg-accent blur-sm"
                     />
                   )}
                   <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl bg-accent text-accent-foreground shadow-accent">
@@ -122,69 +296,56 @@ export function HowItWorks() {
                   </div>
                 </div>
 
-                <span className="mt-4 text-[17px] font-bold text-foreground">
+                <span className="mt-4 text-[18px] font-bold text-foreground tracking-tight">
                   Agent IA Métier
                 </span>
-                <span className="mt-1 inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-0.5 text-[11px] font-bold text-emerald-700">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                  Règles & Garde-fous actifs
+                <span className="mt-1 inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-bold text-emerald-700 border border-emerald-200">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-ping" />
+                  Moteur temps réel actif
                 </span>
 
-                <div className="mt-5 w-full border-t border-border-soft/70 pt-3 flex items-center justify-between text-[11px] text-muted-soft">
-                  <span>Temps de réponse</span>
-                  <span className="font-bold text-foreground">&lt; 1 seconde</span>
+                <div className="mt-5 w-full border-t border-border-soft/70 pt-3 flex items-center justify-between text-[11px]">
+                  <span className="text-muted-soft">Temps de calcul</span>
+                  <span className="font-bold text-accent">&lt; 0.4 seconde</span>
                 </div>
               </motion.div>
-
-              {/* Lignes de circuit vectorielles droite */}
-              <div className="hidden lg:block absolute -right-12 inset-y-0 w-24 pointer-events-none">
-                <svg className="w-full h-full overflow-visible" viewBox="0 0 100 200" fill="none">
-                  <path d="M0 100 C 50 100, 50 45, 100 45" stroke="#10b981" strokeWidth="2.5" />
-                  <path d="M0 100 C 50 100, 50 155, 100 155" stroke="var(--color-accent)" strokeWidth="2.5" />
-                  {!reduce && (
-                    <motion.circle
-                      cx="0"
-                      cy="100"
-                      r="4"
-                      fill="#10b981"
-                      animate={{ cx: [0, 100], cy: [100, 45] }}
-                      transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
-                    />
-                  )}
-                </svg>
-              </div>
             </div>
           </div>
 
-          {/* ── COLONNE DROITE : Résultats & Actions Réelles ── */}
-          <div className="lg:col-span-4 flex flex-col gap-3.5">
-            <div className="mb-1 text-[11px] font-bold tracking-wider text-emerald-700 uppercase">
-              2. Actions traitées sans friction
+          {/* ── 3. COLONNE DROITE : Résultats Réels & Validations en Continu ── */}
+          <div className="lg:col-span-3 flex flex-col gap-3.5">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-[11px] font-bold tracking-wider text-emerald-700 uppercase">
+                2. Actions délivrées
+              </span>
             </div>
 
-            {/* Voie 1 : Exécution Automatique */}
+            {/* Voie 1 : Exécution Automatique avec Shimmer */}
             <motion.div
-              initial={reduce ? false : { opacity: 0, x: 20 }}
+              initial={reduce ? false : { opacity: 0, x: 24 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.15 }}
-              className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4 shadow-xs"
+              className="relative overflow-hidden rounded-2xl border border-emerald-200 bg-emerald-50/80 p-4 shadow-xs backdrop-blur-md"
             >
               <div className="flex items-center justify-between pb-2 border-b border-emerald-200/60">
                 <div className="flex items-center gap-2">
                   <span className="flex h-2 w-2 rounded-full bg-emerald-500" />
-                  <span className="text-xs font-bold text-emerald-900 uppercase tracking-wider">
+                  <span className="text-xs font-bold text-emerald-950 uppercase tracking-wider">
                     Autonome (90%)
                   </span>
                 </div>
-                <span className="text-[11px] font-bold text-emerald-700">Immédiat</span>
+                <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-800">
+                  Immédiat
+                </span>
               </div>
 
               <ul className="mt-3 space-y-2">
                 {[
-                  "Réponse SAV rédigée & personnalisée",
-                  "Devis généré & synchronisé dans l'ERP",
-                  "Emails triés et classés sans ressaisie",
+                  "Réponse SAV rédigée & envoyée",
+                  "Devis généré & loggé au CRM",
+                  "Ressaisies supprimées à 100%",
                 ].map((act) => (
                   <li key={act} className="flex items-center gap-2 text-xs font-medium text-emerald-950">
                     <span className="text-emerald-600 font-bold">✓</span>
@@ -194,13 +355,13 @@ export function HowItWorks() {
               </ul>
             </motion.div>
 
-            {/* Voie 2 : Validation Humaine Sécurisée */}
+            {/* Voie 2 : Validation Humaine Sécurisée 1-Clic */}
             <motion.div
-              initial={reduce ? false : { opacity: 0, x: 20 }}
+              initial={reduce ? false : { opacity: 0, x: 24 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.25 }}
-              className="rounded-2xl border border-accent/25 bg-accent/5 p-4 shadow-xs"
+              className="rounded-2xl border border-accent/25 bg-accent/5 p-4 shadow-xs backdrop-blur-md"
             >
               <div className="flex items-center justify-between pb-2 border-b border-accent/20">
                 <div className="flex items-center gap-2">
@@ -209,14 +370,16 @@ export function HowItWorks() {
                     Validation Humaine (10%)
                   </span>
                 </div>
-                <span className="text-[11px] font-bold text-accent">Sécurisé</span>
+                <span className="text-[10px] font-bold text-accent bg-white px-2 py-0.5 rounded-full border border-accent/20">
+                  Garde-fous
+                </span>
               </div>
 
               <div className="mt-3 flex items-center justify-between gap-3">
                 <p className="text-xs text-foreground/80 font-medium">
-                  Notification 1-clic sur Slack/Email pour les cas sensibles
+                  Notification 1-clic Slack/Email pour les cas sensibles
                 </p>
-                <span className="shrink-0 rounded-lg bg-accent px-2.5 py-1 text-[11px] font-bold text-white shadow-xs">
+                <span className="shrink-0 rounded-lg bg-accent px-3 py-1.5 text-xs font-bold text-white shadow-accent">
                   Valider
                 </span>
               </div>
