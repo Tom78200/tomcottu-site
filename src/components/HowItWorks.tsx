@@ -52,7 +52,32 @@ function ShieldCheckIcon() {
   );
 }
 
-/* ── NOYAU ORBE CIRCULAIRE 3D VIVANT (100% ROND, ZÉRO CARRÉ) ── */
+/* ── ICÔNE DE L'AGENT IA AUTONOME (CASQUE / BOT CYBERNÉTIQUE ÉPURÉ) ── */
+function AgentBotIcon() {
+  return (
+    <svg width="40" height="40" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+      {/* Antenne / Récepteur de données */}
+      <path d="M16 3v4" strokeWidth="2" />
+      <circle cx="16" cy="3" r="1.5" fill="currentColor" />
+
+      {/* Tête de l'Agent */}
+      <rect x="5" y="7" width="22" height="18" rx="6" strokeWidth="2" />
+
+      {/* Visière / Yeux de vision IA */}
+      <rect x="9" y="12" width="14" height="6" rx="3" fill="currentColor" fillOpacity="0.25" strokeWidth="1.6" />
+      <circle cx="12.5" cy="15" r="1.5" fill="currentColor" />
+      <circle cx="19.5" cy="15" r="1.5" fill="currentColor" />
+
+      {/* Capteurs latéraux d'intégration */}
+      <path d="M2 14v4M30 14v4" strokeWidth="2" />
+      
+      {/* Grille d'expression neutre */}
+      <path d="M13 21h6" strokeWidth="1.8" />
+    </svg>
+  );
+}
+
+/* ── NOYAU ORBE CIRCULAIRE 3D VIVANT (AGENT IA AUTONOME) ── */
 function Model3DAgentCore({ reduce }: { reduce: boolean | null }) {
   return (
     <div className="relative flex flex-col items-center justify-center py-2">
@@ -75,7 +100,7 @@ function Model3DAgentCore({ reduce }: { reduce: boolean | null }) {
           className="pointer-events-none absolute h-40 w-40 sm:h-44 sm:w-44 rounded-full border border-dotted border-accent/35"
         />
 
-        {/* 3. L'Orbe / Disque 3D Circulaire en Lévitation */}
+        {/* 3. L'Orbe 3D Circulaire en Lévitation */}
         <motion.div
           animate={
             reduce
@@ -102,17 +127,13 @@ function Model3DAgentCore({ reduce }: { reduce: boolean | null }) {
             />
           )}
 
-          {/* Cœur Sphérique Bleu avec Puce Vectorielle */}
+          {/* Cœur Sphérique Bleu avec l'Icône de l'Agent IA */}
           <div
             className="relative z-10 flex h-24 w-24 sm:h-28 sm:w-28 items-center justify-center rounded-full bg-gradient-to-br from-[#0088ea] via-[#0077cd] to-[#005fa6] text-white shadow-accent"
             style={{ transform: "translateZ(12px)" }}
           >
-            {/* Symbole IA Métier Vectoriel */}
-            <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="3" />
-              <path d="M12 2v3M12 19v3M2 12h3M19 12h3" />
-              <path d="m4.93 4.93 2.12 2.12M16.95 16.95l2.12 2.12M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12" />
-            </svg>
+            {/* Icône de l'Agent IA */}
+            <AgentBotIcon />
 
             {/* Reflet spéculaire lumineux courbé */}
             {!reduce && (
@@ -167,7 +188,7 @@ export function HowItWorks() {
         </h2>
       </div>
 
-      {/* ── GRAND WORKFLOW PANORAMIQUE VIVANT AVEC ORBE 3D CENTRAL (100% ROND) ── */}
+      {/* ── GRAND WORKFLOW PANORAMIQUE VIVANT AVEC ORBE AGENT IA ── */}
       <div className="relative mx-auto w-full max-w-6xl py-4 sm:py-8">
         {/* Câbles de connexion */}
         <div className="pointer-events-none absolute inset-0 hidden lg:block h-full w-full">
@@ -280,7 +301,7 @@ export function HowItWorks() {
             ))}
           </div>
 
-          {/* ── 2. COLONNE CENTRALE : Orbe 3D Circulaire (Agent IA) ── */}
+          {/* ── 2. COLONNE CENTRALE : Orbe 3D Agent IA ── */}
           <div className="lg:col-span-6 flex flex-col items-center justify-center py-6 lg:py-0 px-2 sm:px-6">
             <Model3DAgentCore reduce={reduce} />
           </div>
