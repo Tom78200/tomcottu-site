@@ -161,7 +161,7 @@ export function VideoSection() {
                 <circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="1.5" />
                 <polygon points="6 5 10 7 6 9 6 5" fill="currentColor" />
               </svg>
-              <span>Démo en direct — Traitement autonome d&apos;une demande</span>
+              <span>Présentation — Agent IA</span>
             </div>
 
             {/* Badge statut */}
