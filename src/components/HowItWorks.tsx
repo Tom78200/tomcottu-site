@@ -1,376 +1,373 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useInView, useReducedMotion } from "motion/react";
+import {
+  animate,
+  motion,
+  useInView,
+  useMotionValue,
+  useReducedMotion,
+  useTransform,
+  type MotionValue,
+} from "motion/react";
 
-/* ── MOTEUR CINÉMATIQUE PARTICULES & RAILS LUMINEUX (RENDU VIDÉO 60 FPS) ── */
-function VideoMotionCanvas({ isPlaying, speedMultiplier }: { isPlaying: boolean; speedMultiplier: number }) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+const steps = [
+  {
+    title: "Analyse de votre activité",
+    body: "Audit basé sur vos outils et process réels, pas un questionnaire générique.",
+  },
+  {
+    title: "Construction de l'agent",
+    body: "Développement sur-mesure connecté à vos logiciels, avec garde-fous stricts.",
+  },
+  {
+    title: "Affinage en conditions réelles",
+    body: "Ajustements continus tant que l'usage n'est pas parfait, garanti 14 jours.",
+  },
+];
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d", { alpha: true });
-    if (!ctx) return;
+const VIEW_W = 1200;
+const VIEW_H = 460;
 
-    let animId: number;
-    let w = (canvas.width = canvas.offsetWidth * window.devicePixelRatio || 1200);
-    let h = (canvas.height = canvas.offsetHeight * window.devicePixelRatio || 500);
+const NODES = [
+  { x: 210, y: 160, at: 0.06, placement: "above" as const },
+  { x: 600, y: 310, at: 0.5, placement: "below" as const },
+  { x: 990, y: 160, at: 0.85, placement: "above" as const },
+];
 
-    const onResize = () => {
-      if (!canvas) return;
-      w = canvas.width = canvas.offsetWidth * window.devicePixelRatio;
-      h = canvas.height = canvas.offsetHeight * window.devicePixelRatio;
-    };
-    window.addEventListener("resize", onResize);
+// Courbe continue 1 -> 2 -> 3
+const FULL_PATH = "M210,160 C 380,160 430,310 600,310 C 770,310 820,160 990,160";
 
-    interface LaserPacket {
-      progress: number;
-      speed: number;
-      pathIndex: number;
-      color: string;
-      size: number;
-    }
+function PathNode({
+  index,
+  node,
+  progress,
+  reduce,
+}: {
+  index: number;
+  node: (typeof NODES)[number];
+  progress: MotionValue<number>;
+  reduce: boolean | null;
+}) {
+  const range: [number, number] = [node.at - 0.12, node.at];
+  const background = useTransform(progress, range, ["#ffffff", "#0077cd"]);
+  const color = useTransform(progress, range, ["#00000059", "#ffffff"]);
+  const borderColor = useTransform(progress, range, ["#0000001f", "#0077cd"]);
+  
+  // Grossissement élastique au passage du courant
+  const scale = useTransform(
+    progress,
+    [node.at - 0.05, node.at, node.at + 0.08, node.at + 0.2],
+    [1, 1.35, 1.1, 1]
+  );
+  
+  // Ondes concentriques de dilatation
+  const ringScale = useTransform(
+    progress,
+    [node.at - 0.03, node.at + 0.18],
+    [0.7, 2.4]
+  );
+  const ringOpacity = useTransform(
+    progress,
+    [node.at - 0.03, node.at + 0.06, node.at + 0.18],
+    [0, 0.45, 0]
+  );
 
-    const packets: LaserPacket[] = [];
-    const PACKET_COUNT = 24;
-    const colors = ["#0077cd", "#00d2ff", "#10b981", "#3b82f6", "#06b6d4"];
-
-    for (let i = 0; i < PACKET_COUNT; i++) {
-      packets.push({
-        progress: Math.random(),
-        speed: (0.003 + Math.random() * 0.004) * speedMultiplier,
-        pathIndex: i % 6,
-        color: colors[i % colors.length],
-        size: 2.5 + Math.random() * 2,
-      });
-    }
-
-    const getBezierPoint = (
-      t: number,
-      p0: [number, number],
-      p1: [number, number],
-      p2: [number, number],
-      p3: [number, number]
-    ): [number, number] => {
-      const u = 1 - t;
-      const tt = t * t;
-      const uu = u * u;
-      const uuu = uu * u;
-      const ttt = tt * t;
-      const x = uuu * p0[0] + 3 * uu * t * p1[0] + 3 * u * tt * p2[0] + ttt * p3[0];
-      const y = uuu * p0[1] + 3 * uu * t * p1[1] + 3 * u * tt * p2[1] + ttt * p3[1];
-      return [x, y];
-    };
-
-    let time = 0;
-
-    const render = () => {
-      if (isPlaying) time += 0.02 * speedMultiplier;
-      ctx.clearRect(0, 0, w, h);
-
-      const cx = w * 0.5;
-      const cy = h * 0.48;
-
-      // 4 points d'entrée gauche
-      const inputs: [number, number][] = [
-        [w * 0.18, h * 0.22],
-        [w * 0.18, h * 0.38],
-        [w * 0.18, h * 0.58],
-        [w * 0.18, h * 0.76],
-      ];
-
-      // 2 points de sortie droite
-      const outputs: [number, number][] = [
-        [w * 0.82, h * 0.34],
-        [w * 0.82, h * 0.64],
-      ];
-
-      // Rails de guidage lumineux
-      ctx.lineWidth = 1.5 * window.devicePixelRatio;
-      ctx.strokeStyle = "rgba(0, 119, 205, 0.15)";
-
-      inputs.forEach(([lx, ly]) => {
-        ctx.beginPath();
-        ctx.moveTo(lx, ly);
-        ctx.bezierCurveTo(lx + (cx - lx) * 0.5, ly, cx - (cx - lx) * 0.4, cy, cx, cy);
-        ctx.stroke();
-      });
-
-      outputs.forEach(([rx, ry]) => {
-        ctx.beginPath();
-        ctx.moveTo(cx, cy);
-        ctx.bezierCurveTo(cx + (rx - cx) * 0.4, cy, rx - (rx - cx) * 0.5, ry, rx, ry);
-        ctx.stroke();
-      });
-
-      // Rendu des lasers de données
-      packets.forEach((p) => {
-        if (isPlaying) {
-          p.progress += p.speed;
-          if (p.progress > 1) p.progress = 0;
-        }
-
-        let pt: [number, number];
-
-        if (p.pathIndex < 4) {
-          const [lx, ly] = inputs[p.pathIndex];
-          pt = getBezierPoint(
-            p.progress,
-            [lx, ly],
-            [lx + (cx - lx) * 0.5, ly],
-            [cx - (cx - lx) * 0.4, cy],
-            [cx, cy]
-          );
-        } else {
-          const [rx, ry] = outputs[p.pathIndex - 4];
-          pt = getBezierPoint(
-            p.progress,
-            [cx, cy],
-            [cx + (rx - cx) * 0.4, cy],
-            [rx - (rx - cx) * 0.5, ry],
-            [rx, ry]
-          );
-        }
-
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(pt[0], pt[1], p.size * window.devicePixelRatio, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.shadowColor = p.color;
-        ctx.shadowBlur = 14 * window.devicePixelRatio;
-        ctx.fill();
-        ctx.restore();
-      });
-
-      animId = requestAnimationFrame(render);
-    };
-
-    render();
-
-    return () => {
-      cancelAnimationFrame(animId);
-      window.removeEventListener("resize", onResize);
-    };
-  }, [isPlaying, speedMultiplier]);
+  const ringScale2 = useTransform(
+    progress,
+    [node.at, node.at + 0.25],
+    [0.8, 3.2]
+  );
+  const ringOpacity2 = useTransform(
+    progress,
+    [node.at, node.at + 0.08, node.at + 0.25],
+    [0, 0.3, 0]
+  );
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="pointer-events-none absolute inset-0 h-full w-full"
-    />
+    <div
+      className="absolute"
+      style={{
+        left: `${(node.x / VIEW_W) * 100}%`,
+        top: `${(node.y / VIEW_H) * 100}%`,
+        transform: "translate(-50%, -50%)",
+        zIndex: 20,
+      }}
+    >
+      {!reduce && (
+        <>
+          {/* Onde 1 */}
+          <motion.span
+            aria-hidden="true"
+            className="absolute inset-0 rounded-full border-2 border-accent"
+            style={{ scale: ringScale, opacity: ringOpacity }}
+          />
+          {/* Onde 2 de dilatation large */}
+          <motion.span
+            aria-hidden="true"
+            className="absolute inset-0 rounded-full border border-accent/60"
+            style={{ scale: ringScale2, opacity: ringOpacity2 }}
+          />
+        </>
+      )}
+
+      <motion.div
+        className="flex h-16 w-16 items-center justify-center rounded-full border-2 text-[16px] font-bold shadow-md transition-colors"
+        style={
+          reduce
+            ? {
+                background: "#0077cd",
+                color: "#ffffff",
+                borderColor: "#0077cd",
+                fontFamily: "var(--font-heading)",
+              }
+            : {
+                background,
+                color,
+                borderColor,
+                scale,
+                fontFamily: "var(--font-heading)",
+              }
+        }
+      >
+        0{index + 1}
+      </motion.div>
+    </div>
   );
 }
 
 export function HowItWorks() {
   const reduce = useReducedMotion();
   const sectionRef = useRef<HTMLDivElement>(null);
+  const pathRef = useRef<SVGPathElement>(null);
+  const inView = useInView(sectionRef, { once: true, amount: 0.3 });
 
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [currentTime, setCurrentTime] = useState(0);
-  const totalDuration = 12; // 12 secondes de boucle
+  const progressMV = useMotionValue(0);
+  const dashOffset = useTransform(progressMV, [0, 1], [1, 0]);
 
-  // Horloge de lecture vidéo
+  // Le câble s'épaissit et pulse dynamiquement lors du mouvement de l'onde
+  const strokeWidth = useTransform(
+    progressMV,
+    [0, 0.06, 0.15, 0.5, 0.6, 0.85, 0.95, 1],
+    [5, 12, 6, 12, 6, 12, 6, 6]
+  );
+
+  // Lueur de dilatation du câble
+  const glowStrokeWidth = useTransform(
+    progressMV,
+    [0, 0.06, 0.15, 0.5, 0.6, 0.85, 0.95, 1],
+    [10, 26, 12, 26, 12, 26, 12, 10]
+  );
+  const glowOpacity = useTransform(
+    progressMV,
+    [0, 0.06, 0.15, 0.5, 0.6, 0.85, 0.95, 1],
+    [0.15, 0.5, 0.2, 0.5, 0.2, 0.5, 0.2, 0.15]
+  );
+
+  const tipOpacity = useTransform(progressMV, [0, 0.02, 0.97, 1], [0, 1, 1, 0]);
+  const [tip, setTip] = useState({ x: NODES[0].x, y: NODES[0].y });
+
   useEffect(() => {
-    if (!isPlaying) return;
-    const interval = setInterval(() => {
-      setCurrentTime((prev) => (prev + 0.1 >= totalDuration ? 0 : Number((prev + 0.1).toFixed(1))));
-    }, 100);
-    return () => clearInterval(interval);
-  }, [isPlaying]);
+    if (!inView) return;
+    if (reduce) {
+      progressMV.set(1);
+      const p = pathRef.current;
+      if (p) {
+        const pt = p.getPointAtLength(0.96 * p.getTotalLength());
+        setTip({ x: pt.x, y: pt.y });
+      }
+      return;
+    }
 
-  const formatTime = (time: number) => {
-    const mins = Math.floor(time / 60);
-    const secs = Math.floor(time % 60);
-    return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
-  };
-
-  const progressPercent = (currentTime / totalDuration) * 100;
+    const controls = animate(progressMV, 1, {
+      duration: 3.8,
+      ease: [0.25, 0.1, 0.25, 1],
+      onUpdate: (v) => {
+        const p = pathRef.current;
+        if (p) {
+          const pt = p.getPointAtLength(Math.min(v, 0.96) * p.getTotalLength());
+          setTip({ x: pt.x, y: pt.y });
+        }
+      },
+    });
+    return () => controls.stop();
+  }, [inView, reduce, progressMV]);
 
   return (
     <section
       id="methode"
-      ref={sectionRef}
       aria-labelledby="methode-heading"
-      className="relative w-full px-5 pb-32 sm:px-10 md:pb-44 lg:px-16 overflow-hidden"
+      className="w-full px-5 pb-32 sm:px-10 md:pb-44 lg:px-16"
     >
-      {/* ── En-tête de section ── */}
-      <div className="mb-10 border-t border-border-soft pt-16 md:mb-14 md:pt-24 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
-        <div>
-          <div
-            className="mb-3 text-base font-semibold text-foreground md:text-lg"
-            style={{ fontFamily: "var(--font-heading)" }}
-          >
-            Comment ça marche
-          </div>
-          <h2
-            id="methode-heading"
-            className="max-w-3xl font-medium text-foreground"
-            style={{
-              fontSize: "clamp(34px, 5vw, 60px)",
-              lineHeight: 1.08,
-              letterSpacing: "-0.03em",
-              textWrap: "balance",
-            } as React.CSSProperties}
-          >
-            Vos outils connectés. Vos tâches automatisées.
-          </h2>
+      {/* ── En-tête de section sobre & affirmé ── */}
+      <div className="mb-14 border-t border-border-soft pt-16 md:mb-20 md:pt-24">
+        <div
+          className="mb-4 text-base font-semibold text-foreground md:text-lg"
+          style={{ fontFamily: "var(--font-heading)" }}
+        >
+          Comment ça marche
         </div>
-
-        {/* Badge Live Motion Video */}
-        <div className="flex items-center gap-2 rounded-full border border-border-soft bg-white/90 px-3.5 py-1.5 shadow-xs">
-          <span className="relative flex h-2.5 w-2.5">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-500 opacity-75" />
-            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-red-500" />
-          </span>
-          <span className="text-xs font-bold text-foreground">DÉMO EN DIRECT 60 FPS</span>
-        </div>
+        <h2
+          id="methode-heading"
+          className="max-w-3xl font-medium text-foreground"
+          style={{
+            fontSize: "clamp(34px, 5vw, 60px)",
+            lineHeight: 1.08,
+            letterSpacing: "-0.03em",
+            textWrap: "balance",
+          } as React.CSSProperties}
+        >
+          Trois étapes, pas de blabla.
+        </h2>
       </div>
 
-      {/* ── GRAND MOCKUP LECTEUR VIDÉO STUDIO 16:9 (CINEMATIC MOTION VIDEO) ── */}
-      <div className="relative mx-auto w-full max-w-6xl overflow-hidden rounded-3xl border border-border-soft bg-[#fafaf9] p-3 sm:p-5 shadow-2xl">
-        {/* Cadre intérieur écran vidéo 16:9 */}
-        <div className="relative aspect-[16/10] sm:aspect-[16/9] w-full overflow-hidden rounded-2xl bg-white border border-border-soft/60 shadow-inner flex flex-col justify-between p-5 sm:p-8">
-          {/* ── Header Fenêtre Vidéo Studio ── */}
-          <div className="relative z-20 flex items-center justify-between pb-3 border-b border-border-soft/60">
-            <div className="flex items-center gap-2">
-              <span className="h-3 w-3 rounded-full bg-[#ff5f56] border border-black/10" />
-              <span className="h-3 w-3 rounded-full bg-[#ffbd2e] border border-black/10" />
-              <span className="h-3 w-3 rounded-full bg-[#27c93f] border border-black/10" />
-              <span className="ml-2 hidden sm:inline-block text-xs font-medium text-muted-soft">
-                Workflow-Live-Render.mp4
-              </span>
-            </div>
+      {/* ── Scène Panoramique Ouverte (Grande Courbe Continue Vivante) ── */}
+      <div ref={sectionRef}>
+        <div className="relative hidden h-[460px] lg:block">
+          <svg
+            viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
+            className="absolute inset-0 h-full w-full overflow-visible"
+            fill="none"
+            preserveAspectRatio="none"
+          >
+            {/* Câble inactif de fond */}
+            <path
+              d={FULL_PATH}
+              stroke="var(--border-soft)"
+              strokeWidth="4"
+              strokeLinecap="round"
+              vectorEffect="non-scaling-stroke"
+            />
 
-            <div className="flex items-center gap-3">
-              <span className="rounded-md bg-background px-2.5 py-1 text-[11px] font-bold text-muted-soft uppercase tracking-wider">
-                4K UHD
-              </span>
-              <span className="text-xs font-bold text-accent">
-                {formatTime(currentTime)} / {formatTime(totalDuration)}
-              </span>
-            </div>
-          </div>
+            {/* Onde de dilatation lumineuse volumétrique (Halo large qui grossit) */}
+            {!reduce && (
+              <motion.path
+                d={FULL_PATH}
+                stroke="#0077cd"
+                style={{
+                  strokeWidth: glowStrokeWidth,
+                  strokeDashoffset: dashOffset,
+                  opacity: glowOpacity,
+                  filter: "blur(6px)",
+                }}
+                strokeLinecap="round"
+                pathLength={1}
+                strokeDasharray="1"
+              />
+            )}
 
-          {/* ── SCÈNE CINÉMATIQUE ANIMÉE (LE CŒUR DE LA VIDÉO) ── */}
-          <div className="relative my-auto flex h-full w-full items-center justify-between">
-            {/* Canvas de flux laser en arrière-plan */}
-            <VideoMotionCanvas isPlaying={isPlaying} speedMultiplier={1} />
+            {/* Câble d'énergie principal bleu (Grossit et pulse en direct) */}
+            <motion.path
+              ref={pathRef}
+              d={FULL_PATH}
+              stroke="#0077cd"
+              style={{
+                strokeWidth: reduce ? 6 : strokeWidth,
+                strokeDashoffset: dashOffset,
+              }}
+              strokeLinecap="round"
+              pathLength={1}
+              strokeDasharray="1"
+            />
 
-            {/* Colonne Gauche : Outils sources */}
-            <div className="relative z-10 hidden sm:flex flex-col gap-2.5 max-w-[200px]">
-              {[
-                { label: "Emails", sub: "Gmail / Outlook", icon: "✉️" },
-                { label: "Factures & Devis", sub: "CRM / ERP", icon: "📊" },
-                { label: "Messages", sub: "WhatsApp / Slack", icon: "💬" },
-                { label: "Documents", sub: "Notion / Drive", icon: "📁" },
-              ].map((item) => (
-                <div
-                  key={item.label}
-                  className="flex items-center gap-2.5 rounded-xl border border-border-soft bg-white/95 p-2.5 shadow-xs backdrop-blur-md"
+            {/* Pointeur tête de câble de lumière */}
+            {!reduce && (
+              <motion.circle
+                cx={tip.x}
+                cy={tip.y}
+                r="10"
+                fill="#ffffff"
+                stroke="#0077cd"
+                strokeWidth="3"
+                style={{ opacity: tipOpacity, filter: "drop-shadow(0 0 8px #0077cd)" }}
+              />
+            )}
+          </svg>
+
+          {/* 3 Nœuds avec physique de dilatation */}
+          {NODES.map((node, i) => (
+            <PathNode
+              key={steps[i].title}
+              index={i}
+              node={node}
+              progress={progressMV}
+              reduce={reduce}
+            />
+          ))}
+
+          {/* 3 Textes épurés positionnés le long de la courbe */}
+          {NODES.map((node, i) => (
+            <div
+              key={`label-${steps[i].title}`}
+              className="absolute w-[18em] text-center"
+              style={{
+                left: `${(node.x / VIEW_W) * 100}%`,
+                top: `${(node.y / VIEW_H) * 100}%`,
+                transform:
+                  node.placement === "above"
+                    ? "translate(-50%, calc(-100% - 48px))"
+                    : "translate(-50%, 48px)",
+                zIndex: 10,
+              }}
+            >
+              <motion.div
+                initial={reduce ? false : { opacity: 0, y: node.placement === "above" ? -12 : 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{
+                  duration: 0.6,
+                  delay: reduce ? 0 : i * 0.15,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+              >
+                <h3 className="text-[20px] font-semibold tracking-[-0.02em] text-foreground">
+                  {steps[i].title}
+                </h3>
+                <p
+                  className="mt-2 text-[15px] text-muted leading-relaxed"
+                  style={{ textWrap: "pretty" }}
                 >
-                  <span className="text-sm">{item.icon}</span>
-                  <div className="text-left">
-                    <span className="text-xs font-bold text-foreground block">{item.label}</span>
-                    <span className="text-[10px] text-muted-soft">{item.sub}</span>
-                  </div>
-                </div>
-              ))}
+                  {steps[i].body}
+                </p>
+              </motion.div>
             </div>
+          ))}
+        </div>
 
-            {/* Cœur Central : Réacteur Gyroscopique 3D */}
-            <div className="relative z-10 mx-auto flex flex-col items-center justify-center">
-              <motion.div
-                animate={reduce || !isPlaying ? {} : { rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                className="absolute h-48 w-48 sm:h-60 sm:w-60 rounded-full border border-dashed border-accent/30 pointer-events-none"
-              />
-              <motion.div
-                animate={reduce || !isPlaying ? {} : { rotate: -360 }}
-                transition={{ duration: 14, repeat: Infinity, ease: "linear" }}
-                className="absolute h-36 w-36 sm:h-44 sm:w-44 rounded-full border border-dotted border-accent/40 pointer-events-none"
-              />
-
-              <div className="relative flex flex-col items-center rounded-3xl border-2 border-accent bg-white p-5 sm:p-7 text-center shadow-xl">
-                <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-accent text-accent-foreground shadow-accent">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <rect width="18" height="18" x="3" y="3" rx="2" />
-                    <path d="M9 8h6M9 12h6M9 16h4" />
-                  </svg>
-                </div>
-                <span className="mt-3 text-[16px] font-bold text-foreground">Agent IA Sur-mesure</span>
-                <span className="mt-0.5 text-[10px] font-semibold text-emerald-600">Calcul en temps réel</span>
-              </div>
-            </div>
-
-            {/* Colonne Droite : Sorties d'action */}
-            <div className="relative z-10 hidden sm:flex flex-col gap-3 max-w-[220px]">
-              <div className="rounded-xl border border-emerald-200 bg-emerald-50/90 p-3 text-left shadow-xs">
-                <span className="text-[10px] font-bold text-emerald-800 uppercase tracking-wider block">
-                  Autonome (90%)
-                </span>
-                <span className="text-xs font-semibold text-emerald-950 mt-1 block">
-                  Devis & SAV envoyés ✓
-                </span>
-              </div>
-
-              <div className="rounded-xl border border-accent/30 bg-accent/5 p-3 text-left shadow-xs">
-                <span className="text-[10px] font-bold text-accent uppercase tracking-wider block">
-                  Garde-fous (10%)
-                </span>
-                <span className="text-xs font-semibold text-foreground mt-1 block">
-                  Avis humain 1-clic 🛡️
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* ── Contrôles & Timeline Vidéo Intelligente ── */}
-          <div className="relative z-20 pt-3 border-t border-border-soft/60 flex flex-col gap-2.5">
-            {/* Barre de scrubbing timeline */}
-            <div className="relative h-1.5 w-full rounded-full bg-border-soft overflow-hidden cursor-pointer">
-              <motion.div
-                className="h-full bg-accent rounded-full"
-                style={{ width: `${progressPercent}%` }}
-              />
-            </div>
-
-            {/* Boutons de contrôle vidéo */}
-            <div className="flex items-center justify-between">
+        {/* ── Version Mobile ── */}
+        <div className="grid gap-8 sm:grid-cols-2 lg:hidden">
+          {steps.map((step, i) => (
+            <motion.div
+              key={step.title}
+              className="flex flex-col gap-2 rounded-2xl border border-border-soft bg-white p-6 shadow-xs"
+              initial={reduce ? false : { opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{
+                duration: 0.5,
+                delay: reduce ? 0 : i * 0.1,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+            >
               <div className="flex items-center gap-3">
-                <button
-                  type="button"
-                  onClick={() => setIsPlaying((p) => !p)}
-                  aria-label={isPlaying ? "Mettre en pause" : "Lire"}
-                  className="flex h-8 w-8 items-center justify-center rounded-full bg-accent text-white shadow-xs transition-transform active:scale-95"
+                <span
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-bold text-accent-foreground"
+                  style={{ fontFamily: "var(--font-heading)" }}
                 >
-                  {isPlaying ? (
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                      <rect width="6" height="18" x="4" y="3" rx="1.5" />
-                      <rect width="6" height="18" x="14" y="3" rx="1.5" />
-                    </svg>
-                  ) : (
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className="ml-0.5">
-                      <polygon points="5 3 19 12 5 21 5 3" />
-                    </svg>
-                  )}
-                </button>
-
-                <span className="text-xs font-semibold text-foreground">
-                  {isPlaying ? "Lecture vidéo en cours…" : "Vidéo en pause"}
+                  0{i + 1}
                 </span>
+                <h3 className="text-[18px] font-semibold tracking-[-0.02em] text-foreground">
+                  {step.title}
+                </h3>
               </div>
-
-              {/* 3 Chapitres Horodatés */}
-              <div className="hidden sm:flex items-center gap-4 text-xs font-medium text-muted-soft">
-                <span className={currentTime < 4 ? "text-accent font-bold" : ""}>01. Audit</span>
-                <span>•</span>
-                <span className={currentTime >= 4 && currentTime < 8 ? "text-accent font-bold" : ""}>02. Conception</span>
-                <span>•</span>
-                <span className={currentTime >= 8 ? "text-accent font-bold" : ""}>03. Production</span>
-              </div>
-            </div>
-          </div>
+              <p
+                className="mt-2 text-[14px] text-muted leading-relaxed"
+                style={{ textWrap: "pretty" }}
+              >
+                {step.body}
+              </p>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
