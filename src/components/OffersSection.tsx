@@ -93,21 +93,27 @@ export function OffersSection() {
         {offers.map((offer) => (
           <div
             key={offer.name}
-            className={`flex flex-col rounded-3xl bg-accent-soft p-8 sm:p-10 shadow-soft ${
-              offer.featured ? "ring-1 ring-accent/40 shadow-card" : ""
+            className={`flex flex-col rounded-3xl bg-white border border-border-soft p-7 sm:p-8 shadow-xs transition-all duration-300 hover:border-accent/40 hover:shadow-soft ${
+              offer.featured ? "ring-2 ring-accent border-accent/60 shadow-soft relative" : ""
             }`}
           >
+            {offer.featured && (
+              <span className="self-start rounded-full bg-accent/10 border border-accent/25 px-3 py-1 text-[11px] font-bold text-accent mb-4">
+                Le plus populaire
+              </span>
+            )}
+
             <h3
               className="font-medium text-foreground"
               style={{
-                fontSize: "clamp(22px, 2vw, 28px)",
+                fontSize: "clamp(22px, 2vw, 26px)",
                 lineHeight: 1.18,
                 letterSpacing: "-0.025em",
               }}
             >
               {offer.name}
             </h3>
-            <p className="mt-2 text-[15px] text-muted" style={{ lineHeight: 1.5 }}>
+            <p className="mt-2 text-[14px] text-muted" style={{ lineHeight: 1.5 }}>
               {offer.pitch}
             </p>
 
@@ -120,18 +126,18 @@ export function OffersSection() {
               </span>
               <span className="text-[14px] text-muted">installation</span>
             </div>
-            <div className="mt-1 text-[15px] text-foreground">
+            <div className="mt-1 text-[15px] font-medium text-foreground">
               + {offer.monthly}
             </div>
 
-            <ul className="mt-7 flex flex-col gap-3">
+            <ul className="mt-6 flex flex-col gap-3">
               {offer.items.map((item) => (
                 <li
                   key={item}
-                  className="flex gap-3 text-[15px] text-muted"
+                  className="flex gap-3 text-[14px] text-muted"
                   style={{ lineHeight: 1.5 }}
                 >
-                  <span className="mt-[3px] flex h-4 w-4 shrink-0 items-center justify-center rounded-full border border-accent/25 text-foreground">
+                  <span className="mt-[2px] flex h-4 w-4 shrink-0 items-center justify-center rounded-full border border-accent/25 text-foreground">
                     <svg
                       width="9"
                       height="9"
@@ -153,7 +159,7 @@ export function OffersSection() {
               ))}
             </ul>
 
-            <div className="mt-8 rounded-2xl bg-white/60 px-4 py-3 text-center text-[13px] text-muted">
+            <div className="mt-8 rounded-2xl bg-background border border-border-soft/60 px-4 py-2.5 text-center text-[13px] text-muted">
               Satisfait ou remboursé sous 14 jours
             </div>
 
@@ -165,7 +171,7 @@ export function OffersSection() {
               <ArrowIcon />
             </Link>
 
-            <p className="mt-4 text-center text-[13px] leading-snug text-muted">
+            <p className="mt-4 text-center text-[12px] leading-snug text-muted">
               Sans engagement. Vous gardez votre agent même si vous ne
               renouvelez pas l&apos;abonnement.
             </p>

@@ -223,7 +223,7 @@ export function Services() {
         </h2>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 md:gap-8">
+      <div className="grid gap-6 md:grid-cols-2 md:gap-7">
         {services.map((item, i) => (
           <motion.button
             key={item.title}
@@ -231,7 +231,7 @@ export function Services() {
             layoutId={`service-card-${i}`}
             onClick={() => setActiveIndex(i)}
             aria-expanded={activeIndex === i}
-            className={`group relative flex flex-col rounded-3xl bg-white p-8 text-left border border-border-soft shadow-soft transition-all duration-300 hover:border-border hover:shadow-card sm:p-10 md:p-12 ${styles.glowCard}`}
+            className={`group relative flex flex-col rounded-3xl bg-white p-6 text-left border border-border-soft shadow-soft transition-all duration-300 hover:border-border hover:shadow-card sm:p-7 md:p-8 ${styles.glowCard}`}
             initial={reduce ? false : { opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
@@ -241,14 +241,13 @@ export function Services() {
               ease: [0.16, 1, 0.3, 1],
             }}
           >
-            {/* Le visuel absorbe la différence de hauteur entre les cartes,
-                pour que numéro, titre et texte se calent au même niveau. */}
-            <div className="mb-8 flex flex-1 items-stretch md:min-h-[280px]">
+            {/* Visuel compact et soigné */}
+            <div className="mb-6 flex flex-1 items-stretch min-h-[160px] md:min-h-[180px]">
               <item.visual />
             </div>
 
             <div
-              className="mb-3 text-sm font-semibold text-muted-soft"
+              className="mb-2 text-xs font-semibold text-accent"
               style={{ fontFamily: "var(--font-heading)" }}
             >
               0{i + 1}
@@ -257,10 +256,10 @@ export function Services() {
             <div>
               <motion.h3
                 layoutId={`service-title-${i}`}
-                className="max-w-md font-medium text-foreground md:min-h-[2.36em]"
+                className="max-w-md font-medium text-foreground"
                 style={{
-                  fontSize: "clamp(24px, 2.4vw, 31px)",
-                  lineHeight: 1.18,
+                  fontSize: "clamp(20px, 2vw, 24px)",
+                  lineHeight: 1.2,
                   letterSpacing: "-0.025em",
                   textWrap: "pretty",
                 }}
@@ -268,14 +267,14 @@ export function Services() {
                 {item.title}
               </motion.h3>
               <p
-                className="mt-4 max-w-md text-[17px] text-muted md:min-h-[8em]"
-                style={{ lineHeight: 1.6 }}
+                className="mt-2.5 max-w-md text-[14px] sm:text-[15px] text-muted"
+                style={{ lineHeight: 1.55 }}
               >
                 {item.body}
               </p>
             </div>
 
-            <span className="mt-8 flex h-11 w-11 items-center justify-center rounded-full border border-border-soft bg-background text-foreground/60 shadow-sm transition-all duration-300 group-hover:border-foreground/30 group-hover:text-foreground">
+            <span className="mt-6 flex h-9 w-9 items-center justify-center rounded-full border border-border-soft bg-background text-foreground/60 shadow-xs transition-all duration-300 group-hover:border-foreground/30 group-hover:text-foreground">
               <PlusIcon />
             </span>
           </motion.button>
