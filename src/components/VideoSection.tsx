@@ -116,7 +116,7 @@ export function VideoSection() {
             textWrap: "balance",
           } as React.CSSProperties}
         >
-          Voyez un agent exécuter une mission de bout en bout.
+          Voyez comment l&apos;IA prend le relais sur votre quotidien.
         </h2>
       </div>
 
