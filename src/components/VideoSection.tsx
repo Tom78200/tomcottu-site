@@ -253,6 +253,7 @@ export function VideoSection() {
                       e.stopPropagation();
                       togglePlay();
                     }}
+                    aria-label={playing ? "Pause" : "Lecture"}
                     className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm transition-colors"
                   >
                     {playing ? (
