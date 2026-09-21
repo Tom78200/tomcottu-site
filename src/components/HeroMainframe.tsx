@@ -6,7 +6,7 @@ import { motion, useReducedMotion, useScroll, useTransform } from "motion/react"
 import { useTypewriter } from "@/hooks/useTypewriter";
 import styles from "./HeroMainframe.module.css";
 
-const IMAGE_URL = "/hero-image/imagetomsite.png";
+const IMAGE_URL = "/hero-image/imagetomsite.webp";
 const CTA_LABEL = "Cadrer mon diagnostic";
 const HERO_TITLE = "Des agents IA sur-mesure pour vous faire gagner du temps.";
 
