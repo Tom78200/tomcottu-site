@@ -1,628 +1,422 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { useState, useEffect, useRef } from "react";
 
-function MailIcon() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <rect width="20" height="16" x="2" y="4" rx="2" />
-      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-    </svg>
-  );
+interface Step {
+  id: number;
+  tag: string;
+  headline: string;
+  subheadline: string;
+  renderVisual: () => React.ReactNode;
 }
-
-function FileTextIcon() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
-      <path d="M14 2v4a2 2 0 0 0 2 2h4" />
-      <path d="M10 9H8" />
-      <path d="M16 13H8" />
-      <path d="M16 17H8" />
-    </svg>
-  );
-}
-
-function MessageSquareIcon() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-    </svg>
-  );
-}
-
-function DatabaseIcon() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <ellipse cx="12" cy="5" rx="9" ry="3" />
-      <path d="M3 5V19A9 3 0 0 0 21 19V5" />
-      <path d="M3 12A9 3 0 0 0 21 12" />
-    </svg>
-  );
-}
-
-function ShieldCheckIcon() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
-      <path d="m9 12 2 2 4-4" />
-    </svg>
-  );
-}
-
-/* ── NOYAU ORBE CIRCULAIRE 3D VIVANT (100% ROND, DESIGN ORIGINAL) ── */
-function Model3DAgentCore({ reduce }: { reduce: boolean | null }) {
-  return (
-    <div className="relative flex flex-col items-center justify-center py-2">
-      {/* Espace Scène Circulaire 3D */}
-      <div
-        className="relative flex h-48 w-48 sm:h-60 sm:w-60 items-center justify-center"
-        style={{ perspective: "1000px" }}
-      >
-        {/* 1. Anneau orbital extérieur en rotation continue douce */}
-        <motion.div
-          animate={reduce ? {} : { rotate: 360 }}
-          transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
-          className="pointer-events-none absolute h-44 w-44 sm:h-54 sm:w-54 rounded-full border border-dashed border-accent/30"
-        />
-
-        {/* 2. Anneau orbital intérieur en contre-rotation */}
-        <motion.div
-          animate={reduce ? {} : { rotate: -360 }}
-          transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-          className="pointer-events-none absolute h-34 w-34 sm:h-42 sm:w-42 rounded-full border border-dotted border-accent/40"
-        />
-
-        {/* 3. L'Orbe / Disque 3D Circulaire en Lévitation */}
-        <motion.div
-          animate={
-            reduce
-              ? {}
-              : {
-                  y: [-6, 6, -6],
-                  rotateY: [-5, 5, -5],
-                  rotateX: [3, -3, 3],
-                }
-          }
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          className="relative flex h-32 w-32 sm:h-38 sm:w-38 items-center justify-center rounded-full border-2 border-accent/80 bg-white p-2.5 sm:p-3 shadow-2xl"
-          style={{
-            transformStyle: "preserve-3d",
-            boxShadow: "0 20px 40px -12px rgba(0, 119, 205, 0.25), 0 0 0 1px rgba(0, 119, 205, 0.1)",
-          }}
-        >
-          {/* Onde de respiration circulaire */}
-          {!reduce && (
-            <motion.div
-              animate={{ scale: [1, 1.18, 1], opacity: [0.25, 0.05, 0.25] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute inset-1.5 rounded-full bg-accent"
-            />
-          )}
-
-          {/* Cœur Sphérique Bleu avec Puce Vectorielle */}
-          <div
-            className="relative z-10 flex h-22 w-22 sm:h-26 sm:w-26 items-center justify-center rounded-full bg-gradient-to-br from-[#0088ea] via-[#0077cd] to-[#005fa6] text-white shadow-accent overflow-hidden"
-            style={{ transform: "translateZ(12px)" }}
-          >
-            {/* Symbole IA Métier Vectoriel */}
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="sm:w-9 sm:h-9">
-              <circle cx="12" cy="12" r="3" />
-              <path d="M12 2v3M12 19v3M2 12h3M19 12h3" />
-              <path d="m4.93 4.93 2.12 2.12M16.95 16.95l2.12 2.12M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12" />
-            </svg>
-
-            {/* Reflet spéculaire lumineux courbé */}
-            {!reduce && (
-              <motion.div
-                animate={{ x: [-45, 65] }}
-                transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut", repeatDelay: 1 }}
-                className="pointer-events-none absolute inset-0 rounded-full -skew-x-12 bg-gradient-to-r from-transparent via-white/40 to-transparent"
-              />
-            )}
-          </div>
-        </motion.div>
-      </div>
-
-      {/* Titre sous l'orbe 3D */}
-      <span className="mt-1 text-sm sm:text-[15px] font-semibold text-foreground tracking-tight">
-        Agent IA Métier
-      </span>
-    </div>
-  );
-}
-
-const inputTools = [
-  {
-    label: "Emails & Demandes",
-    icon: <MailIcon />,
-    colorStyle: "bg-rose-50 text-rose-600 border-rose-200/80",
-    dot: "bg-rose-500",
-  },
-  {
-    label: "Ressaisie & Devis",
-    icon: <FileTextIcon />,
-    colorStyle: "bg-amber-50 text-amber-600 border-amber-200/80",
-    dot: "bg-amber-500",
-  },
-  {
-    label: "Messages & SAV",
-    icon: <MessageSquareIcon />,
-    colorStyle: "bg-emerald-50 text-emerald-600 border-emerald-200/80",
-    dot: "bg-emerald-500",
-  },
-  {
-    label: "Bases documentaires",
-    icon: <DatabaseIcon />,
-    colorStyle: "bg-violet-50 text-violet-600 border-violet-200/80",
-    dot: "bg-violet-500",
-  },
-];
 
 export function HowItWorks() {
-  const reduce = useReducedMotion();
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const steps: Step[] = [
+    {
+      id: 1,
+      tag: "Étape 01 • Connexion",
+      headline: "Vos outils connectés. Zéro changement d'habitude.",
+      subheadline:
+        "L'agent se branche directement sur vos boîtes mails, CRM, ERP, messageries et documents sans perturber vos équipes.",
+      renderVisual: () => (
+        <div className="relative w-full max-w-[580px] rounded-[22px] border-[5px] sm:border-[7px] border-[#1d1d1f] bg-white p-4 sm:p-6 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.12)]">
+          {/* Barre de statut style tablette Apple */}
+          <div className="flex items-center justify-between border-b border-black/[0.06] pb-3 mb-4 text-[11px] font-medium text-black/50">
+            <span className="font-semibold text-foreground">9:41</span>
+            <div className="flex items-center gap-2">
+              <span className="inline-block h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-emerald-600">
+                4 connecteurs actifs
+              </span>
+            </div>
+            <div className="flex items-center gap-1.5 text-xs text-foreground/70">
+              <span>5G</span>
+              <span>100%</span>
+            </div>
+          </div>
+
+          {/* Grille des outils connectés */}
+          <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
+            <div className="rounded-xl border border-black/[0.06] bg-neutral-50/80 p-3 transition-colors hover:bg-neutral-100/60">
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-rose-500/10 text-rose-600 text-xs font-bold">
+                  ✉️
+                </span>
+                <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-[9px] font-bold text-emerald-600 uppercase">
+                  Actif
+                </span>
+              </div>
+              <p className="text-xs font-semibold text-foreground">Boîtes Mails</p>
+              <p className="text-[11px] text-black/50 truncate">Gmail, Outlook</p>
+            </div>
+
+            <div className="rounded-xl border border-black/[0.06] bg-neutral-50/80 p-3 transition-colors hover:bg-neutral-100/60">
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-500/10 text-blue-600 text-xs font-bold">
+                  📊
+                </span>
+                <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-[9px] font-bold text-emerald-600 uppercase">
+                  Sync
+                </span>
+              </div>
+              <p className="text-xs font-semibold text-foreground">CRM & Données</p>
+              <p className="text-[11px] text-black/50 truncate">HubSpot, Pipedrive</p>
+            </div>
+
+            <div className="rounded-xl border border-black/[0.06] bg-neutral-50/80 p-3 transition-colors hover:bg-neutral-100/60">
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600 text-xs font-bold">
+                  💬
+                </span>
+                <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-[9px] font-bold text-emerald-600 uppercase">
+                  24/7
+                </span>
+              </div>
+              <p className="text-xs font-semibold text-foreground">Messageries</p>
+              <p className="text-[11px] text-black/50 truncate">WhatsApp, Slack</p>
+            </div>
+
+            <div className="rounded-xl border border-black/[0.06] bg-neutral-50/80 p-3 transition-colors hover:bg-neutral-100/60">
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-violet-500/10 text-violet-600 text-xs font-bold">
+                  📁
+                </span>
+                <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-[9px] font-bold text-emerald-600 uppercase">
+                  Indexé
+                </span>
+              </div>
+              <p className="text-xs font-semibold text-foreground">ERP & Documents</p>
+              <p className="text-[11px] text-black/50 truncate">Notion, Pennylane</p>
+            </div>
+          </div>
+
+          <div className="mt-3.5 flex items-center justify-between pt-2.5 border-t border-black/[0.05] text-[11px] text-black/50">
+            <span>Déploiement en 24h à 48h</span>
+            <span className="font-semibold text-foreground">Aucune migration requise</span>
+          </div>
+        </div>
+      ),
+    },
+    {
+      id: 2,
+      tag: "Étape 02 • Analyse Métier",
+      headline: "Un moteur IA qui comprend votre entreprise.",
+      subheadline:
+        "L'agent lit les demandes, applique vos règles de tarification et prépare le travail avec une précision absolue.",
+      renderVisual: () => (
+        <div className="relative w-full max-w-[580px] rounded-[22px] border-[5px] sm:border-[7px] border-[#1d1d1f] bg-white p-4 sm:p-6 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.12)]">
+          {/* Barre supérieure tablette */}
+          <div className="flex items-center justify-between border-b border-black/[0.06] pb-3 mb-3 text-[11px] font-medium text-black/50">
+            <span className="font-semibold text-foreground">9:41</span>
+            <div className="flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-accent" />
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-accent">
+                Analyse & Décision IA
+              </span>
+            </div>
+            <span className="rounded-full bg-accent/10 px-2 py-0.5 text-[10px] font-semibold text-accent">
+              1.2s
+            </span>
+          </div>
+
+          {/* Demande entrante */}
+          <div className="rounded-xl border border-black/[0.06] bg-neutral-50/80 p-3 mb-2.5">
+            <div className="flex items-center justify-between text-[11px] text-black/50 mb-1">
+              <span className="font-semibold text-foreground">Email entrant analysé</span>
+              <span>Reçu il y a 2 min</span>
+            </div>
+            <p className="text-xs text-foreground/85 font-medium leading-relaxed">
+              « Bonjour Tom, besoin d'automatiser le tri de nos devis et commandes sous Pennylane & HubSpot. Pouvez-vous nous chiffrer ça ? »
+            </p>
+          </div>
+
+          {/* Étapes d'analyse */}
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between rounded-lg bg-emerald-50/80 px-3 py-1.5 text-xs border border-emerald-100">
+              <div className="flex items-center gap-2">
+                <span className="text-emerald-600 font-bold text-xs">✓</span>
+                <span className="text-foreground font-medium text-[11px] sm:text-xs">Extraction du besoin & volume</span>
+              </div>
+              <span className="text-[10px] font-bold text-emerald-700">100% Qualifié</span>
+            </div>
+
+            <div className="flex items-center justify-between rounded-lg bg-emerald-50/80 px-3 py-1.5 text-xs border border-emerald-100">
+              <div className="flex items-center gap-2">
+                <span className="text-emerald-600 font-bold text-xs">✓</span>
+                <span className="text-foreground font-medium text-[11px] sm:text-xs">Grille tarifaire & règles appliquées</span>
+              </div>
+              <span className="text-[10px] font-bold text-emerald-700">Conforme</span>
+            </div>
+
+            <div className="flex items-center justify-between rounded-lg bg-blue-50/80 px-3 py-1.5 text-xs border border-blue-100">
+              <div className="flex items-center gap-2">
+                <span className="text-accent font-bold text-xs">➔</span>
+                <span className="text-foreground font-medium text-[11px] sm:text-xs">Brouillon de devis & réponse rédigés</span>
+              </div>
+              <span className="text-[10px] font-bold text-accent">Prêt</span>
+            </div>
+          </div>
+        </div>
+      ),
+    },
+    {
+      id: 3,
+      tag: "Étape 03 • Exécution & Contrôle",
+      headline: "90% d'autonomie. 100% sous votre contrôle.",
+      subheadline:
+        "Les opérations courantes sont traitées immédiatement. Vous gardez la main sur les validations sensibles.",
+      renderVisual: () => (
+        <div className="relative w-full max-w-[580px] rounded-[22px] border-[5px] sm:border-[7px] border-[#1d1d1f] bg-white p-4 sm:p-6 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.12)]">
+          {/* Barre supérieure tablette */}
+          <div className="flex items-center justify-between border-b border-black/[0.06] pb-3 mb-3 text-[11px] font-medium text-black/50">
+            <span className="font-semibold text-foreground">9:41</span>
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-black/60">
+              Orchestration finale
+            </span>
+            <span className="text-[10px] font-semibold text-emerald-600">En ligne</span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
+            {/* Colonne Autonome */}
+            <div className="rounded-xl border border-emerald-200/70 bg-emerald-50/40 p-3">
+              <div className="flex items-center gap-1.5 pb-1.5 mb-2 border-b border-emerald-200/50">
+                <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                <span className="text-[11px] font-bold text-foreground uppercase tracking-wider">
+                  Autonome (90%)
+                </span>
+              </div>
+              <ul className="space-y-1.5 text-[11px] text-foreground/80">
+                <li className="flex items-start gap-1.5">
+                  <span className="text-emerald-600 font-bold shrink-0">✓</span>
+                  <span>Réponses rédigées & envoyées</span>
+                </li>
+                <li className="flex items-start gap-1.5">
+                  <span className="text-emerald-600 font-bold shrink-0">✓</span>
+                  <span>CRM mis à jour automatiquement</span>
+                </li>
+                <li className="flex items-start gap-1.5">
+                  <span className="text-emerald-600 font-bold shrink-0">✓</span>
+                  <span>Zéro tâche manuelle le soir</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Colonne Validation */}
+            <div className="flex flex-col justify-between rounded-xl border border-accent/25 bg-blue-50/40 p-3">
+              <div>
+                <div className="flex items-center gap-1.5 pb-1.5 mb-2 border-b border-accent/20">
+                  <span className="h-2 w-2 rounded-full bg-accent" />
+                  <span className="text-[11px] font-bold text-foreground uppercase tracking-wider">
+                    Validation (10%)
+                  </span>
+                </div>
+                <p className="text-[11px] text-foreground/80 font-medium leading-relaxed">
+                  Sur les devis stratégiques ou litiges, notification instantanée prête à valider.
+                </p>
+              </div>
+
+              <div className="mt-2.5 pt-2 border-t border-accent/15 flex items-center justify-between">
+                <span className="text-[10px] text-black/50">Alerte Slack / SMS</span>
+                <span className="rounded-full bg-accent px-2.5 py-0.5 text-[10px] font-semibold text-white shadow-xs">
+                  Valider en 1 clic
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-3 text-center">
+            <span className="text-[10px] text-black/45">
+              Vos équipes gardent la décision finale sur les dossiers stratégiques.
+            </span>
+          </div>
+        </div>
+      ),
+    },
+  ];
+
+  // Défilement fluide vers une slide
+  const scrollToSlide = (index: number) => {
+    if (!scrollContainerRef.current) return;
+    const container = scrollContainerRef.current;
+    const card = container.children[index] as HTMLElement;
+    if (card) {
+      container.scrollTo({
+        left: card.offsetLeft - container.offsetLeft,
+        behavior: "smooth",
+      });
+      setActiveIndex(index);
+    }
+  };
+
+  // Auto-play avec intervalle
+  useEffect(() => {
+    if (!isPlaying) {
+      if (timerRef.current) clearInterval(timerRef.current);
+      return;
+    }
+
+    timerRef.current = setInterval(() => {
+      setActiveIndex((prev) => {
+        const next = (prev + 1) % steps.length;
+        scrollToSlide(next);
+        return next;
+      });
+    }, 5500);
+
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [isPlaying, steps.length]);
+
+  // Synchronisation du scroll tactile/molette avec l'index actif
+  const handleScroll = () => {
+    if (!scrollContainerRef.current) return;
+    const container = scrollContainerRef.current;
+    const scrollPosition = container.scrollLeft + container.clientWidth / 3;
+
+    for (let i = 0; i < steps.length; i++) {
+      const card = container.children[i] as HTMLElement;
+      if (card) {
+        const cardStart = card.offsetLeft - container.offsetLeft;
+        const cardEnd = cardStart + card.clientWidth;
+        if (scrollPosition >= cardStart && scrollPosition < cardEnd) {
+          if (activeIndex !== i) setActiveIndex(i);
+          break;
+        }
+      }
+    }
+  };
+
+  const handleSelect = (idx: number) => {
+    scrollToSlide(idx);
+  };
+
+  const togglePlay = () => {
+    setIsPlaying((prev) => !prev);
+  };
 
   return (
     <section
       id="methode"
-      ref={sectionRef}
       aria-labelledby="methode-heading"
-      className="relative w-full px-5 pb-32 sm:px-10 md:pb-44 lg:px-16 overflow-hidden"
+      className="relative w-full px-5 py-20 sm:px-10 md:py-28 lg:px-16 overflow-hidden bg-background"
     >
-      {/* ── En-tête de section ── */}
-      <div className="mb-12 border-t border-border-soft pt-16 md:mb-16 md:pt-24">
-        <div
-          className="mb-3 text-base font-semibold text-foreground md:text-lg"
-          style={{ fontFamily: "var(--font-heading)" }}
-        >
-          Comment ça marche
+      {/* ── En-tête de section Apple-style ── */}
+      <div className="mx-auto max-w-7xl mb-8 md:mb-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-t border-border-soft pt-12 md:pt-16">
+          <div>
+            <span className="text-xs md:text-sm font-semibold text-accent uppercase tracking-wider block mb-2">
+              Comment ça marche
+            </span>
+            <h2
+              id="methode-heading"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-[54px] font-semibold text-foreground tracking-tight leading-[1.08]"
+              style={{ fontFamily: "var(--font-heading)" }}
+            >
+              Points forts.
+            </h2>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <a
+              href="#contact"
+              className="group inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-accent hover:text-accent-hover transition-colors"
+            >
+              <span>Échanger sur vos process</span>
+              <span className="transition-transform group-hover:translate-x-0.5">→</span>
+            </a>
+          </div>
         </div>
-        <h2
-          id="methode-heading"
-          className="max-w-3xl font-medium text-foreground"
-          style={{
-            fontSize: "clamp(34px, 5vw, 60px)",
-            lineHeight: 1.08,
-            letterSpacing: "-0.03em",
-            textWrap: "balance",
-          } as React.CSSProperties}
-        >
-          Vos outils connectés. Vos tâches automatisées.
-        </h2>
       </div>
 
-      {/* ═════════════════════════════════════════════════════════════════════ */}
-      {/* ── 1. VERSION MOBILE DÉDIÉE (< lg) : FLUX VERTICAL LASER ANIMÉ ──── */}
-      {/* ═════════════════════════════════════════════════════════════════════ */}
-      <div className="block lg:hidden w-full max-w-md mx-auto">
-        {/* Étape 1 : Les 4 outils d'entrée */}
-        <div className="flex items-center gap-2 mb-2">
-          <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-          <span className="text-[11px] font-bold tracking-wider text-muted uppercase" style={{ fontFamily: "var(--font-heading)" }}>
-            Vos outils existants
-          </span>
-        </div>
-
-        <div className="grid grid-cols-2 gap-2">
-          {inputTools.map((item) => (
+      {/* ── Conteneur de carrousel avec effet de dépassement (Peek) façon Apple ── */}
+      <div className="relative mx-auto max-w-7xl">
+        <div
+          ref={scrollContainerRef}
+          onScroll={handleScroll}
+          className="flex gap-4 sm:gap-6 overflow-x-auto pb-4 scroll-smooth snap-x snap-mandatory [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
+          {steps.map((step, idx) => (
             <div
-              key={item.label}
-              className="flex items-center gap-2 rounded-xl border border-border-soft bg-white p-2.5 shadow-xs"
+              key={step.id}
+              className="w-[88vw] sm:w-[80vw] lg:w-[76vw] max-w-[960px] shrink-0 snap-start"
             >
-              <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border ${item.colorStyle}`}>
-                {item.icon}
-              </span>
-              <span className="text-[11px] font-semibold text-foreground leading-tight truncate">
-                {item.label}
-              </span>
+              <div className="relative flex flex-col justify-between rounded-[28px] sm:rounded-[36px] bg-[#f5f5f7] p-6 sm:p-10 md:p-12 min-h-[520px] md:min-h-[580px] border border-black/[0.04] transition-all">
+                {/* Textes en haut façon Apple Highlights */}
+                <div className="mx-auto max-w-2xl text-center mb-6 md:mb-8">
+                  <span className="inline-block text-xs font-semibold uppercase tracking-wider text-accent mb-2">
+                    {step.tag}
+                  </span>
+                  <h3
+                    className="text-xl sm:text-2xl md:text-3xl lg:text-[32px] font-semibold text-foreground tracking-tight leading-snug"
+                    style={{ fontFamily: "var(--font-heading)" }}
+                  >
+                    {step.headline}
+                  </h3>
+                  <p className="mt-2 text-sm sm:text-base text-muted font-normal leading-relaxed max-w-xl mx-auto">
+                    {step.subheadline}
+                  </p>
+                </div>
+
+                {/* Visuel central façon produit Apple */}
+                <div className="w-full flex-1 flex items-center justify-center my-auto">
+                  {step.renderVisual()}
+                </div>
+              </div>
             </div>
           ))}
         </div>
 
-        {/* ── 4 CÂBLES LASER COURBES DE CONVERGENCE VERTICALE ── */}
-        <div className="w-full my-[-2px] overflow-visible">
-          <svg className="w-full h-16 overflow-visible" viewBox="0 0 360 64" fill="none" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="mCablePulseRed" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#ea4335" stopOpacity="0" />
-                <stop offset="50%" stopColor="#ea4335" stopOpacity="0.9" />
-                <stop offset="100%" stopColor="#ea4335" stopOpacity="0" />
-              </linearGradient>
-              <linearGradient id="mCablePulseAmber" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#f59e0b" stopOpacity="0" />
-                <stop offset="50%" stopColor="#f59e0b" stopOpacity="0.9" />
-                <stop offset="100%" stopColor="#f59e0b" stopOpacity="0" />
-              </linearGradient>
-              <linearGradient id="mCablePulseEmerald" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#10b981" stopOpacity="0" />
-                <stop offset="50%" stopColor="#10b981" stopOpacity="0.9" />
-                <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
-              </linearGradient>
-              <linearGradient id="mCablePulseViolet" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0" />
-                <stop offset="50%" stopColor="#8b5cf6" stopOpacity="0.9" />
-                <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-
-            {/* Tracé 1 : Rouge */}
-            <path d="M 45 0 C 45 35, 180 25, 180 64" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
-            {!reduce && (
-              <motion.path
-                d="M 45 0 C 45 35, 180 25, 180 64"
-                stroke="url(#mCablePulseRed)"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeDasharray="40 90"
-                animate={{ strokeDashoffset: [0, -130] }}
-                transition={{ duration: 2.2, repeat: Infinity, ease: "linear" }}
-              />
-            )}
-
-            {/* Tracé 2 : Ambre */}
-            <path d="M 135 0 C 135 30, 180 30, 180 64" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
-            {!reduce && (
-              <motion.path
-                d="M 135 0 C 135 30, 180 30, 180 64"
-                stroke="url(#mCablePulseAmber)"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeDasharray="40 90"
-                animate={{ strokeDashoffset: [0, -130] }}
-                transition={{ duration: 2.4, repeat: Infinity, ease: "linear", delay: 0.5 }}
-              />
-            )}
-
-            {/* Tracé 3 : Émeraude */}
-            <path d="M 225 0 C 225 30, 180 30, 180 64" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
-            {!reduce && (
-              <motion.path
-                d="M 225 0 C 225 30, 180 30, 180 64"
-                stroke="url(#mCablePulseEmerald)"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeDasharray="40 90"
-                animate={{ strokeDashoffset: [0, -130] }}
-                transition={{ duration: 2.3, repeat: Infinity, ease: "linear", delay: 1.1 }}
-              />
-            )}
-
-            {/* Tracé 4 : Violet */}
-            <path d="M 315 0 C 315 35, 180 25, 180 64" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
-            {!reduce && (
-              <motion.path
-                d="M 315 0 C 315 35, 180 25, 180 64"
-                stroke="url(#mCablePulseViolet)"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeDasharray="40 90"
-                animate={{ strokeDashoffset: [0, -130] }}
-                transition={{ duration: 2.5, repeat: Infinity, ease: "linear", delay: 1.6 }}
-              />
-            )}
-          </svg>
-        </div>
-
-        {/* Étape 2 : Cœur Agent IA en Lévitation */}
-        <div className="flex flex-col items-center justify-center py-1">
-          <Model3DAgentCore reduce={reduce} />
-        </div>
-
-        {/* ── 2 CÂBLES LASER COURBES DE DIVERGENCE VERTICALE ── */}
-        <div className="w-full my-[-2px] overflow-visible">
-          <svg className="w-full h-16 overflow-visible" viewBox="0 0 360 64" fill="none" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="mCablePulseRightEmerald" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#10b981" stopOpacity="0" />
-                <stop offset="50%" stopColor="#10b981" stopOpacity="0.9" />
-                <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
-              </linearGradient>
-              <linearGradient id="mCablePulseRightBlue" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="var(--accent)" stopOpacity="0" />
-                <stop offset="50%" stopColor="var(--accent)" stopOpacity="0.9" />
-                <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-
-            {/* Sortie 1 : Vers Carte Autonome (Gauche) */}
-            <path d="M 180 0 C 180 30, 90 30, 90 64" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
-            {!reduce && (
-              <motion.path
-                d="M 180 0 C 180 30, 90 30, 90 64"
-                stroke="url(#mCablePulseRightEmerald)"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeDasharray="40 90"
-                animate={{ strokeDashoffset: [0, -130] }}
-                transition={{ duration: 2.2, repeat: Infinity, ease: "linear", delay: 0.3 }}
-              />
-            )}
-
-            {/* Sortie 2 : Vers Carte Validation (Droite) */}
-            <path d="M 180 0 C 180 30, 270 30, 270 64" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
-            {!reduce && (
-              <motion.path
-                d="M 180 0 C 180 30, 270 30, 270 64"
-                stroke="url(#mCablePulseRightBlue)"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeDasharray="40 90"
-                animate={{ strokeDashoffset: [0, -130] }}
-                transition={{ duration: 2.3, repeat: Infinity, ease: "linear", delay: 0.8 }}
-              />
-            )}
-          </svg>
-        </div>
-
-        {/* Étape 3 : Actions Délivrées */}
-        <div className="flex flex-col gap-2.5">
-          <div className="flex items-center gap-2 mb-0.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-            <span className="text-[11px] font-bold tracking-wider text-muted uppercase" style={{ fontFamily: "var(--font-heading)" }}>
-              Actions délivrées
-            </span>
+        {/* ── Barre de contrôles Apple au bas : Pilule d'indicateurs + Bouton Play/Pause ── */}
+        <div className="mt-8 md:mt-10 flex items-center justify-center gap-3">
+          {/* Pilule avec les 3 indicateurs */}
+          <div
+            className="flex items-center gap-2 rounded-full bg-neutral-200/80 px-4 py-2.5 backdrop-blur-md border border-black/5 shadow-xs"
+            role="tablist"
+            aria-label="Navigation des points forts"
+          >
+            {steps.map((_, idx) => {
+              const isActive = activeIndex === idx;
+              return (
+                <button
+                  key={idx}
+                  onClick={() => handleSelect(idx)}
+                  className={`transition-all duration-300 focus:outline-hidden ${
+                    isActive
+                      ? "h-2 w-8 rounded-full bg-[#1d1d1f]"
+                      : "h-2 w-2 rounded-full bg-black/20 hover:bg-black/45"
+                  }`}
+                  aria-label={`Étape ${idx + 1}`}
+                  aria-selected={isActive}
+                  role="tab"
+                />
+              );
+            })}
           </div>
 
-          <div className="rounded-2xl border border-border-soft bg-white p-3.5 shadow-xs">
-            <div className="flex items-center gap-2 pb-2 border-b border-border-soft">
-              <span className="h-2 w-2 rounded-full bg-emerald-500" />
-              <span className="text-xs font-semibold text-foreground uppercase tracking-wider">
-                Autonome (90%)
-              </span>
-            </div>
-            <ul className="mt-2.5 space-y-1.5 text-xs text-foreground/85">
-              <li className="flex items-center gap-2">
-                <span className="text-emerald-600 font-bold">✓</span>
-                <span>Réponse SAV rédigée & envoyée</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-emerald-600 font-bold">✓</span>
-                <span>Devis généré & synchronisé au CRM</span>
-              </li>
-            </ul>
-          </div>
-
-          <div className="rounded-2xl border border-border-soft bg-white p-3.5 shadow-xs flex items-center justify-between gap-3">
-            <div>
-              <span className="text-xs font-semibold text-foreground block">Validation Humaine (10%)</span>
-              <span className="text-[11px] text-muted">Notification pour les cas sensibles</span>
-            </div>
-            <span className="shrink-0 rounded-full bg-accent px-3 py-1 text-xs font-medium text-accent-foreground shadow-xs">
-              Valider
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* ═════════════════════════════════════════════════════════════════════ */}
-      {/* ── 2. VERSION DESKTOP GRAND ÉCRAN (lg:block) : WORKFLOW PANORAMIQUE ─ */}
-      {/* ═════════════════════════════════════════════════════════════════════ */}
-      <div className="relative mx-auto hidden lg:block w-full max-w-6xl py-6">
-        {/* Câbles de connexion avec couleur dédiée par outil */}
-        <div className="pointer-events-none absolute inset-0 h-full w-full">
-          <svg className="h-full w-full overflow-visible" viewBox="0 0 1000 400" fill="none" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="cablePulseRed" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#ea4335" stopOpacity="0" />
-                <stop offset="50%" stopColor="#ea4335" stopOpacity="0.8" />
-                <stop offset="100%" stopColor="#ea4335" stopOpacity="0" />
-              </linearGradient>
-
-              <linearGradient id="cablePulseAmber" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#f59e0b" stopOpacity="0" />
-                <stop offset="50%" stopColor="#f59e0b" stopOpacity="0.8" />
-                <stop offset="100%" stopColor="#f59e0b" stopOpacity="0" />
-              </linearGradient>
-
-              <linearGradient id="cablePulseEmerald" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#10b981" stopOpacity="0" />
-                <stop offset="50%" stopColor="#10b981" stopOpacity="0.8" />
-                <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
-              </linearGradient>
-
-              <linearGradient id="cablePulseViolet" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0" />
-                <stop offset="50%" stopColor="#8b5cf6" stopOpacity="0.8" />
-                <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0" />
-              </linearGradient>
-
-              <linearGradient id="cablePulseRightEmerald" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#10b981" stopOpacity="0" />
-                <stop offset="50%" stopColor="#10b981" stopOpacity="0.9" />
-                <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
-              </linearGradient>
-
-              <linearGradient id="cablePulseRightBlue" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="var(--accent)" stopOpacity="0" />
-                <stop offset="50%" stopColor="var(--accent)" stopOpacity="0.9" />
-                <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-
-            {/* Câble 1 : Rouge */}
-            <path d="M 230 65 C 360 65, 380 200, 500 200" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
-            {!reduce && (
-              <motion.path
-                d="M 230 65 C 360 65, 380 200, 500 200"
-                stroke="url(#cablePulseRed)"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeDasharray="90 220"
-                animate={{ strokeDashoffset: [0, -310] }}
-                transition={{ duration: 2.8, repeat: Infinity, ease: "linear" }}
-              />
+          {/* Bouton Play/Pause */}
+          <button
+            onClick={togglePlay}
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-neutral-200/80 text-foreground hover:bg-neutral-300/80 backdrop-blur-md border border-black/5 shadow-xs transition-colors focus:outline-hidden"
+            aria-label={isPlaying ? "Mettre en pause le carrousel" : "Lancer le défilement du carrousel"}
+            title={isPlaying ? "Pause" : "Lecture"}
+          >
+            {isPlaying ? (
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                <rect x="5" y="3" width="4" height="18" rx="1" />
+                <rect x="15" y="3" width="4" height="18" rx="1" />
+              </svg>
+            ) : (
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className="translate-x-[1px]">
+                <polygon points="5 3 19 12 5 21 5 3" />
+              </svg>
             )}
-
-            {/* Câble 2 : Ambre */}
-            <path d="M 230 155 C 360 155, 380 200, 500 200" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
-            {!reduce && (
-              <motion.path
-                d="M 230 155 C 360 155, 380 200, 500 200"
-                stroke="url(#cablePulseAmber)"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeDasharray="90 220"
-                animate={{ strokeDashoffset: [0, -310] }}
-                transition={{ duration: 3.1, repeat: Infinity, ease: "linear", delay: 0.7 }}
-              />
-            )}
-
-            {/* Câble 3 : Émeraude */}
-            <path d="M 230 245 C 360 245, 380 200, 500 200" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
-            {!reduce && (
-              <motion.path
-                d="M 230 245 C 360 245, 380 200, 500 200"
-                stroke="url(#cablePulseEmerald)"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeDasharray="90 220"
-                animate={{ strokeDashoffset: [0, -310] }}
-                transition={{ duration: 2.9, repeat: Infinity, ease: "linear", delay: 1.4 }}
-              />
-            )}
-
-            {/* Câble 4 : Violet */}
-            <path d="M 230 335 C 360 335, 380 200, 500 200" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
-            {!reduce && (
-              <motion.path
-                d="M 230 335 C 360 335, 380 200, 500 200"
-                stroke="url(#cablePulseViolet)"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeDasharray="90 220"
-                animate={{ strokeDashoffset: [0, -310] }}
-                transition={{ duration: 3.3, repeat: Infinity, ease: "linear", delay: 2.1 }}
-              />
-            )}
-
-            {/* Câbles de sortie */}
-            <path d="M 500 200 C 620 200, 640 135, 770 135" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
-            {!reduce && (
-              <motion.path
-                d="M 500 200 C 620 200, 640 135, 770 135"
-                stroke="url(#cablePulseRightEmerald)"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeDasharray="90 220"
-                animate={{ strokeDashoffset: [0, -310] }}
-                transition={{ duration: 2.4, repeat: Infinity, ease: "linear", delay: 0.3 }}
-              />
-            )}
-
-            <path d="M 500 200 C 620 200, 640 265, 770 265" stroke="var(--border-soft)" strokeWidth="1.5" strokeLinecap="round" />
-            {!reduce && (
-              <motion.path
-                d="M 500 200 C 620 200, 640 265, 770 265"
-                stroke="url(#cablePulseRightBlue)"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeDasharray="90 220"
-                animate={{ strokeDashoffset: [0, -310] }}
-                transition={{ duration: 2.6, repeat: Infinity, ease: "linear", delay: 0.9 }}
-              />
-            )}
-          </svg>
-        </div>
-
-        <div className="relative z-10 grid grid-cols-12 items-center gap-4">
-          {/* 1. Outils Sources */}
-          <div className="col-span-3 flex flex-col gap-3">
-            <div className="flex items-center gap-2 mb-1">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-              <span className="text-[11px] font-bold tracking-wider text-muted uppercase" style={{ fontFamily: "var(--font-heading)" }}>
-                Vos outils existants
-              </span>
-            </div>
-
-            {inputTools.map((item, i) => (
-              <motion.div
-                key={item.label}
-                initial={reduce ? false : { opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.06 }}
-                className="group flex items-center justify-between rounded-2xl border border-border-soft bg-white p-3.5 shadow-xs transition-all duration-200 hover:border-accent/30 hover:shadow-soft"
-              >
-                <div className="flex items-center gap-3">
-                  <span className={`flex h-8 w-8 items-center justify-center rounded-xl border ${item.colorStyle}`}>
-                    {item.icon}
-                  </span>
-                  <span className="text-xs font-semibold text-foreground">{item.label}</span>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* 2. Orbe 3D Agent IA */}
-          <div className="col-span-6 flex flex-col items-center justify-center py-0 px-6">
-            <Model3DAgentCore reduce={reduce} />
-          </div>
-
-          {/* 3. Actions Délivrées */}
-          <div className="col-span-3 flex flex-col gap-3">
-            <div className="flex items-center gap-2 mb-1">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-              <span className="text-[11px] font-bold tracking-wider text-muted uppercase" style={{ fontFamily: "var(--font-heading)" }}>
-                Actions délivrées
-              </span>
-            </div>
-
-            <motion.div
-              initial={reduce ? false : { opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.12 }}
-              className="rounded-2xl border border-border-soft bg-white p-4 shadow-xs"
-            >
-              <div className="flex items-center justify-between pb-2.5 border-b border-border-soft">
-                <div className="flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-600" />
-                  <span className="text-xs font-semibold text-foreground uppercase tracking-wider">
-                    Autonome (90%)
-                  </span>
-                </div>
-              </div>
-              <ul className="mt-3 space-y-2">
-                {[
-                  "Réponse SAV rédigée & envoyée",
-                  "Devis généré & synchronisé au CRM",
-                  "Ressaisies supprimées à 100%",
-                ].map((act) => (
-                  <li key={act} className="flex items-center gap-2 text-xs font-medium text-foreground/85">
-                    <span className="text-emerald-600 font-bold">✓</span>
-                    <span>{act}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-
-            <motion.div
-              initial={reduce ? false : { opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.2 }}
-              className="rounded-2xl border border-border-soft bg-white p-4 shadow-xs"
-            >
-              <div className="flex items-center justify-between pb-2.5 border-b border-border-soft">
-                <div className="flex items-center gap-1.5 text-foreground">
-                  <ShieldCheckIcon />
-                  <span className="text-xs font-semibold uppercase tracking-wider">
-                    Validation Humaine (10%)
-                  </span>
-                </div>
-              </div>
-              <div className="mt-3 flex items-center justify-between gap-3">
-                <p className="text-xs text-muted font-normal leading-tight">
-                  Notification pour les cas sensibles
-                </p>
-                <span className="shrink-0 rounded-full bg-accent px-3 py-1 text-xs font-medium text-accent-foreground shadow-accent transition-all duration-200">
-                  Valider
-                </span>
-              </div>
-            </motion.div>
-          </div>
+          </button>
         </div>
       </div>
     </section>
