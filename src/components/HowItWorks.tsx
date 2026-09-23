@@ -2,42 +2,63 @@
 
 import { useState, useEffect, useRef } from "react";
 
-/* ── ICÔNES OFFICIELLES GOOGLE & OUTILS ── */
+/* ── VRAIES ICÔNES OFFICIELLES GOOGLE & MICROSOFT ── */
 
 function GmailIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="none">
-      <path d="M22 6.5C22 5.12 20.88 4 19.5 4H18V12L22 8.5V6.5Z" fill="#34A853" />
-      <path d="M2 6.5C2 5.12 3.12 4 4.5 4H6V12L2 8.5V6.5Z" fill="#4285F4" />
-      <path d="M6 4L12 8.5L18 4H6Z" fill="#EA4335" />
-      <path d="M2 8.5L6 12V20H4.5C3.12 20 2 18.88 2 17.5V8.5Z" fill="#4285F4" />
-      <path d="M22 8.5L18 12V20H19.5C20.88 20 22 18.88 22 17.5V8.5Z" fill="#34A853" />
-      <path d="M6 12L12 16.5L18 12V20H6V12Z" fill="#FBBC04" />
-      <path d="M6 4V12L12 16.5L18 12V4L12 8.5L6 4Z" fill="#EA4335" />
+    <svg className={className} viewBox="52 42 88 66" fill="none">
+      <path fill="#4285f4" d="M58 108h14V74L52 59v43c0 3.32 2.69 6 6 6" />
+      <path fill="#34a853" d="M120 108h14c3.32 0 6-2.69 6-6V59l-20 15" />
+      <path fill="#fbbc04" d="M120 48v26l20-15v-8c0-7.42-8.47-11.65-14.4-7.2" />
+      <path fill="#ea4335" d="M72 74V48l24 18 24-18v26L96 92" />
+      <path fill="#c5221f" d="M52 51v8l20 15V48l-5.6-4.2c-5.94-4.45-14.4-.22-14.4 7.2" />
+    </svg>
+  );
+}
+
+function OutlookIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 17.9 512.1 476.2" fill="none">
+      <path d="M512 267.9c0-4-2-7.7-5.5-9.8h-.1l-.2-.1-177.4-105c-.8-.5-1.6-1-2.4-1.4-6.9-3.5-15-3.5-21.8 0-.8.4-1.6.9-2.4 1.4L124.8 258l-.2.1c-5.4 3.4-7.1 10.5-3.7 15.9 1 1.6 2.4 2.9 4 3.9l177.4 105c.8.5 1.6 1 2.4 1.4 6.9 3.5 15 3.5 21.8 0 .8-.4 1.6-.9 2.4-1.4l177.4-105c3.6-2.1 5.7-5.9 5.7-10" fill="#0a2767" />
+      <path d="M145.5 197.8H262v106.7H145.5zM488.2 89.3V40.5c.3-12.2-9.4-22.3-21.6-22.6H164.5c-12.2.3-21.9 10.4-21.6 22.6v48.8l178.6 47.6z" fill="#0364b8" />
+      <path d="M142.9 89.3H262v107.2H142.9z" fill="#0078d4" />
+      <path d="M381 89.3H262v107.2l119 107.1h107.2V196.5z" fill="#28a8ea" />
+      <path d="M262 196.5h119v107.2H262z" fill="#0078d4" />
+      <path d="M262 303.6h119v107.2H262z" fill="#0364b8" />
+      <path d="M145.5 304.5H262v97H145.5z" fill="#14447d" />
+      <path d="M381 303.6h107.2v107.2H381z" fill="#0078d4" />
+      <path d="m506.5 277.2-.2.1-177.4 99.8c-.8.5-1.6.9-2.4 1.3-6.9 3.4-14.9 3.4-21.8 0-.8-.4-1.6-.8-2.4-1.3l-177.4-99.8-.2-.1c-3.4-1.9-5.6-5.4-5.6-9.3v202c.1 13.5 11.1 24.3 24.6 24.2h343.8c13.5.1 24.5-10.8 24.6-24.2v-202c-.1 3.9-2.2 7.4-5.6 9.3" fill="#1490df" />
+      <path d="M144 494.1h343.5c5.3 0 10.4-1.6 14.7-4.8l-195-114.1c-.8-.4-1.6-.9-2.4-1.4L125 271.2h-.1l-5.9-3.3v201.3c.1 13.8 11.2 24.9 25 24.9" fill="#28a8ea" />
+      <path d="M21.8 125h218.3c12.1 0 21.8 9.8 21.8 21.8v218.3c0 12.1-9.8 21.8-21.8 21.8H21.8C9.8 387 0 377.2 0 365.2V146.8c0-12 9.8-21.8 21.8-21.8" fill="#107ad5" />
+      <path d="M68.2 216.6c5.4-11.5 14.1-21.1 24.9-27.5 12-6.9 25.7-10.3 39.6-9.9 12.9-.3 25.5 3 36.7 9.4 10.5 6.2 18.9 15.4 24.3 26.3 5.8 12 8.8 25.3 8.5 38.7.3 14-2.7 27.9-8.8 40.5-5.5 11.3-14.2 20.8-25 27.2-11.6 6.6-24.7 10-38 9.7-13.1.3-26.1-3-37.5-9.5-10.5-6.4-19.1-15.5-24.6-26.5-5.9-11.9-8.8-25-8.6-38.2-.2-13.9 2.7-27.6 8.5-40.2m26.6 64.6c2.9 7.2 7.7 13.5 14 18.1 6.4 4.5 14.1 6.8 21.9 6.6 8.3.3 16.5-2.1 23.4-6.8 6.2-4.6 11-10.9 13.6-18.1 3-8.1 4.5-16.7 4.3-25.3.1-8.7-1.3-17.4-4.1-25.6-2.5-7.4-7.1-14-13.2-18.9-6.7-5-14.9-7.5-23.2-7.1-8-.2-15.8 2.1-22.4 6.7-6.4 4.6-11.4 11-14.3 18.3-6.4 16.7-6.4 35.3 0 52.1" fill="#fff" />
     </svg>
   );
 }
 
 function GoogleCalendarIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="none">
-      <rect x="3" y="4" width="18" height="17" rx="3" fill="#FFFFFF" stroke="#4285F4" strokeWidth="2" />
-      <path d="M3 8.5H21" stroke="#4285F4" strokeWidth="2" />
-      <rect x="7" y="2" width="2" height="3" rx="1" fill="#4285F4" />
-      <rect x="15" y="2" width="2" height="3" rx="1" fill="#4285F4" />
-      <text x="12" y="16.5" textAnchor="middle" fontSize="8" fontWeight="bold" fill="#4285F4" fontFamily="sans-serif">
-        31
-      </text>
+    <svg className={className} viewBox="0 0 512 512" fill="none">
+      <path d="M387 117.5 265.7 104l-148.2 13.5L104 252.2 117.5 387l134.7 16.8L387 387l13.5-138.1z" fill="#fff" transform="translate(3.75 3.75)" />
+      <path d="M176.55 330.35c-10.1-6.8-17-16.7-20.9-29.9l23.4-9.6c2.1 8.1 5.8 14.3 11.1 18.8 5.3 4.4 11.7 6.6 19.1 6.6 7.6 0 14.2-2.3 19.7-7s8.3-10.6 8.3-17.8q0-10.95-8.7-18c-5.8-4.6-13.1-7-21.8-7h-13.5v-23.1h12.1c7.5 0 13.8-2 18.9-6.1 5.1-4 7.7-9.6 7.7-16.6q0-9.45-6.9-15c-4.6-3.7-10.4-5.6-17.4-5.6-6.9 0-12.3 1.8-16.4 5.5-4 3.7-7 8.2-8.8 13.5l-23.1-9.6c3.1-8.7 8.7-16.4 16.9-23 8.3-6.6 18.8-10 31.6-10 9.5 0 18 1.8 25.5 5.5s13.5 8.8 17.8 15.2c4.3 6.5 6.4 13.8 6.4 21.9 0 8.3-2 15.2-6 21q-6 8.55-14.7 13.2v1.4c7.6 3.2 13.9 8.1 18.8 14.7s7.3 14.4 7.3 23.6-2.3 17.3-7 24.5c-4.6 7.2-11.1 12.8-19.2 16.9-8.2 4.1-17.4 6.2-27.6 6.2-11.6 0-22.5-3.4-32.6-10.2m143.4-116-25.5 18.6-12.8-19.5 46-33.2h17.7v156.7h-25.3v-122.6z" fill="#1a73e8" />
+      <path d="M387 508.2 508.2 387l-60.6-27-60.6 27-27 60.6z" fill="#ea4335" transform="translate(3.75 3.75)" />
+      <path d="m90.6 447.6 26.9 60.6H387V387H117.5z" fill="#34a853" transform="translate(3.75 3.75)" />
+      <path d="M36.7-3.8C14.3-3.8-3.8 14.3-3.8 36.7V387l60.6 26.9 60.6-26.9V117.5H387l26.9-60.6L387-3.8z" fill="#4285f4" transform="translate(3.75 3.75)" />
+      <path d="M-3.8 387v80.8c0 22.3 18.1 40.4 40.4 40.4h80.8V387z" fill="#188038" transform="translate(3.75 3.75)" />
+      <path d="M387 117.5V387h121.3V117.5l-60.6-26.9z" fill="#fbbc04" transform="translate(3.75 3.75)" />
+      <path d="M508.2 117.5V36.7c0-22.3-18.1-40.4-40.4-40.4H387v121.3h121.2z" fill="#1967d2" transform="translate(3.75 3.75)" />
     </svg>
   );
 }
 
 function GoogleDriveIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="none">
-      <path d="M8.2 3.5L15.8 3.5L22 14.5L14.4 14.5L8.2 3.5Z" fill="#FFC107" />
-      <path d="M2.5 14.5L6.3 7.8L14.4 14.5L10.6 21.2L2.5 14.5Z" fill="#2196F3" />
-      <path d="M10.6 21.2L14.4 14.5L22 14.5L18.2 21.2L10.6 21.2Z" fill="#4CAF50" />
+    <svg className={className} viewBox="0 0 512 512" fill="none">
+      <path d="m38.7 419.3 22.6 39c4.7 8.2 11.4 14.7 19.4 19.4l80.6-139.6H0c0 9.1 2.3 18.2 7 26.4z" fill="#0066da" />
+      <path d="M256 173.9 175.4 34.3c-7.9 4.7-14.7 11.1-19.4 19.4L7 311.7c-4.6 8-7 17.1-7 26.4h161.3z" fill="#00ac47" />
+      <path d="M431.4 477.7c7.9-4.7 14.7-11.1 19.4-19.4l9.4-16.1 44.9-77.7c4.7-8.2 7-17.3 7-26.4H350.7l34.3 67.4z" fill="#ea4335" />
+      <path d="m256 173.9 80.6-139.6c-7.9-4.7-17-7-26.4-7H201.8c-9.4 0-18.5 2.6-26.4 7z" fill="#00832d" />
+      <path d="M350.7 338.1H161.3L80.6 477.7c7.9 4.7 17 7 26.4 7h298c9.4 0 18.5-2.6 26.4-7z" fill="#2684fc" />
+      <path d="M430.5 182.7 356 53.7c-4.7-8.2-11.4-14.7-19.4-19.4L256 173.9l94.7 164.2h161c0-9.1-2.3-18.2-7-26.4z" fill="#ffba00" />
     </svg>
   );
 }
@@ -45,7 +66,7 @@ function GoogleDriveIcon({ className = "w-4 h-4" }: { className?: string }) {
 function HubSpotIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="#FF7A59">
-      <path d="M18.8 7.3V4.5C18.8 3.7 18.1 3 17.3 3C16.5 3 15.8 3.7 15.8 4.5V7.3C14.7 7.7 13.9 8.6 13.6 9.8L8.8 6.5C8.9 6.2 8.9 5.8 8.9 5.5C8.9 4.1 7.8 3 6.4 3C5 3 3.9 4.1 3.9 5.5C3.9 6.9 5 8 6.4 8C7 8 7.6 7.8 8 7.5L12.7 10.8C12.5 11.2 12.4 11.7 12.4 12.2C12.4 12.7 12.5 13.2 12.7 13.6L7.9 16.9C7.5 16.6 6.9 16.4 6.4 16.4C5 16.4 3.9 17.5 3.9 18.9C3.9 20.3 5 21.4 6.4 21.4C7.8 21.4 8.9 20.3 8.9 18.9C8.9 18.6 8.8 18.2 8.7 17.9L13.6 14.6C13.9 15.7 14.7 16.6 15.8 17.1V19.5C15.8 20.3 16.5 21 17.3 21C18.1 21 18.8 20.3 18.8 19.5V17.1C20.3 16.5 21.4 15 21.4 13.3C21.4 11.5 20.3 10.1 18.8 9.5V7.3ZM17.3 15.2C16.2 15.2 15.3 14.3 15.3 13.2C15.3 12.1 16.2 11.2 17.3 11.2C18.4 11.2 19.3 12.1 19.3 13.2C19.3 14.3 18.4 15.2 17.3 15.2Z" />
+      <path d="M18.164 7.93V5.084a2.198 2.198 0 001.267-1.978v-.067A2.2 2.2 0 0017.238.845h-.067a2.2 2.2 0 00-2.193 2.193v.067a2.196 2.196 0 001.252 1.973l.013.006v2.852a6.22 6.22 0 00-2.969 1.31l.012-.01-7.828-6.095A2.497 2.497 0 104.3 4.656l-.012.006 7.697 5.991a6.176 6.176 0 00-1.038 3.446c0 1.343.425 2.588 1.147 3.607l-.013-.02-2.342 2.343a1.968 1.968 0 00-.58-.095h-.002a2.033 2.033 0 102.033 2.033 1.978 1.978 0 00-.1-.595l.005.014 2.317-2.317a6.247 6.247 0 104.782-11.134l-.036-.005zm-.964 9.378a3.206 3.206 0 113.215-3.207v.002a3.206 3.206 0 01-3.207 3.207z" />
     </svg>
   );
 }
@@ -53,19 +74,7 @@ function HubSpotIcon({ className = "w-4 h-4" }: { className?: string }) {
 function NotionIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.83c-.467-.373-.98-.606-2.195-.513L2.872 2.296c-.373.047-.466.28-.326.466l1.913 1.446zm1.4 3.498v13.565c0 .793.42 1.072 1.353 1.026l14.195-.84c.887-.046 1.073-.56 1.073-1.212V6.678c0-.653-.28-.933-.933-.886L6.88 6.678c-.7.047-1.021.42-1.021 1.028zm12.373.98c.093.42 0 .84-.42.886l-.887.14v10.168c-.653.373-1.306.56-1.866.56-.933 0-1.213-.373-1.913-1.306l-4.71-6.903v6.903l1.54.373c.046.373-.28.793-.7.793l-3.593.233c-.093-.373 0-.793.373-.84l1.027-.233V8.873l-1.4-.14c-.093-.42 0-.84.42-.886l3.966-.233 5.084 7.275V8.5l-1.353-.14c-.093-.42 0-.84.42-.886l4.012-.233z" />
-    </svg>
-  );
-}
-
-function OutlookIcon({ className = "w-4 h-4" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none">
-      <path d="M22 6.5V17.5C22 18.6 21.1 19.5 20 19.5H10V4.5H20C21.1 4.5 22 5.4 22 6.5Z" fill="#0078D4" />
-      <path d="M15 12L22 7.5V16.5L15 12Z" fill="#106EBE" opacity="0.6" />
-      <path d="M10 4.5L2 6.5V17.5L10 19.5V4.5Z" fill="#0078D4" />
-      <ellipse cx="6" cy="12" rx="3" ry="4" fill="#FFFFFF" />
-      <ellipse cx="6" cy="12" rx="1.8" ry="2.5" fill="#0078D4" />
+      <path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.747.327-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM1.936 1.035l13.31-.98c1.634-.14 2.055-.047 3.082.7l4.249 2.986c.7.513.934.653.934 1.213v16.378c0 1.026-.373 1.634-1.68 1.726l-15.458.934c-.98.047-1.448-.093-1.962-.747l-3.129-4.06c-.56-.747-.793-1.306-.793-1.96V2.667c0-.839.374-1.54 1.447-1.632z" />
     </svg>
   );
 }
@@ -102,12 +111,13 @@ export function HowItWorks() {
       renderVisual: () => (
         <div className="w-full max-w-xl mx-auto">
           {/* Pastilles épurées avec vraies icônes de marques */}
-          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5">
+          <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
             <div className="flex items-center gap-2 rounded-full bg-white px-3.5 py-2 border border-black/[0.06] shadow-xs text-xs font-medium text-foreground hover:shadow-sm transition-shadow">
               <GmailIcon className="w-4 h-4 shrink-0" />
               <span className="font-semibold">Gmail</span>
-              <span className="text-muted-soft text-[11px]">& Outlook</span>
-              <OutlookIcon className="w-3.5 h-3.5 shrink-0 opacity-80" />
+              <span className="text-muted-soft text-[11px]">&</span>
+              <OutlookIcon className="w-4 h-4 shrink-0" />
+              <span className="font-semibold">Outlook</span>
             </div>
 
             <div className="flex items-center gap-2 rounded-full bg-white px-3.5 py-2 border border-black/[0.06] shadow-xs text-xs font-medium text-foreground hover:shadow-sm transition-shadow">
@@ -119,14 +129,14 @@ export function HowItWorks() {
             <div className="flex items-center gap-2 rounded-full bg-white px-3.5 py-2 border border-black/[0.06] shadow-xs text-xs font-medium text-foreground hover:shadow-sm transition-shadow">
               <GoogleCalendarIcon className="w-4 h-4 shrink-0" />
               <span className="font-semibold">Google Agenda</span>
-              <span className="text-muted-soft text-[11px]">Synchro</span>
+              <span className="text-muted-soft text-[11px]">& Outlook</span>
             </div>
 
             <div className="flex items-center gap-2 rounded-full bg-white px-3.5 py-2 border border-black/[0.06] shadow-xs text-xs font-medium text-foreground hover:shadow-sm transition-shadow">
               <GoogleDriveIcon className="w-4 h-4 shrink-0" />
               <span className="font-semibold">Google Drive</span>
               <span className="text-muted-soft text-[11px]">& Notion</span>
-              <NotionIcon className="w-3.5 h-3.5 shrink-0 opacity-70" />
+              <NotionIcon className="w-3.5 h-3.5 shrink-0 opacity-75" />
             </div>
 
             <div className="flex items-center gap-2 rounded-full bg-white px-3.5 py-2 border border-black/[0.06] shadow-xs text-xs font-medium text-foreground hover:shadow-sm transition-shadow">
