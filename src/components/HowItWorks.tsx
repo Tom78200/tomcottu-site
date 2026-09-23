@@ -104,16 +104,16 @@ export function HowItWorks() {
   const steps: Step[] = [
     {
       id: 1,
-      headline: "L'agent se branche sur les outils déjà en place.",
-      text: "Messagerie, CRM, agenda, fichiers, comptabilité. Aucun outil existant n'est remplacé. L'accès se fait via les API ou les intégrations natives de chaque logiciel.",
+      headline: "L'agent s'intègre directement à votre façon de travailler.",
+      text: "Il se connecte à vos boîtes mails, votre CRM, vos agendas, vos fichiers et votre comptabilité sans rien changer à vos habitudes ni remplacer le moindre outil.",
       renderVisual: () => (
         <div className="w-full max-w-xl mx-auto">
-          {/* Pastilles épurées avec vraies icônes de marques */}
+          {/* Pastilles avec les vraies icônes */}
           <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
             <div className="flex items-center gap-2 rounded-full bg-white px-3.5 py-2 border border-black/[0.06] shadow-xs text-xs font-medium text-foreground hover:shadow-sm transition-shadow">
               <GmailIcon className="w-4 h-4 shrink-0" />
               <span className="font-semibold">Gmail</span>
-              <span className="text-muted-soft text-[11px]">&</span>
+              <span className="text-muted-soft text-[11px]">et</span>
               <OutlookIcon className="w-4 h-4 shrink-0" />
               <span className="font-semibold">Outlook</span>
             </div>
@@ -121,120 +121,120 @@ export function HowItWorks() {
             <div className="flex items-center gap-2 rounded-full bg-white px-3.5 py-2 border border-black/[0.06] shadow-xs text-xs font-medium text-foreground hover:shadow-sm transition-shadow">
               <HubSpotIcon className="w-4 h-4 shrink-0" />
               <span className="font-semibold">HubSpot</span>
-              <span className="text-muted-soft text-[11px]">& CRM</span>
+              <span className="text-muted-soft text-[11px]">et CRM</span>
             </div>
 
             <div className="flex items-center gap-2 rounded-full bg-white px-3.5 py-2 border border-black/[0.06] shadow-xs text-xs font-medium text-foreground hover:shadow-sm transition-shadow">
               <GoogleCalendarIcon className="w-4 h-4 shrink-0" />
               <span className="font-semibold">Google Agenda</span>
-              <span className="text-muted-soft text-[11px]">& Outlook</span>
+              <span className="text-muted-soft text-[11px]">et Outlook</span>
             </div>
 
             <div className="flex items-center gap-2 rounded-full bg-white px-3.5 py-2 border border-black/[0.06] shadow-xs text-xs font-medium text-foreground hover:shadow-sm transition-shadow">
               <GoogleDriveIcon className="w-4 h-4 shrink-0" />
               <span className="font-semibold">Google Drive</span>
-              <span className="text-muted-soft text-[11px]">& Notion</span>
+              <span className="text-muted-soft text-[11px]">et Notion</span>
               <NotionIcon className="w-3.5 h-3.5 shrink-0 opacity-75" />
             </div>
 
             <div className="flex items-center gap-2 rounded-full bg-white px-3.5 py-2 border border-black/[0.06] shadow-xs text-xs font-medium text-foreground hover:shadow-sm transition-shadow">
               <PennylaneIcon className="w-4 h-4 shrink-0" />
               <span className="font-semibold">Pennylane</span>
-              <span className="text-muted-soft text-[11px]">& ERP</span>
+              <span className="text-muted-soft text-[11px]">et ERP</span>
             </div>
           </div>
 
           <p className="mt-5 text-center text-xs text-muted-soft">
-            Connexion directe via API sécurisées • Zéro outil à changer
+            Connexion directe et sécurisée • Aucun logiciel à changer
           </p>
         </div>
       ),
     },
     {
       id: 2,
-      headline: "Des agents qui exécutent vos tâches métier de bout en bout.",
-      text: "Dès qu'un email ou une demande arrive, l'agent la lit, extrait les informations clés, interroge vos outils et agit immédiatement sans intervention humaine.",
+      headline: "L'agent prend en charge vos tâches courantes du début à la fin.",
+      text: "Dès qu'une demande arrive, il comprend le besoin, consulte vos outils, prépare le devis ou la réponse et s'occupe de l'envoi sans intervention de votre part.",
       renderVisual: () => (
         <div className="w-full max-w-2xl mx-auto">
-          {/* 3 exemples concrets d'agents métier */}
+          {/* 3 exemples concrets de fonctionnement */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-left">
-            {/* Exemple 1 : Agent Devis & Vente */}
+            {/* Exemple 1 : Vente et devis */}
             <div className="rounded-2xl bg-white p-4 border border-black/[0.06] shadow-xs flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-[11px] font-bold text-accent uppercase tracking-wider">
-                    Commercial & Devis
+                    Devis et vente
                   </span>
                   <span className="text-emerald-600 text-xs font-semibold">Autonome</span>
                 </div>
                 <p className="text-xs font-semibold text-foreground">
-                  Email de demande entrant
+                  Demande de tarif entrante
                 </p>
                 <p className="text-[11px] text-muted-soft mt-1 leading-relaxed">
-                  L'agent calcule selon votre grille, crée le devis PDF et synchronise la fiche dans le CRM.
+                  L'agent applique vos tarifs, génère le devis en PDF et met à jour le prospect dans le CRM.
                 </p>
               </div>
               <div className="mt-3 pt-2.5 border-t border-black/[0.04] flex items-center gap-1.5 text-[10px] text-foreground/80 font-medium">
                 <HubSpotIcon className="w-3.5 h-3.5 shrink-0" />
-                <span>Devis créé en 30s</span>
+                <span>Devis prêt en 30 secondes</span>
               </div>
             </div>
 
-            {/* Exemple 2 : Agent SAV & Support */}
+            {/* Exemple 2 : Support et SAV */}
             <div className="rounded-2xl bg-white p-4 border border-black/[0.06] shadow-xs flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-[11px] font-bold text-accent uppercase tracking-wider">
-                    Support & SAV 24/7
+                    Support et SAV
                   </span>
                   <span className="text-emerald-600 text-xs font-semibold">Autonome</span>
                 </div>
                 <p className="text-xs font-semibold text-foreground">
-                  Question client récurrente
+                  Question fréquente d'un client
                 </p>
                 <p className="text-[11px] text-muted-soft mt-1 leading-relaxed">
-                  Recherche instantanée dans vos process et expédition de la réponse personnalisée par email.
+                  L'agent retrouve l'information dans vos dossiers et expédie aussitôt la réponse personnalisée.
                 </p>
               </div>
               <div className="mt-3 pt-2.5 border-t border-black/[0.04] flex items-center gap-1.5 text-[10px] text-foreground/80 font-medium">
                 <GmailIcon className="w-3.5 h-3.5 shrink-0" />
-                <span>Réponse immédiate</span>
+                <span>Réponse envoyée sans attente</span>
               </div>
             </div>
 
-            {/* Exemple 3 : Agent Facturation & Relance */}
+            {/* Exemple 3 : Factures et compta */}
             <div className="rounded-2xl bg-white p-4 border border-black/[0.06] shadow-xs flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-[11px] font-bold text-accent uppercase tracking-wider">
-                    Facturation & Admin
+                    Comptabilité et relances
                   </span>
                   <span className="text-emerald-600 text-xs font-semibold">Autonome</span>
                 </div>
                 <p className="text-xs font-semibold text-foreground">
-                  Pièces & Rapprochement
+                  Gestion des justificatifs
                 </p>
                 <p className="text-[11px] text-muted-soft mt-1 leading-relaxed">
-                  Lecture des factures reçues, contrôle des écritures et relance automatique sans ressaisie.
+                  L'agent classe les factures reçues, vérifie les écritures et relance les clients si besoin.
                 </p>
               </div>
               <div className="mt-3 pt-2.5 border-t border-black/[0.04] flex items-center gap-1.5 text-[10px] text-foreground/80 font-medium">
                 <PennylaneIcon className="w-3.5 h-3.5 shrink-0" />
-                <span>Zéro saisie le soir</span>
+                <span>Fin des ressaisies manuelles</span>
               </div>
             </div>
           </div>
 
           <p className="mt-4 text-center text-xs text-muted-soft">
-            90% de vos processus de routine traités de bout en bout
+            La grande majorité de vos flux quotidiens tournent tout seuls
           </p>
         </div>
       ),
     },
     {
       id: 3,
-      headline: "Une notification avant d'agir sur les cas sensibles.",
-      text: "Pour les cas sensibles — montant élevé, client stratégique, anomalie détectée — l'agent envoie une notification avant d'agir. Le dirigeant ou le responsable valide d'un clic. L'agent apprend des corrections et ajuste son comportement pour les prochaines fois.",
+      headline: "Vous gardez la main sur les décisions importantes.",
+      text: "Dès qu'un montant dépasse un seuil ou qu'un dossier sort de l'ordinaire, l'agent vous envoie un résumé. Vous validez en un clic, et il retient vos consignes pour s'améliorer au fil de l'eau.",
       renderVisual: () => (
         <div className="w-full max-w-md mx-auto">
           {/* Notification épurée */}
@@ -245,21 +245,21 @@ export function HowItWorks() {
               </span>
               <div className="min-w-0">
                 <p className="text-xs font-semibold text-foreground truncate">
-                  Cas sensible détecté
+                  Validation requise
                 </p>
                 <p className="text-[11px] text-muted-soft truncate">
-                  Montant élevé ou client stratégique
+                  Devis important ou dossier particulier
                 </p>
               </div>
             </div>
 
             <span className="shrink-0 rounded-full bg-accent px-3.5 py-1.5 text-xs font-medium text-white shadow-xs">
-              Valider d'un clic
+              Valider en 1 clic
             </span>
           </div>
 
           <p className="mt-5 text-center text-xs text-muted-soft">
-            L'équipe garde le contrôle final et l'agent s'ajuste en continu
+            L'équipe garde le dernier mot et l'agent s'adapte à vos retours
           </p>
         </div>
       ),
@@ -367,7 +367,7 @@ export function HowItWorks() {
                 className="w-full shrink-0 p-7 sm:p-10 md:p-12 min-h-[440px] md:min-h-[480px] flex flex-col justify-between"
                 aria-hidden={activeIndex !== idx}
               >
-                {/* Titre et description épurés (sans le tag bleu étape 1, 2, 3) */}
+                {/* Titre et description épurés */}
                 <div className="mx-auto max-w-2xl text-center mb-7">
                   <h3
                     className="text-xl sm:text-2xl md:text-3xl font-semibold text-foreground tracking-tight leading-snug"
@@ -460,10 +460,10 @@ export function HowItWorks() {
           </button>
         </div>
 
-        {/* ── Résultat (épuré, sans bloc lourd) ── */}
+        {/* ── Résultat ── */}
         <div className="mt-8 text-center max-w-2xl mx-auto px-4">
           <p className="text-xs sm:text-sm font-medium text-muted leading-relaxed">
-            <strong className="text-foreground">Résultat :</strong> Les tâches répétitives ne mobilisent plus personne. L'équipe ne relit que les cas qui le méritent. Le processus tourne 24/7, sans saisie manuelle.
+            Au quotidien, vos équipes ne perdent plus de temps sur les tâches de routine. Vos flux tournent jour et nuit, et vous ne gardez un œil que sur les dossiers stratégiques.
           </p>
         </div>
       </div>
