@@ -90,7 +90,6 @@ function PennylaneIcon({ className = "w-4 h-4" }: { className?: string }) {
 
 interface Step {
   id: number;
-  tag: string;
   headline: string;
   text: string;
   renderVisual: () => React.ReactNode;
@@ -105,7 +104,6 @@ export function HowItWorks() {
   const steps: Step[] = [
     {
       id: 1,
-      tag: "Étape 1 — Connexion",
       headline: "L'agent se branche sur les outils déjà en place.",
       text: "Messagerie, CRM, agenda, fichiers, comptabilité. Aucun outil existant n'est remplacé. L'accès se fait via les API ou les intégrations natives de chaque logiciel.",
       renderVisual: () => (
@@ -154,42 +152,87 @@ export function HowItWorks() {
     },
     {
       id: 2,
-      tag: "Étape 2 — Traitement autonome (90%)",
-      headline: "L'agent exécute la tâche de bout en bout, sans intervention.",
-      text: "Quand un email arrive, l'agent le lit, identifie la demande, va chercher les informations dans les outils connectés, produit la réponse ou le document, et l'envoie ou le range au bon endroit. Le devis est généré et synchronisé au CRM. La réponse SAV est rédigée et expédiée. Les ressaisies entre logiciels disparaissent.",
+      headline: "Des agents qui exécutent vos tâches métier de bout en bout.",
+      text: "Dès qu'un email ou une demande arrive, l'agent la lit, extrait les informations clés, interroge vos outils et agit immédiatement sans intervention humaine.",
       renderVisual: () => (
-        <div className="w-full max-w-xl mx-auto">
-          {/* Flux linéaire avec vraies icônes */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 text-xs">
-            <div className="flex items-center gap-2 rounded-xl bg-white px-4 py-3 border border-black/[0.06] shadow-xs text-foreground font-medium w-full sm:w-auto justify-center">
-              <GmailIcon className="w-4 h-4 shrink-0" />
-              <span>Email reçu</span>
+        <div className="w-full max-w-2xl mx-auto">
+          {/* 3 exemples concrets d'agents métier */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-left">
+            {/* Exemple 1 : Agent Devis & Vente */}
+            <div className="rounded-2xl bg-white p-4 border border-black/[0.06] shadow-xs flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[11px] font-bold text-accent uppercase tracking-wider">
+                    Commercial & Devis
+                  </span>
+                  <span className="text-emerald-600 text-xs font-semibold">Autonome</span>
+                </div>
+                <p className="text-xs font-semibold text-foreground">
+                  Email de demande entrant
+                </p>
+                <p className="text-[11px] text-muted-soft mt-1 leading-relaxed">
+                  L'agent calcule selon votre grille, crée le devis PDF et synchronise la fiche dans le CRM.
+                </p>
+              </div>
+              <div className="mt-3 pt-2.5 border-t border-black/[0.04] flex items-center gap-1.5 text-[10px] text-foreground/80 font-medium">
+                <HubSpotIcon className="w-3.5 h-3.5 shrink-0" />
+                <span>Devis créé en 30s</span>
+              </div>
             </div>
 
-            <span className="text-muted-soft rotate-90 sm:rotate-0 text-sm">→</span>
-
-            <div className="flex items-center gap-2 rounded-xl bg-white px-4 py-3 border border-black/[0.06] shadow-xs text-foreground font-medium w-full sm:w-auto justify-center">
-              <HubSpotIcon className="w-4 h-4 shrink-0" />
-              <span>Devis & CRM synchronisés</span>
+            {/* Exemple 2 : Agent SAV & Support */}
+            <div className="rounded-2xl bg-white p-4 border border-black/[0.06] shadow-xs flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[11px] font-bold text-accent uppercase tracking-wider">
+                    Support & SAV 24/7
+                  </span>
+                  <span className="text-emerald-600 text-xs font-semibold">Autonome</span>
+                </div>
+                <p className="text-xs font-semibold text-foreground">
+                  Question client récurrente
+                </p>
+                <p className="text-[11px] text-muted-soft mt-1 leading-relaxed">
+                  Recherche instantanée dans vos process et expédition de la réponse personnalisée par email.
+                </p>
+              </div>
+              <div className="mt-3 pt-2.5 border-t border-black/[0.04] flex items-center gap-1.5 text-[10px] text-foreground/80 font-medium">
+                <GmailIcon className="w-3.5 h-3.5 shrink-0" />
+                <span>Réponse immédiate</span>
+              </div>
             </div>
 
-            <span className="text-muted-soft rotate-90 sm:rotate-0 text-sm">→</span>
-
-            <div className="flex items-center gap-2 rounded-xl bg-emerald-50/60 px-4 py-3 border border-emerald-500/20 shadow-xs text-emerald-800 font-medium w-full sm:w-auto justify-center">
-              <span className="text-emerald-600 font-bold">✓</span>
-              <span>Réponse expédiée</span>
+            {/* Exemple 3 : Agent Facturation & Relance */}
+            <div className="rounded-2xl bg-white p-4 border border-black/[0.06] shadow-xs flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[11px] font-bold text-accent uppercase tracking-wider">
+                    Facturation & Admin
+                  </span>
+                  <span className="text-emerald-600 text-xs font-semibold">Autonome</span>
+                </div>
+                <p className="text-xs font-semibold text-foreground">
+                  Pièces & Rapprochement
+                </p>
+                <p className="text-[11px] text-muted-soft mt-1 leading-relaxed">
+                  Lecture des factures reçues, contrôle des écritures et relance automatique sans ressaisie.
+                </p>
+              </div>
+              <div className="mt-3 pt-2.5 border-t border-black/[0.04] flex items-center gap-1.5 text-[10px] text-foreground/80 font-medium">
+                <PennylaneIcon className="w-3.5 h-3.5 shrink-0" />
+                <span>Zéro saisie le soir</span>
+              </div>
             </div>
           </div>
 
-          <p className="mt-5 text-center text-xs text-muted-soft">
-            90% des demandes traitées instantanément, sans aucune ressaisie manuelle
+          <p className="mt-4 text-center text-xs text-muted-soft">
+            90% de vos processus de routine traités de bout en bout
           </p>
         </div>
       ),
     },
     {
       id: 3,
-      tag: "Étape 3 — Validation humaine (10%)",
       headline: "Une notification avant d'agir sur les cas sensibles.",
       text: "Pour les cas sensibles — montant élevé, client stratégique, anomalie détectée — l'agent envoie une notification avant d'agir. Le dirigeant ou le responsable valide d'un clic. L'agent apprend des corrections et ajuste son comportement pour les prochaines fois.",
       renderVisual: () => (
@@ -321,26 +364,23 @@ export function HowItWorks() {
             {steps.map((step, idx) => (
               <div
                 key={step.id}
-                className="w-full shrink-0 p-7 sm:p-10 md:p-14 min-h-[440px] md:min-h-[480px] flex flex-col justify-between"
+                className="w-full shrink-0 p-7 sm:p-10 md:p-12 min-h-[440px] md:min-h-[480px] flex flex-col justify-between"
                 aria-hidden={activeIndex !== idx}
               >
-                {/* Textes épurés et lisibles */}
-                <div className="mx-auto max-w-2xl text-center mb-8">
-                  <span className="inline-block text-xs font-semibold uppercase tracking-wider text-accent mb-2.5">
-                    {step.tag}
-                  </span>
+                {/* Titre et description épurés (sans le tag bleu étape 1, 2, 3) */}
+                <div className="mx-auto max-w-2xl text-center mb-7">
                   <h3
                     className="text-xl sm:text-2xl md:text-3xl font-semibold text-foreground tracking-tight leading-snug"
                     style={{ fontFamily: "var(--font-heading)" }}
                   >
                     {step.headline}
                   </h3>
-                  <p className="mt-3.5 text-sm sm:text-base text-muted font-normal leading-relaxed max-w-xl mx-auto">
+                  <p className="mt-3 text-sm sm:text-base text-muted font-normal leading-relaxed max-w-xl mx-auto">
                     {step.text}
                   </p>
                 </div>
 
-                {/* Visuel simple & léger avec vraies icônes */}
+                {/* Visuel central */}
                 <div className="w-full flex-1 flex items-center justify-center my-auto">
                   {step.renderVisual()}
                 </div>
@@ -369,7 +409,7 @@ export function HowItWorks() {
             role="tablist"
             aria-label="Navigation des étapes"
           >
-            {steps.map((step, idx) => {
+            {steps.map((_, idx) => {
               const isActive = activeIndex === idx;
               return (
                 <button
@@ -380,7 +420,7 @@ export function HowItWorks() {
                       ? "h-2 w-8 rounded-full bg-[#1d1d1f]"
                       : "h-2 w-2 rounded-full bg-black/20 hover:bg-black/45"
                   }`}
-                  aria-label={step.tag}
+                  aria-label={`Étape ${idx + 1}`}
                   aria-selected={isActive}
                   role="tab"
                 />
