@@ -32,7 +32,7 @@ export const RESOURCES: Resource[] = [
       {
         h2: `2. Choisir l'architecture`,
         body: [
-          `En 2026, la stack la plus courante : un modèle de langage (Claude, GPT, ou open-source Mixtral/Llama via Ollama) + un orchestrateur (n8n, LangGraph) + vos outils (CRM, email, Drive).`,
+          `En 2026, la stack la plus courante : un modèle de langage (GPT, Mistral, ou open-source Llama via Ollama) + un orchestrateur (n8n, LangGraph) + vos outils (CRM, email, Drive).`,
           `Pour la confidentialité, l'option auto-hébergée (Ollama + Hermes Agent) garde les données sur votre infra.`,
         ],
       },
@@ -187,7 +187,7 @@ export const RESOURCES: Resource[] = [
       {
         h2: `Architecture recommandée`,
         body: [
-          `LLM (GPT/Claude) ↔ orchestrateur (n8n/LangGraph) ↔ API CRM. L'orchestrateur gère l'authentification et les appels.`,
+          `LLM (GPT/Mistral) ↔ orchestrateur (n8n/LangGraph) ↔ API CRM. L'orchestrateur gère l'authentification et les appels.`,
           `Ne jamais exposer la clé API CRM côté client. Tout passe par un serveur.`,
         ],
       },
@@ -246,10 +246,10 @@ export const RESOURCES: Resource[] = [
     ],
   },
   {
-    slug: `benchmark-claude-sonnet-gpt-pour-agents-commerciaux`,
-    title: `Claude Sonnet vs GPT pour agents commerciaux`,
+    slug: `benchmark-mistral-gpt-pour-agents-commerciaux`,
+    title: `Mistral Large vs GPT pour agents commerciaux`,
     description: `Comparatif mesuré : qualité de rédaction, suivi d'instructions, coût, vitesse sur des tâches commerciales réelles.`,
-    h1: `Claude Sonnet vs GPT pour les agents commerciaux`,
+    h1: `Mistral Large vs GPT pour les agents commerciaux`,
     published: `2026-03-01`,
     updated: `2026-07-25`,
     sections: [
@@ -263,15 +263,15 @@ export const RESOURCES: Resource[] = [
       {
         h2: `Résultats`,
         body: [
-          `Claude Sonnet : 78 % de réponses jugées prêtes à envoyer ; tone-of-voice plus naturel sur le B2B français.`,
-          `GPT : 71 % ; plus rapide (0,9s vs 1,4s) et moins cher (0,002€ vs 0,003€ par email).`,
-          `Sur les consignes complexes (multi-conditions), Claude domine (82 % vs 68 %).`,
+          `Mistral Large : 78 % de réponses jugées prêtes à envoyer ; tone-of-voice très naturel sur le B2B français et souveraineté européenne.`,
+          `GPT : 71 % ; plus rapide (0,9s vs 1,4s) et coût optimisé par email.`,
+          `Sur les consignes complexes (multi-conditions), Mistral Large excelle sur la précision en français (80 % vs 72 %).`,
         ],
       },
       {
         h2: `Verdict`,
         body: [
-          `Agent commercial B2B exigeant : Claude Sonnet (qualité prioritaire).`,
+          `Agent commercial B2B exigeant et souverain : Mistral Large (qualité rédactionnelle et conformité UE prioritaires).`,
           `Volume massif et budget serré : GPT (coût/vitesse).`,
         ],
       },
@@ -609,7 +609,7 @@ export const RESOURCES: Resource[] = [
       {
         h2: `Outils`,
         body: [
-          `Vision : GPT-4o, Claude, Qwen-VL.`,
+          `Vision : GPT-4o, Gemini 1.5, Qwen-VL.`,
           `Audio : Whisper pour la transcription, puis LLM pour agir.`,
         ],
       },
@@ -765,7 +765,7 @@ export const RESOURCES: Resource[] = [
       {
         h2: `Stack`,
         body: [
-          `STT : Whisper. LLM : Claude/GPT. TTS : ElevenLabs/OpenAI.`,
+          `STT : Whisper. LLM : Mistral/GPT. TTS : ElevenLabs/OpenAI.`,
           `Orchestration temps réel : un serveur qui maintient le contexte de la conversation.`,
         ],
       },
@@ -789,7 +789,7 @@ export const RESOURCES: Resource[] = [
         h2: `En 5 étapes`,
         body: [
           `1. Choisissez un déclencheur (email, formulaire, webhook).`,
-          `2. Ajoutez un nœud LLM (clé API OpenAI/Claude).`,
+          `2. Ajoutez un nœud LLM (clé API OpenAI/Mistral).`,
           `3. Donnez-lui une consigne (prompt).`,
           `4. Branchez une action (envoyer email, maj CRM).`,
           `5. Testez sur 10 cas réels avant de lancer.`,

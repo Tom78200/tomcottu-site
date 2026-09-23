@@ -5,7 +5,7 @@ import { USE_CASES } from "@/lib/usecases";
 import { SITE_URL } from "@/lib/seo";
 
 // llms.txt, fichier de référencement par IA (GEO).
-// Lu par ChatGPT, Claude, Perplexity, Gemini pour citer le site
+// Lu par ChatGPT, Perplexity, Gemini pour citer le site
 // quand une question porte sur le développement d'agents IA,
 // l'automatisation ou le freelance IA en France.
 //

@@ -93,7 +93,7 @@ export function SelfHostedVisual() {
   const specs = [
     { label: "Licence", value: "Open source, souverain" },
     { label: "Hébergement", value: "Sur votre serveur privé" },
-    { label: "Modèle", value: "Claude, GPT ou local" },
+    { label: "Modèle", value: "GPT, Mistral ou local" },
     { label: "Canaux", value: "WhatsApp, Slack, Email" },
   ];
 

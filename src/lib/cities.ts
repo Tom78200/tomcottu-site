@@ -527,7 +527,7 @@ const faqPool = (c: City): { q: string; a: string }[] => [
 
 const stackPool = (c: City): { nom: string; usage: string }[] => [
   { nom: "n8n", usage: `Orchestration visuelle des workflows — branchement entre vos outils sans code, idéal pour visualiser le flux avant de l'industrialiser pour vos équipes à ${c.nom}.` },
-  { nom: "OpenAI GPT-4 / Anthropic Claude", usage: "Moteurs de langage pour la lecture, la rédaction et la qualification. Choix du modèle selon le cas (coût vs qualité)." },
+  { nom: "OpenAI GPT-4 / Mistral AI", usage: "Moteurs de langage pour la lecture, la rédaction et la qualification. Choix du modèle selon le cas (coût vs qualité)." },
   { nom: "LangChain / LangGraph", usage: "Framework Python pour orchestrer plusieurs étapes IA (lire → raisonner → agir → vérifier) en toute fiabilité." },
   { nom: "Pinecone / pgvector", usage: "Base de données vectorielle pour la recherche sémantique sur vos documents métier — l'agent retrouve l'info même sans mot-clé exact." },
   { nom: "Supabase / PostgreSQL", usage: "Stockage structuré des données échangées, historique des actions de l'agent, audit RGPD." },

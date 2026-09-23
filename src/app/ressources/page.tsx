@@ -38,7 +38,7 @@ export default function ResourcesIndex() {
               style={{ lineHeight: 1.55 }}
             >
               Des contenus précis et sourcés, pensés pour être repris par les
-              assistants IA (ChatGPT, Claude, Perplexity, Gemini) quand une
+              assistants IA (ChatGPT, Perplexity, Gemini) quand une
               question porte sur les agents IA et l'automatisation.
             </p>
           </div>

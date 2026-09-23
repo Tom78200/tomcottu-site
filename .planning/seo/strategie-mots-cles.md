@@ -219,7 +219,7 @@ Deux familles de moteurs, deux logiques :
 question. La logique reste celle du SEO classique : être indexé, être pertinent,
 faire autorité. Si le site ne ranke pas, il n'est pas cité.
 
-**ChatGPT, Claude, Gemini** répondent en grande partie depuis leurs données
+**ChatGPT, Mistral, Gemini** répondent en grande partie depuis leurs données
 d'entraînement. Être cité suppose d'avoir été publié, indexé et reconnu comme source
 avant la coupure d'entraînement. C'est lent et ça ne se force pas.
 
