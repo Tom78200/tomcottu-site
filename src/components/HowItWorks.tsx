@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
 /* ── VRAIES ICÔNES OFFICIELLES GOOGLE & MICROSOFT ── */
 
@@ -98,6 +98,8 @@ interface Step {
 export function HowItWorks() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [isSectionActive, setIsSectionActive] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const touchStartX = useRef<number | null>(null);
 
@@ -266,6 +268,22 @@ export function HowItWorks() {
     },
   ];
 
+  const handlePrev = useCallback(() => {
+    setActiveIndex((prev) => (prev === 0 ? steps.length - 1 : prev - 1));
+  }, [steps.length]);
+
+  const handleNext = useCallback(() => {
+    setActiveIndex((prev) => (prev + 1) % steps.length);
+  }, [steps.length]);
+
+  const handleSelect = (idx: number) => {
+    setActiveIndex(idx);
+  };
+
+  const togglePlay = () => {
+    setIsPlaying((prev) => !prev);
+  };
+
   // Auto-play avec intervalle
   useEffect(() => {
     if (!isPlaying) {
@@ -282,21 +300,42 @@ export function HowItWorks() {
     };
   }, [isPlaying, steps.length]);
 
-  const handleSelect = (idx: number) => {
-    setActiveIndex(idx);
-  };
+  // Détection quand la section est visible à l'écran (IntersectionObserver)
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
 
-  const handlePrev = () => {
-    setActiveIndex((prev) => (prev === 0 ? steps.length - 1 : prev - 1));
-  };
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsSectionActive(entry.isIntersecting);
+      },
+      { threshold: 0.2 }
+    );
 
-  const handleNext = () => {
-    setActiveIndex((prev) => (prev + 1) % steps.length);
-  };
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
-  const togglePlay = () => {
-    setIsPlaying((prev) => !prev);
-  };
+  // Navigation clavier avec flèches gauche / droite (← et →)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const tag = (document.activeElement?.tagName || "").toLowerCase();
+      if (tag === "input" || tag === "textarea") return;
+
+      if (isSectionActive) {
+        if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          handlePrev();
+        } else if (e.key === "ArrowRight") {
+          e.preventDefault();
+          handleNext();
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isSectionActive, handlePrev, handleNext]);
 
   // Support swipe tactile mobile
   const onTouchStart = (e: React.TouchEvent) => {
@@ -317,6 +356,8 @@ export function HowItWorks() {
   return (
     <section
       id="methode"
+      ref={sectionRef}
+      onMouseEnter={() => setIsSectionActive(true)}
       aria-labelledby="methode-heading"
       className="relative w-full px-5 py-20 sm:px-10 md:py-28 lg:px-16 overflow-hidden bg-background"
     >
@@ -350,9 +391,11 @@ export function HowItWorks() {
 
       {/* ── Carrousel épuré ── */}
       <div
-        className="relative mx-auto max-w-4xl"
+        className="relative mx-auto max-w-4xl focus:outline-hidden"
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
+        tabIndex={0}
+        onFocus={() => setIsSectionActive(true)}
       >
         <div className="relative overflow-hidden rounded-[28px] sm:rounded-[36px] bg-[#f5f5f7] border border-black/[0.04]">
           <div
@@ -389,16 +432,16 @@ export function HowItWorks() {
           </div>
         </div>
 
-        {/* ── Barre de navigation Apple ── */}
+        {/* ── Barre de navigation avec flèches cliquables et support clavier ← → ── */}
         <div className="mt-8 flex items-center justify-center gap-3">
           {/* Flèche précédente */}
           <button
             onClick={handlePrev}
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-neutral-200/80 text-foreground hover:bg-neutral-300/80 backdrop-blur-md border border-black/5 shadow-xs transition-colors focus:outline-hidden"
-            aria-label="Étape précédente"
-            title="Précédent"
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-200/80 text-foreground hover:bg-neutral-300/80 active:scale-95 backdrop-blur-md border border-black/5 shadow-xs transition-all focus:outline-hidden cursor-pointer"
+            aria-label="Étape précédente (Flèche gauche)"
+            title="Précédent (Flèche gauche ←)"
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="15 18 9 12 15 6" />
             </svg>
           </button>
@@ -415,7 +458,7 @@ export function HowItWorks() {
                 <button
                   key={idx}
                   onClick={() => handleSelect(idx)}
-                  className={`transition-all duration-300 focus:outline-hidden ${
+                  className={`transition-all duration-300 focus:outline-hidden cursor-pointer ${
                     isActive
                       ? "h-2 w-8 rounded-full bg-[#1d1d1f]"
                       : "h-2 w-2 rounded-full bg-black/20 hover:bg-black/45"
@@ -431,7 +474,7 @@ export function HowItWorks() {
           {/* Bouton Play/Pause */}
           <button
             onClick={togglePlay}
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-neutral-200/80 text-foreground hover:bg-neutral-300/80 backdrop-blur-md border border-black/5 shadow-xs transition-colors focus:outline-hidden"
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-200/80 text-foreground hover:bg-neutral-300/80 active:scale-95 backdrop-blur-md border border-black/5 shadow-xs transition-all focus:outline-hidden cursor-pointer"
             aria-label={isPlaying ? "Mettre en pause le carrousel" : "Lancer le défilement du carrousel"}
             title={isPlaying ? "Pause" : "Lecture"}
           >
@@ -450,11 +493,11 @@ export function HowItWorks() {
           {/* Flèche suivante */}
           <button
             onClick={handleNext}
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-neutral-200/80 text-foreground hover:bg-neutral-300/80 backdrop-blur-md border border-black/5 shadow-xs transition-colors focus:outline-hidden"
-            aria-label="Étape suivante"
-            title="Suivant"
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-200/80 text-foreground hover:bg-neutral-300/80 active:scale-95 backdrop-blur-md border border-black/5 shadow-xs transition-all focus:outline-hidden cursor-pointer"
+            aria-label="Étape suivante (Flèche droite)"
+            title="Suivant (Flèche droite →)"
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="9 18 15 12 9 6" />
             </svg>
           </button>
